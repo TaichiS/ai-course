@@ -1,0 +1,920 @@
+{
+  "modules": [
+    {
+      "id": "intro",
+      "title": "Claude Code / Gemini CLI 簡介",
+      "description": "了解 AI 輔助程式開發工具的基本概念",
+      "icon": "Terminal",
+      "color": "blue",
+      "content": {
+        "sections": [
+          {
+            "title": "什麼是 Claude Code？",
+            "text": "Claude Code 是 Anthropic 推出的命令列介面工具，讓開發者可以直接在終端機中與 Claude AI 互動，協助完成程式開發、除錯、程式碼審查等任務。"
+          },
+          {
+            "title": "什麼是 Gemini CLI？",
+            "text": "Gemini CLI 是 Google 推出的命令列工具，讓使用者可以透過終端機使用 Gemini AI 模型，進行程式開發輔助、文件生成等工作。"
+          }
+        ],
+        "tags": ["AI 輔助開發", "命令列工具", "程式碼生成"]
+      }
+    },
+    {
+      "id": "markdown",
+      "title": "Markdown 格式介紹",
+      "description": "學習基本的 Markdown 語法",
+      "icon": "FileText",
+      "color": "indigo",
+      "content": {
+        "syntax": [
+          "# 標題一",
+          "## 標題二",
+          "**粗體文字**",
+          "*斜體文字*",
+          "- 無序列表項目",
+          "1. 有序列表項目",
+          "`程式碼`",
+          "[連結文字](URL)"
+        ],
+        "codeExample": {
+          "language": "python",
+          "code": "def hello():\n  print(\"Hello World\")"
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "case-01",
+      "title": "新聞閱讀",
+      "fullTitle": "課程案例 1 - 新聞閱讀（RSS Reader MCP）",
+      "description": "使用 RSS Reader MCP 查看新聞重點",
+      "icon": "FolderOpen",
+      "color": "teal",
+      "difficulty": 2,
+      "difficultyLabel": "入門級",
+      "funScore": 7,
+      "practicalScore": 4,
+      "duration": "20-30 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "理解 MCP 的基本概念",
+        "學會安裝和使用第一個 MCP",
+        "體驗 AI 助理的實用性"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "RSS Reader MCP",
+        "package": "rss-reader-mcp",
+        "description": "讀取 RSS 新聞源"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add rss-reader npx rss-reader-mcp",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- rss-reader: npx rss-reader-mcp"
+        },
+        "geminiCLI": {
+          "install": "gemini mcp add rss-reader npx rss-reader-mcp",
+          "verify": "gemini mcp list",
+          "expectedOutput": "rss-reader: npx rss-reader-mcp"
+        }
+      },
+      "steps": [
+        {
+          "title": "安裝 RSS Reader MCP",
+          "description": "依照你使用的工具選擇安裝方式"
+        },
+        {
+          "title": "啟動 AI 助理",
+          "claudeCode": "claude",
+          "geminiCLI": "gemini"
+        },
+        {
+          "title": "開始使用",
+          "description": "在互動模式中輸入提示詞"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "基本使用",
+          "prompt": "請使用 rss-reader mcp 讀取 https://news.ltn.com.tw/rss/all.xml\n告訴我今天有哪些新聞？"
+        },
+        {
+          "title": "指定主題",
+          "prompt": "請使用 rss-reader mcp 讀取 https://technews.tw/feed/\n只告訴我關於 AI 和機器學習的新聞"
+        },
+        {
+          "title": "摘要格式",
+          "prompt": "請使用 rss-reader mcp 讀取 https://www.businessweekly.com.tw/rss\n用 3 句話摘要每則新聞，共列出前 5 則"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Command not found: npx",
+          "solution": "確認已安裝 Node.js：node --version"
+        },
+        {
+          "problem": "AI 回應：我沒有安裝 rss-reader mcp",
+          "solution": "重新啟動 AI 助理（exit 後再重新啟動）"
+        }
+      ],
+      "tips": [
+        "使用 --scope user 參數可以安裝全域適用的 MCP，例如：claude mcp add rss-reader npx rss-reader-mcp --scope user",
+        "如果沒有用 --scope user，預設會安裝在本地項目內",
+        "經過安裝之後，會改變「個人資料夾」下的 .claude.json 設定檔",
+        "移除 MCP 指令：claude mcp remove rss-reader 或 gemini mcp remove rss-reader"
+      ],
+      "referenceLinks": [
+        {
+          "label": "自由時報 RSS",
+          "url": "https://service.ltn.com.tw/RSS",
+          "description": "自由時報提供的各類新聞 RSS 來源"
+        },
+        {
+          "label": "商周 RSS",
+          "url": "https://www.businessweekly.com.tw/rss",
+          "description": "商業週刊 RSS 訂閱"
+        },
+        {
+          "label": "中央社 RSS",
+          "url": "https://www.cna.com.tw/about/rss.aspx",
+          "description": "中央通訊社 RSS 新聞源"
+        }
+      ]
+    },
+    {
+      "id": "case-02",
+      "title": "購物比價",
+      "fullTitle": "課程案例 2 - 購物比價神器",
+      "description": "使用 Chrome DevTools MCP 比較商品價格",
+      "icon": "Globe",
+      "color": "cyan",
+      "difficulty": 2,
+      "difficultyLabel": "入門級",
+      "funScore": 8,
+      "practicalScore": 5,
+      "duration": "30-40 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "理解 AI Agent 的自動化能力",
+        "學習基礎的網頁數據擷取概念",
+        "體驗 AI 工具帶來的便利性"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "Chrome DevTools MCP",
+        "package": "chrome-devtools-mcp@latest",
+        "description": "控制 Chrome 瀏覽器進行網頁操作"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add chrome-devtools npx chrome-devtools-mcp@latest",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- chrome-devtools: npx chrome-devtools-mcp@latest"
+        },
+        "geminiCLI": {
+          "install": "gemini mcp add chrome-devtools npx chrome-devtools-mcp@latest",
+          "verify": "gemini mcp list",
+          "expectedOutput": "chrome-devtools: npx chrome-devtools-mcp@latest"
+        }
+      },
+      "steps": [
+        {
+          "title": "安裝 Chrome DevTools MCP",
+          "description": "依照你使用的工具選擇安裝方式"
+        },
+        {
+          "title": "確認 Chrome 瀏覽器已安裝",
+          "description": "此 MCP 需要 Chrome 瀏覽器"
+        },
+        {
+          "title": "關閉所有 Chrome 視窗",
+          "description": "操作前請先關閉所有 Chrome 瀏覽器"
+        },
+        {
+          "title": "啟動 AI 助理",
+          "claudeCode": "claude",
+          "geminiCLI": "gemini"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "單一網站查詢",
+          "prompt": "請使用 chrome-devtools mcp 上網搜尋 momo，裡面「追覓 X40 Ultra」的產品清單與價格列表，僅列出價格在 8000 元以上的產品。"
+        },
+        {
+          "title": "跨網站比價",
+          "prompt": "請使用 chrome-devtools mcp 上網搜尋 momo (https://www.momoshop.com.tw/) 與 pchome (https://24h.pchome.com.tw/) 裡面「追覓 X40 Ultra」的價格與優惠方案，請列一個比較表格。"
+        },
+        {
+          "title": "基本比價",
+          "prompt": "請幫我搜尋 iPhone 15 在各大電商的價格，並將比較結果整理成表格"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Chrome 無法啟動",
+          "solution": "確認 Chrome 瀏覽器已正確安裝，並關閉所有現有的 Chrome 視窗"
+        },
+        {
+          "problem": "權限錯誤",
+          "solution": "嘗試以管理員身份執行"
+        },
+        {
+          "problem": "無法登入購物網站",
+          "solution": "Chrome DevTools 開啟的瀏覽器是在沙盒中執行，不具備登入狀態，每次需重新登入"
+        }
+      ],
+      "tips": [
+        "⚠️ 操作前請先關閉所有 Chrome 瀏覽器",
+        "Chrome DevTools 開啟的 Chrome 是在沙盒中執行的，即使有安全風險也不會影響使用者系統",
+        "ChromeDevTools 由 Google 本家推出，僅支援 Chrome 瀏覽器，功能較細緻",
+        "Playwright MCP 可操作 Edge、Firefox 等其他品牌瀏覽器，但功能略有不同",
+        "實作練習：初級-比較3個平台的單一商品；中級-比較多個商品並生成預算表；高級-設定價格追蹤與通知機制"
+      ],
+      "referenceLinks": [
+        {
+          "label": "momo 購物網",
+          "url": "https://www.momoshop.com.tw/",
+          "description": "富邦 momo 購物網"
+        },
+        {
+          "label": "PChome 24h",
+          "url": "https://24h.pchome.com.tw/",
+          "description": "PChome 24h購物"
+        }
+      ]
+    },
+    {
+      "id": "case-03",
+      "title": "旅行規劃",
+      "fullTitle": "課程案例 3 - 旅行規劃助理",
+      "description": "使用 Playwright MCP 自動查詢機票與行程規劃",
+      "icon": "MapPin",
+      "color": "emerald",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 8,
+      "practicalScore": 5,
+      "duration": "40-50 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "理解多數據源整合的概念",
+        "學習如何讓 AI 處理複雜的規劃任務",
+        "體驗 AI 的決策支援能力",
+        "了解 End-to-End 測試模式的應用"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "Playwright MCP",
+        "package": "@playwright/mcp@latest",
+        "description": "網頁自動化測試與操作工具"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add playwright npx @playwright/mcp@latest",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- playwright: npx @playwright/mcp@latest"
+        },
+        "geminiCLI": {
+          "install": "gemini mcp add playwright npx @playwright/mcp@latest",
+          "verify": "gemini mcp list",
+          "expectedOutput": "playwright: npx @playwright/mcp@latest"
+        }
+      },
+      "steps": [
+        {
+          "title": "安裝 Playwright MCP",
+          "description": "依照你使用的工具選擇安裝方式"
+        },
+        {
+          "title": "啟動完全授權模式（選用）",
+          "claudeCode": "claude --dangerously-skip-permissions",
+          "geminiCLI": "gemini -y",
+          "description": "方便但請謹慎使用"
+        },
+        {
+          "title": "開始規劃查詢",
+          "description": "輸入旅行相關的提示詞"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "機票查詢",
+          "prompt": "請使用 playwright mcp 幫我打開 https://www.skyscanner.com.tw/，並使用 end to end 的方法，幫我查詢台北飛曼谷，2026年2月5日至2月10日，兩位成人，經濟艙，列出並挑選最優選項的機票。"
+        },
+        {
+          "title": "台北一日遊",
+          "prompt": "請幫我規劃台北一日遊行程，包含交通、景點、餐廳建議"
+        },
+        {
+          "title": "花東三日遊",
+          "prompt": "請規劃三天兩夜花東旅行，考慮天氣因素，包含住宿和交通建議"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "瀏覽器啟動失敗",
+          "solution": "確認已安裝必要的瀏覽器驅動程式"
+        },
+        {
+          "problem": "網站載入緩慢",
+          "solution": "等待網頁完全載入後再進行操作"
+        },
+        {
+          "problem": "權限不足",
+          "solution": "使用 --dangerously-skip-permissions 模式（謹慎使用）"
+        }
+      ],
+      "tips": [
+        "End-to-End 模式模擬真實使用者的完整操作流程，測試整個應用程式的多個功能環節",
+        "一般模式針對特定功能測試，執行速度較快但範圍較小",
+        "Playwright 支援 Edge、Firefox 等多種瀏覽器，比 ChromeDevTools 更具通用性",
+        "實作練習：初級-規劃台北一日遊；中級-規劃三天兩夜花東旅行；高級-結合學校戶外教學需求的規劃"
+      ],
+      "referenceLinks": [
+        {
+          "label": "Skyscanner 機票比價",
+          "url": "https://www.skyscanner.com.tw/",
+          "description": "全球機票比價搜尋引擎"
+        },
+        {
+          "label": "Playwright 官方文件",
+          "url": "https://playwright.dev/",
+          "description": "Playwright 自動化測試框架"
+        }
+      ]
+    },
+    {
+      "id": "case-04",
+      "title": "自動填表單",
+      "fullTitle": "課程案例 4 - 自動填寫表單",
+      "description": "使用 Chrome DevTools MCP 批次自動填寫表單",
+      "icon": "FileEdit",
+      "color": "orange",
+      "difficulty": 2,
+      "difficultyLabel": "入門級",
+      "funScore": 8,
+      "practicalScore": 5,
+      "duration": "30-40 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "學習批次自動化處理",
+        "理解 CSV 資料格式應用",
+        "體驗重複性工作的自動化"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "Chrome DevTools MCP",
+        "package": "chrome-devtools-mcp@latest",
+        "description": "控制 Chrome 瀏覽器進行網頁操作"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add chrome-devtools npx chrome-devtools-mcp@latest",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- chrome-devtools: npx chrome-devtools-mcp@latest"
+        },
+        "geminiCLI": {
+          "install": "gemini mcp add chrome-devtools npx chrome-devtools-mcp@latest",
+          "verify": "gemini mcp list",
+          "expectedOutput": "chrome-devtools: npx chrome-devtools-mcp@latest"
+        }
+      },
+      "steps": [
+        {
+          "title": "準備測試資料",
+          "description": "建立 CSV 格式的測試資料檔案"
+        },
+        {
+          "title": "開啟測試表單網頁",
+          "description": "前往 https://playwright-form-tester.vercel.app/"
+        },
+        {
+          "title": "啟動 AI 助理",
+          "claudeCode": "claude",
+          "geminiCLI": "gemini"
+        },
+        {
+          "title": "執行自動填表",
+          "description": "讓 AI 讀取 CSV 並自動填寫表單"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "基本自動填表",
+          "prompt": "請使用 chrome-devtools mcp 打開 https://playwright-form-tester.vercel.app/，並讀取 test-data.csv 的資料，自動填寫表單"
+        },
+        {
+          "title": "批次處理",
+          "prompt": "請根據 test-data.csv 中的多筆資料，依序自動填寫表單並提交"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "CSV 格式錯誤",
+          "solution": "確認 CSV 欄位以逗號分隔，多選值使用雙引號包裹"
+        },
+        {
+          "problem": "表單欄位對應錯誤",
+          "solution": "檢查 CSV 標題與表單欄位名稱是否一致"
+        },
+        {
+          "problem": "中文編碼問題",
+          "solution": "確保 CSV 檔案以 UTF-8 編碼儲存"
+        }
+      ],
+      "tips": [
+        "範例 CSV 格式：詹小隆,第 1 次,金牛座,晴天,\"開心,興奮\"",
+        "多選欄位的值需用雙引號包裹並以逗號分隔",
+        "可用於學校行政表單、問卷調查、資料登記等重複性工作",
+        "建議先用少量資料測試，確認無誤後再處理大量資料"
+      ],
+      "referenceLinks": [
+        {
+          "label": "表單測試網站",
+          "url": "https://playwright-form-tester.vercel.app/",
+          "description": "專為練習設計的表單測試頁面"
+        }
+      ],
+      "sampleData": "詹小隆,第 1 次,金牛座,晴天,\"開心,興奮\"\n詹小明,第 2 次,雙魚座,雨天,平靜\n詹小華,第 3 次,獅子座,陰天,\"難過,生氣\"\n詹小美,第 4 次,天秤座,多雲,\"開心,平靜,興奮\"\n詹小英,第 5 次,天蠍座,晴天,興奮"
+    },
+    {
+      "id": "case-05",
+      "title": "投影片製作",
+      "fullTitle": "課程案例 5 - 投影片製作",
+      "description": "使用 reveal.js 或 impress.js 自動生成投影片",
+      "icon": "Presentation",
+      "color": "purple",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "funScore": 7,
+      "practicalScore": 5,
+      "duration": "45-60 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "理解 AI 在教育內容創作上的應用",
+        "學習如何指導 AI 生成符合教學需求的內容",
+        "掌握教材品質控制與調整技巧",
+        "學習創建 Sub Agent"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
+      "requiredMCP": {
+        "name": "Filesystem MCP（選用）",
+        "package": "@anthropic/mcp-server-filesystem",
+        "description": "讀寫本地檔案系統"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add filesystem npx @anthropic/mcp-server-filesystem --scope user",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- filesystem: npx @anthropic/mcp-server-filesystem"
+        },
+        "geminiCLI": {
+          "install": "（此案例建議使用 Claude Code）",
+          "verify": "",
+          "expectedOutput": ""
+        }
+      },
+      "steps": [
+        {
+          "title": "準備課程內容",
+          "description": "將課程大綱或內容準備成 Markdown 檔案"
+        },
+        {
+          "title": "選擇投影片框架",
+          "description": "reveal.js 適合正式場合，impress.js 適合輕鬆場合"
+        },
+        {
+          "title": "啟動 Claude Code",
+          "claudeCode": "claude",
+          "geminiCLI": ""
+        },
+        {
+          "title": "生成投影片",
+          "description": "讓 AI 將內容轉換為投影片"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "基本製作 - impress.js",
+          "prompt": "XXX.md 是我的課程內容，請你使用 impress.js 為我生成單一 html 的投影片檔案。"
+        },
+        {
+          "title": "基本製作 - reveal.js",
+          "prompt": "XXX.md 是我的課程內容，請你使用 reveal.js 為我生成單一 html 的投影片檔案。"
+        },
+        {
+          "title": "參考範本製作",
+          "prompt": "請你參考 xxx.html 的投影片檔案，用我的教材 yyy.md 生成一個新的投影片檔案。"
+        },
+        {
+          "title": "創建 Sub Agent",
+          "prompt": "請你為我設計一個 sub agent，是一個製作投影片的子代理，投影片製作方式，主要是透過 impress.js 或 reveal.js 這兩個套件，請讓使用者選擇，前者花俏適合輕鬆的場合，後者則比較適合正式的場合。配色風格、動畫多寡，也都能讓使用者選擇，最終的結果要生成單一 html 檔案，方便使用者運用。請你把此 agent 放在全域空間中，並且命名為 slide-maker。"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "無法寫入檔案",
+          "solution": "確認目標資料夾有寫入權限"
+        },
+        {
+          "problem": "CDN 資源載入失敗",
+          "solution": "檢查網路連線或改用本地安裝的套件"
+        },
+        {
+          "problem": "投影片樣式不正確",
+          "solution": "確認已正確引用 CSS 和 JS 檔案"
+        }
+      ],
+      "tips": [
+        "reveal.js 適合正式場合，impress.js 適合輕鬆、創意場合",
+        "可使用 Canva MCP 製作投影片：claude mcp add --transport http Canva https://mcp.canva.com/mcp",
+        "建立 Sub Agent 可以讓投影片製作流程標準化",
+        "實作練習：初級-製作單一概念的教學簡報；中級-設計完整單元的教材包；高級-建立跨領域整合教材"
+      ],
+      "referenceLinks": [
+        {
+          "label": "reveal.js CDN",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/",
+          "description": "reveal.js 官方 CDN 資源"
+        },
+        {
+          "label": "impress.js GitHub",
+          "url": "https://github.com/impress/impress.js",
+          "description": "impress.js 開源專案"
+        },
+        {
+          "label": "Canva",
+          "url": "https://www.canva.com/",
+          "description": "Canva 線上設計工具（需付費方案）"
+        }
+      ],
+      "cdnResources": {
+        "impressjs": [
+          "<link href=\"https://impress.js.org/css/impress-demo.css\" rel=\"stylesheet\">",
+          "<link href=\"https://impress.js.org/css/impress-common.css\" rel=\"stylesheet\">",
+          "<script src=\"https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js\"></script>"
+        ],
+        "revealjs": [
+          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css\">",
+          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css\">",
+          "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js\"></script>"
+        ]
+      }
+    },
+    {
+      "id": "case-06",
+      "title": "股票分析",
+      "fullTitle": "課程案例 6 - 投資股票分析",
+      "description": "使用 Yahoo Finance MCP 進行股票基本面分析",
+      "icon": "TrendingUp",
+      "color": "green",
+      "difficulty": 5,
+      "difficultyLabel": "進階級",
+      "funScore": 9,
+      "practicalScore": 4,
+      "duration": "45-60 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "體驗 AI 的數據分析能力",
+        "理解 AI 在決策支援上的價值",
+        "學習複雜數據的解讀方法"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "Yahoo Finance MCP",
+        "package": "mcp-yahoo-finance",
+        "description": "取得 Yahoo Finance 股票數據"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add-json \"yahoo-finance\" '{\"command\":\"uvx\",\"args\":[\"mcp-yahoo-finance\"]}'",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- yahoo-finance: uvx mcp-yahoo-finance"
+        },
+        "geminiCLI": {
+          "install": "gemini mcp add \"yahoo-finance\" \"uvx\" \"mcp-yahoo-finance\"",
+          "verify": "gemini mcp list",
+          "expectedOutput": "yahoo-finance: uvx mcp-yahoo-finance"
+        }
+      },
+      "steps": [
+        {
+          "title": "確認 UV 已安裝",
+          "description": "此 MCP 使用 uvx 執行，需要先安裝 UV 工具"
+        },
+        {
+          "title": "安裝 Yahoo Finance MCP",
+          "description": "依照你使用的工具選擇安裝方式"
+        },
+        {
+          "title": "啟動 AI 助理",
+          "claudeCode": "claude",
+          "geminiCLI": "gemini"
+        },
+        {
+          "title": "開始分析",
+          "description": "輸入股票代號進行分析"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "基本面分析",
+          "prompt": "請你使用 yahoo-finance mcp，為我進行美股 RKLB 基本面分析，越詳盡越好，並請幫我寫入分析文件夾中。"
+        },
+        {
+          "title": "詳細調查",
+          "prompt": "請幫我做美股 Ondas 的基本面調查，並且幫我寫入 markdown 文件。越詳細越好。"
+        },
+        {
+          "title": "結合 Notion",
+          "prompt": "請使用 Notion MCP 幫我把 @analysis/RKLB-基本面分析報告.md 上傳到 Notion，並進行美化排版。"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "uvx 指令找不到",
+          "solution": "確認已安裝 UV 工具：pip install uv 或使用官方安裝腳本"
+        },
+        {
+          "problem": "股票代號無效",
+          "solution": "使用正確的股票代號（美股如 AAPL、TSLA）"
+        },
+        {
+          "problem": "API 限制",
+          "solution": "Yahoo Finance 可能有請求頻率限制，稍等後重試"
+        }
+      ],
+      "tips": [
+        "⚠️ 此為純教學用途，不構成投資建議",
+        "實作練習：初級-分析單一股票的基本面；中級-比較多檔股票的投資價值；高級-建立模擬投資組合",
+        "可結合 Notion MCP 將分析報告上傳並美化排版",
+        "建議分析前先設定投資目標與風險偏好"
+      ],
+      "referenceLinks": [
+        {
+          "label": "Yahoo Finance",
+          "url": "https://finance.yahoo.com",
+          "description": "美股萬用工具，查詢即時股價、財報、歷史數據"
+        },
+        {
+          "label": "Seeking Alpha",
+          "url": "https://seekingalpha.com",
+          "description": "深入個股研究，專業分析師觀點"
+        },
+        {
+          "label": "Morningstar",
+          "url": "https://www.morningstar.com",
+          "description": "長期投資人首選，ETF 評級系統"
+        },
+        {
+          "label": "StockTwits",
+          "url": "https://stocktwits.com",
+          "description": "美股版社群，即時市場動態討論"
+        },
+        {
+          "label": "Reddit Investing",
+          "url": "https://www.reddit.com/r/investing/",
+          "description": "投資人真實經驗分享"
+        }
+      ]
+    },
+    {
+      "id": "case-07",
+      "title": "Notion 整合",
+      "fullTitle": "課程案例 7 - Notion 整合",
+      "description": "整合 Notion 進行知識管理與教學資料整理",
+      "icon": "BookOpen",
+      "color": "amber",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "funScore": 7,
+      "practicalScore": 5,
+      "duration": "40-50 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "設定 Notion API 整合",
+        "自動化筆記整理流程",
+        "建立個人知識庫",
+        "體驗 AI 在教學資料管理上的應用"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "Notion MCP",
+        "package": "mcp-remote",
+        "description": "連接 Notion API 進行讀寫操作"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "claude mcp add-json \"notionMCP\" '{\"command\":\"npx\",\"args\":[\"-y\",\"mcp-remote\",\"https://mcp.notion.com/mcp\"]}'",
+          "verify": "claude mcp list",
+          "expectedOutput": "Installed MCP servers:\n- notionMCP: npx -y mcp-remote https://mcp.notion.com/mcp"
+        },
+        "geminiCLI": {
+          "install": "gemini mcp add notion npx -y mcp-remote https://mcp.notion.com/mcp",
+          "verify": "gemini mcp list",
+          "expectedOutput": "notion: npx -y mcp-remote https://mcp.notion.com/mcp"
+        }
+      },
+      "steps": [
+        {
+          "title": "建立 Notion 帳號",
+          "description": "前往 https://www.notion.so/ 註冊帳號"
+        },
+        {
+          "title": "安裝 Notion MCP",
+          "description": "依照你使用的工具選擇安裝方式"
+        },
+        {
+          "title": "授權整合",
+          "description": "安裝後會引導你進行 Notion 授權"
+        },
+        {
+          "title": "啟動 AI 助理",
+          "claudeCode": "claude",
+          "geminiCLI": "gemini"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "筆記整理",
+          "prompt": "請幫我將今天閱讀的論文重點整理到 Notion 的研究筆記資料庫中"
+        },
+        {
+          "title": "建立待辦事項",
+          "prompt": "請在我的 Notion 待辦清單中新增這週需要完成的研究任務"
+        },
+        {
+          "title": "學生表現分析",
+          "prompt": "請分析 Notion 中的學生表現記錄，生成學習報告"
+        },
+        {
+          "title": "教材庫建立",
+          "prompt": "從課程筆記中提取重點，製作複習講義並存入 Notion"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "授權失敗",
+          "solution": "重新執行安裝指令，確認網路連線正常"
+        },
+        {
+          "problem": "無法存取資料庫",
+          "solution": "確認已在 Notion 中將資料庫分享給整合"
+        },
+        {
+          "problem": "權限不足",
+          "solution": "檢查 Notion 整合的權限設定"
+        }
+      ],
+      "tips": [
+        "Notion MCP 可應用於：教學資料整理與分析、個人化學習支援、行政工作自動化、教材創新開發",
+        "自動分析學生表現記錄，生成客製化練習題和輔導建議",
+        "將成績數據轉換成家長通知函，自動生成課程大綱",
+        "核心優勢：讓不懂程式的老師也能享受 AI 助理的力量，專注於教學本質"
+      ],
+      "referenceLinks": [
+        {
+          "label": "Notion 官網",
+          "url": "https://www.notion.so/",
+          "description": "Notion 知識管理平台"
+        },
+        {
+          "label": "Notion MCP 文件",
+          "url": "https://mcp.notion.com/",
+          "description": "Notion MCP 官方整合文件"
+        }
+      ]
+    },
+    {
+      "id": "case-08",
+      "title": "資訊圖卡設計",
+      "fullTitle": "課程案例 8 - 資訊圖卡設計",
+      "description": "使用 Canvas Design Skill 設計精美資訊圖卡",
+      "icon": "Image",
+      "color": "pink",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 8,
+      "practicalScore": 4,
+      "duration": "30-40 分鐘",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "學習使用 Skills 擴展 AI 能力",
+        "體驗視覺化內容的自動生成",
+        "掌握 infographic 設計概念"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
+      "requiredMCP": {
+        "name": "Canvas Design Skill",
+        "package": "canvas-design skill",
+        "description": "設計圖卡和視覺化內容的技能"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "（此案例使用 Claude Web 版本的 Canvas Design Skill）",
+          "verify": "確認 Canvas Design Skill 已在 Claude Web 中啟用",
+          "expectedOutput": ""
+        },
+        "geminiCLI": {
+          "install": "（此案例建議使用 Claude Web）",
+          "verify": "",
+          "expectedOutput": ""
+        }
+      },
+      "steps": [
+        {
+          "title": "開啟 Claude Web",
+          "description": "前往 Claude Web 版本"
+        },
+        {
+          "title": "啟用 Canvas Design Skill",
+          "description": "確認 canvas-design skill 支援已開啟"
+        },
+        {
+          "title": "輸入設計需求",
+          "description": "描述你想要的圖卡內容和風格"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "天氣卡片",
+          "prompt": "請你使用 canvas-design skill 幫我設計一個精美的天氣預報卡片，如果可以，請上網搜尋明日花蓮的真實天氣作為示範。"
+        },
+        {
+          "title": "教學資訊圖",
+          "prompt": "請設計一張關於「光合作用」的資訊圖卡，適合高中生閱讀"
+        },
+        {
+          "title": "活動海報",
+          "prompt": "請設計學校運動會的宣傳海報，包含日期、地點和主要活動"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Skill 未啟用",
+          "solution": "確認在 Claude Web 設定中已啟用 canvas-design skill"
+        },
+        {
+          "problem": "生成速度慢",
+          "solution": "複雜的設計需要較長處理時間，請耐心等待"
+        },
+        {
+          "problem": "樣式不如預期",
+          "solution": "提供更具體的設計規格，如顏色、排版、風格等"
+        }
+      ],
+      "tips": [
+        "Skills 適合結構化、可重複的任務，如文件處理、程式碼審查",
+        "不適合一次性創意任務或高度靈活的探索性工作",
+        "將內容製作成 infographic 時，建議：標題水平置中、周圍保留 10% Padding、移除虛構圖片、使用統一色系",
+        "控制投影片比例在 16:9，以 infographic 形式呈現"
+      ],
+      "referenceLinks": [
+        {
+          "label": "Claude Web",
+          "url": "https://claude.ai/",
+          "description": "Claude AI 網頁版本"
+        },
+        {
+          "label": "Skills 整合平台",
+          "url": "https://www.skillsclaude.com/",
+          "description": "Claude Code Skills 社群平台"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "lastUpdated": "2025-11-17",
+    "author": "虎尾科技大學",
+    "totalCases": 8
+  }
+}

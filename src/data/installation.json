@@ -1,0 +1,285 @@
+{
+  "sections": [
+    {
+      "id": "nodejs",
+      "title": "Node.js 與 VS Code 安裝",
+      "icon": "Download",
+      "color": "green",
+      "description": "安裝基礎開發環境",
+      "steps": [
+        {
+          "title": "下載 Node.js",
+          "description": "下載 Node.js 18 或更新版本",
+          "url": "https://nodejs.org/",
+          "note": "建議安裝 LTS (長期支援) 版本"
+        },
+        {
+          "title": "驗證安裝",
+          "commands": ["node --version", "npm --version"]
+        },
+        {
+          "title": "確認 npx 工具",
+          "description": "npx 是 Node.js 官方隨 npm 5.2.0 以上版本一起提供的命令列工具，主要用於「臨時執行 npm 套件中的命令行工具」，無需先全域安裝。"
+        }
+      ],
+      "tips": [
+        "npx 可直接執行 npm 套件中的 CLI 工具，不需要手動全域安裝",
+        "執行過程中，若本地已安裝該套件會優先使用本地版本，否則自動臨時下載並執行",
+        "支援指定版本、參數，避免環境污染"
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python 與 UV/UVX 安裝",
+      "icon": "Terminal",
+      "color": "blue",
+      "description": "安裝 Python 套件管理工具",
+      "steps": [
+        {
+          "title": "確認 Python 3.x 已安裝",
+          "commands": ["python --version", "python3 --version"]
+        },
+        {
+          "title": "安裝 UV/UVX（Windows PowerShell）",
+          "commands": ["powershell -ExecutionPolicy ByPass -c \"irm https://astral.sh/uv/install.ps1 | iex\""]
+        },
+        {
+          "title": "安裝 UV/UVX（MacOS/Linux）",
+          "commands": ["curl -LsSf https://astral.sh/uv/install.sh | sh"]
+        }
+      ],
+      "info": "UV 是一款由 Rust 開發的超高速 Python 套件與專案管理工具，目標是整合和取代 pip、pip-tools、pipx、poetry、pyenv 等工具。UVX 則是 UV 工具中的「即用即走」工具指令，主要用於在隔離、臨時環境中快速執行 Python 命令列工具。"
+    },
+    {
+      "id": "claude-code",
+      "title": "Claude Code 安裝",
+      "icon": "Terminal",
+      "color": "purple",
+      "description": "安裝 Anthropic 的 AI 助理工具",
+      "methods": {
+        "new": {
+          "title": "新式安裝方法（推薦）",
+          "platforms": {
+            "macos": "brew install --cask claude-code",
+            "windows_powershell": "irm https://claude.ai/install.ps1 | iex",
+            "windows_cmd": "curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd"
+          }
+        },
+        "old": {
+          "title": "舊式安裝方法",
+          "commands": ["npm install -g @anthropic-ai/claude-code", "npm list -g"]
+        }
+      },
+      "windows_setup": {
+        "title": "Windows 必要配置",
+        "description": "Windows 的 PowerShell 預設會阻擋執行腳本，需要調整執行策略",
+        "steps": [
+          "使用管理員模式打開 PowerShell",
+          "執行以下指令並按 Y"
+        ],
+        "command": "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned"
+      },
+      "path_setup": {
+        "title": "PATH 環境變數設定（如果出現錯誤）",
+        "description": "如果安裝後出現 PATH 相關錯誤，請在 PowerShell 中執行以下命令，然後重新開啟 PowerShell",
+        "command": "[Environment]::SetEnvironmentVariable(\n    \"Path\",\n    [Environment]::GetEnvironmentVariable(\"Path\", \"User\") + \";C:\\Users\\YOUR_USERNAME\\.local\\bin\",\n    \"User\"\n)",
+        "note": "請將 YOUR_USERNAME 替換為您的 Windows 使用者名稱"
+      },
+      "management": {
+        "update": "npm update -g @anthropic-ai/claude-code",
+        "uninstall": "npm uninstall -g @anthropic-ai/claude-code",
+        "config_path": "~/.claude.json 或 ~/.claude/"
+      }
+    },
+    {
+      "id": "gemini-cli",
+      "title": "Gemini CLI 安裝",
+      "icon": "Terminal",
+      "color": "cyan",
+      "description": "安裝 Google 的 AI 助理工具",
+      "commands": ["npm install -g @google/gemini-cli", "npm list -g"],
+      "limits": {
+        "free": {
+          "per_minute": 60,
+          "per_day": 1000
+        }
+      },
+      "note": "免費版本一分鐘最多 60 次呼叫，一天最多 1000 次呼叫"
+    },
+    {
+      "id": "commands",
+      "title": "常用命令速查表",
+      "icon": "FileText",
+      "color": "indigo",
+      "description": "日常使用最重要的命令",
+      "commands": [
+        {
+          "command": "claude",
+          "description": "啟動互動模式",
+          "example": "claude"
+        },
+        {
+          "command": "claude \"任務\"",
+          "description": "執行一次性任務",
+          "example": "claude \"修復建置錯誤\""
+        },
+        {
+          "command": "claude -p \"查詢\"",
+          "description": "執行一次性查詢後退出",
+          "example": "claude -p \"解釋這個函數\""
+        },
+        {
+          "command": "claude -c",
+          "description": "繼續最近的對話",
+          "example": "claude -c"
+        },
+        {
+          "command": "/login",
+          "description": "登入帳號",
+          "example": "/login"
+        },
+        {
+          "command": "/clear",
+          "description": "清除對話歷史",
+          "example": "/clear"
+        },
+        {
+          "command": "/compact",
+          "description": "壓縮上下文窗口",
+          "example": "/compact"
+        },
+        {
+          "command": "/help",
+          "description": "顯示可用命令",
+          "example": "/help"
+        },
+        {
+          "command": "exit 或 Ctrl+C",
+          "description": "退出程式",
+          "example": "exit"
+        }
+      ],
+      "shortcuts": [
+        {
+          "key": "Esc",
+          "description": "跳出正在執行中的任務"
+        },
+        {
+          "key": "Shift+Tab",
+          "description": "自動接受編輯"
+        },
+        {
+          "key": "Shift+Tab (連按兩次)",
+          "description": "進入計畫模式"
+        },
+        {
+          "key": "@",
+          "description": "引用檔案或資料夾"
+        },
+        {
+          "key": "#",
+          "description": "記憶交代的事情"
+        },
+        {
+          "key": "Shift+Enter",
+          "description": "換行但不送出"
+        }
+      ],
+      "danger_mode": {
+        "title": "完全授權模式（危險）",
+        "warning": "此模式會跳過所有權限確認，方便但危險",
+        "commands": [
+          {
+            "tool": "Claude Code",
+            "command": "claude --dangerously-skip-permissions",
+            "description": "最危險模式，所有權限通通同意"
+          },
+          {
+            "tool": "Claude Code",
+            "command": "claude --permission-mode bypassPermissions",
+            "description": "所有權限問題都自動回答 yes"
+          },
+          {
+            "tool": "Gemini CLI",
+            "command": "gemini -y",
+            "description": "自動同意所有操作"
+          }
+        ]
+      }
+    },
+    {
+      "id": "troubleshooting",
+      "title": "常見問題與錯誤排解",
+      "icon": "AlertTriangle",
+      "color": "red",
+      "description": "安裝過程中可能遇到的問題與解決方案",
+      "issues": [
+        {
+          "problem": "npm 權限錯誤",
+          "solution": "使用 sudo（MacOS/Linux）或以管理員身份執行（Windows）",
+          "command": "sudo npm install -g @anthropic-ai/claude-code"
+        },
+        {
+          "problem": "找不到 node 或 npm 命令",
+          "solution": "確認 NodeJS 已正確安裝並加入 PATH。Windows 使用者請確認安裝時有勾選「Add to PATH」選項"
+        },
+        {
+          "problem": "找不到 python 或 python3 命令",
+          "solution": "確認 Python 已正確安裝並加入 PATH。Windows 使用者請確認安裝時有勾選「Add to PATH」選項"
+        },
+        {
+          "problem": "PowerShell 執行策略錯誤",
+          "solution": "以管理員身份開啟 PowerShell 並執行以下命令",
+          "command": "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned"
+        },
+        {
+          "problem": "API Key 設定錯誤",
+          "solution": "確認環境變數已正確設定，並重新啟動終端機",
+          "command": "export ANTHROPIC_API_KEY=\"your-api-key\""
+        },
+        {
+          "problem": "Claude Code 安裝後找不到 claude 命令",
+          "solution": "確認安裝路徑已加入 PATH 環境變數，並重新開啟終端機"
+        }
+      ]
+    },
+    {
+      "id": "registrations",
+      "title": "必要網站註冊",
+      "icon": "Globe",
+      "color": "orange",
+      "description": "建議先完成這些服務的註冊",
+      "required": [
+        {
+          "name": "Notion",
+          "url": "https://www.notion.so/",
+          "description": "筆記與知識管理平台"
+        }
+      ],
+      "recommended": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/",
+          "description": "程式碼版本控制與協作平台"
+        },
+        {
+          "name": "Vercel",
+          "url": "https://vercel.com/",
+          "description": "網站部署平台"
+        }
+      ],
+      "optional": [
+        {
+          "name": "沈浸式翻譯",
+          "url": "https://immersivetranslate.com/zh-TW/",
+          "description": "網頁翻譯工具"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "source": "花蓮高中-AI講義完整版",
+    "version": "1.0.0",
+    "lastUpdated": "2025-11-16"
+  }
+}
