@@ -390,6 +390,32 @@ onUnmounted(() => {
             </div>
           </div>
 
+          <!-- 操作步驟 -->
+          <div v-if="caseItem.steps && caseItem.steps.length > 0" class="space-y-3">
+            <h4 class="font-semibold text-gray-900">📋 操作步驟</h4>
+            <div class="space-y-2">
+              <div
+                v-for="(step, idx) in caseItem.steps"
+                :key="idx"
+                class="border-l-4 border-indigo-500 pl-4 py-2 hover:bg-indigo-50 transition-colors duration-300 rounded-r"
+              >
+                <h5 class="font-semibold text-indigo-700">步驟 {{ idx + 1 }}：{{ step.title }}</h5>
+                <p v-if="step.description" class="text-sm text-gray-700 mt-1">{{ step.description }}</p>
+                <div v-if="step.command" class="mt-2">
+                  <CodeBlock :code="step.command" />
+                </div>
+                <div v-if="step.claudeCode" class="mt-2">
+                  <p class="text-xs text-gray-600 mb-1">Claude Code：</p>
+                  <code class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-800">{{ step.claudeCode }}</code>
+                </div>
+                <div v-if="step.geminiCLI" class="mt-2">
+                  <p class="text-xs text-gray-600 mb-1">Gemini CLI：</p>
+                  <code class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-800">{{ step.geminiCLI }}</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- 範例指令 -->
           <div>
             <h4 class="font-semibold mb-3 text-gray-900">💬 範例提示詞</h4>
