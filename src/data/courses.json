@@ -476,138 +476,8 @@
     },
     {
       "id": "case-05",
-      "title": "投影片製作",
-      "fullTitle": "課程案例 5 - 投影片製作",
-      "description": "使用 reveal.js 或 impress.js 自動生成投影片",
-      "icon": "Presentation",
-      "color": "purple",
-      "difficulty": 4,
-      "difficultyLabel": "進階級",
-      "funScore": 7,
-      "practicalScore": 5,
-      "duration": "45-60 分鐘",
-      "platforms": [
-        "Windows",
-        "MacOS"
-      ],
-      "objectives": [
-        "理解 AI 在教育內容創作上的應用",
-        "學習如何指導 AI 生成符合教學需求的內容",
-        "掌握教材品質控制與調整技巧",
-        "學習創建 Sub Agent"
-      ],
-      "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
-      },
-      "requiredMCP": {
-        "name": "Filesystem MCP（選用）",
-        "package": "@anthropic/mcp-server-filesystem",
-        "description": "讀寫本地檔案系統"
-      },
-      "installation": {
-        "claudeCode": {
-          "install": "claude mcp add filesystem npx @anthropic/mcp-server-filesystem --scope user",
-          "verify": "claude mcp list",
-          "expectedOutput": "Installed MCP servers:\n- filesystem: npx @anthropic/mcp-server-filesystem"
-        },
-        "geminiCLI": {
-          "install": "（此案例建議使用 Claude Code）",
-          "verify": "",
-          "expectedOutput": ""
-        }
-      },
-      "steps": [
-        {
-          "title": "準備課程內容",
-          "description": "將課程大綱或內容準備成 Markdown 檔案"
-        },
-        {
-          "title": "選擇投影片框架",
-          "description": "reveal.js 適合正式場合，impress.js 適合輕鬆場合"
-        },
-        {
-          "title": "啟動 Claude Code",
-          "claudeCode": "claude",
-          "geminiCLI": ""
-        },
-        {
-          "title": "生成投影片",
-          "description": "讓 AI 將內容轉換為投影片"
-        }
-      ],
-      "examplePrompts": [
-        {
-          "title": "基本製作 - impress.js",
-          "prompt": "XXX.md 是我的課程內容，請你使用 impress.js 為我生成單一 html 的投影片檔案。"
-        },
-        {
-          "title": "基本製作 - reveal.js",
-          "prompt": "XXX.md 是我的課程內容，請你使用 reveal.js 為我生成單一 html 的投影片檔案。"
-        },
-        {
-          "title": "參考範本製作",
-          "prompt": "請你參考 xxx.html 的投影片檔案，用我的教材 yyy.md 生成一個新的投影片檔案。"
-        },
-        {
-          "title": "創建 Sub Agent",
-          "prompt": "請你為我設計一個 sub agent，是一個製作投影片的子代理，投影片製作方式，主要是透過 impress.js 或 reveal.js 這兩個套件，請讓使用者選擇，前者花俏適合輕鬆的場合，後者則比較適合正式的場合。配色風格、動畫多寡，也都能讓使用者選擇，最終的結果要生成單一 html 檔案，方便使用者運用。請你把此 agent 放在全域空間中，並且命名為 slide-maker。"
-        }
-      ],
-      "troubleshooting": [
-        {
-          "problem": "無法寫入檔案",
-          "solution": "確認目標資料夾有寫入權限"
-        },
-        {
-          "problem": "CDN 資源載入失敗",
-          "solution": "檢查網路連線或改用本地安裝的套件"
-        },
-        {
-          "problem": "投影片樣式不正確",
-          "solution": "確認已正確引用 CSS 和 JS 檔案"
-        }
-      ],
-      "tips": [
-        "reveal.js 適合正式場合，impress.js 適合輕鬆、創意場合",
-        "可使用 Canva MCP 製作投影片：claude mcp add --transport http Canva https://mcp.canva.com/mcp",
-        "建立 Sub Agent 可以讓投影片製作流程標準化",
-        "實作練習：初級-製作單一概念的教學簡報；中級-設計完整單元的教材包；高級-建立跨領域整合教材"
-      ],
-      "referenceLinks": [
-        {
-          "label": "reveal.js CDN",
-          "url": "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/",
-          "description": "reveal.js 官方 CDN 資源"
-        },
-        {
-          "label": "impress.js GitHub",
-          "url": "https://github.com/impress/impress.js",
-          "description": "impress.js 開源專案"
-        },
-        {
-          "label": "Canva",
-          "url": "https://www.canva.com/",
-          "description": "Canva 線上設計工具（需付費方案）"
-        }
-      ],
-      "cdnResources": {
-        "impressjs": [
-          "<link href=\"https://impress.js.org/css/impress-demo.css\" rel=\"stylesheet\">",
-          "<link href=\"https://impress.js.org/css/impress-common.css\" rel=\"stylesheet\">",
-          "<script src=\"https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js\"></script>"
-        ],
-        "revealjs": [
-          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css\">",
-          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css\">",
-          "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js\"></script>"
-        ]
-      }
-    },
-    {
-      "id": "case-06",
       "title": "股票分析",
-      "fullTitle": "課程案例 6 - 投資股票分析",
+      "fullTitle": "課程案例 5 - 投資股票分析",
       "description": "使用 Yahoo Finance MCP 進行股票基本面分析",
       "icon": "TrendingUp",
       "color": "green",
@@ -726,6 +596,119 @@
           "description": "投資人真實經驗分享"
         }
       ]
+    },
+    {
+      "id": "case-06",
+      "title": "投影片製作",
+      "fullTitle": "課程案例 6 - 投影片製作",
+      "description": "使用 reveal.js 或 impress.js 自動生成投影片",
+      "icon": "Presentation",
+      "color": "purple",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "funScore": 7,
+      "practicalScore": 5,
+      "duration": "45-60 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "理解 AI 在教育內容創作上的應用",
+        "學習如何指導 AI 生成符合教學需求的內容",
+        "掌握教材品質控制與調整技巧",
+        "學習創建 Sub Agent"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
+      "steps": [
+        {
+          "title": "準備課程內容",
+          "description": "將課程大綱或內容準備成 Markdown 檔案"
+        },
+        {
+          "title": "選擇投影片框架",
+          "description": "reveal.js 適合正式場合，impress.js 適合輕鬆場合"
+        },
+        {
+          "title": "啟動 Claude Code",
+          "claudeCode": "claude",
+          "geminiCLI": ""
+        },
+        {
+          "title": "生成投影片",
+          "description": "讓 AI 將內容轉換為投影片"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "基本製作 - impress.js",
+          "prompt": "@2025-12-01-使用AI研究股票的問題.md 這是我的講稿。\n請你使用 impress.js 幫我做成單頁的 html 投影片。\n你可能會用到的 CDN 網址：\n\n<!-- Impress.js CSS -->\n<link href=\"https://impress.js.org/css/impress-demo.css\" rel=\"stylesheet\">\n<link href=\"https://impress.js.org/css/impress-common.css\" rel=\"stylesheet\">\n<script src=\"https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js\"></script>"
+        },
+        {
+          "title": "基本製作 - reveal.js",
+          "prompt": "XXX.md 是我的課程內容，請你使用 reveal.js 為我生成單一 html 的投影片檔案。\n\n底下是對應的 CDN 網址：\n\n<!-- reveal.js CSS -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css\">\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css\">\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js\"></script>"
+        },
+        {
+          "title": "參考範本製作",
+          "prompt": "請你參考 xxx.html 的投影片檔案，用我的教材 yyy.md 生成一個新的投影片檔案。"
+        },
+        {
+          "title": "創建 Sub Agent",
+          "prompt": "請你為我設計一個 sub agent，是一個製作投影片的子代理，投影片製作方式，主要是透過 impress.js 或 reveal.js 這兩個套件，請讓使用者選擇，前者花俏適合輕鬆的場合，後者則比較適合正式的場合。配色風格、動畫多寡，也都能讓使用者選擇，最終的結果要生成單一 html 檔案，方便使用者運用。請你把此 agent 放在全域空間中，並且命名為 slide-maker。"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "無法寫入檔案",
+          "solution": "確認目標資料夾有寫入權限"
+        },
+        {
+          "problem": "CDN 資源載入失敗",
+          "solution": "檢查網路連線或改用本地安裝的套件"
+        },
+        {
+          "problem": "投影片樣式不正確",
+          "solution": "確認已正確引用 CSS 和 JS 檔案"
+        }
+      ],
+      "tips": [
+        "reveal.js 適合正式場合，impress.js 適合輕鬆、創意場合",
+        "可使用 Canva MCP 製作投影片：claude mcp add --transport http Canva https://mcp.canva.com/mcp",
+        "建立 Sub Agent 可以讓投影片製作流程標準化",
+        "實作練習：初級-製作單一概念的教學簡報；中級-設計完整單元的教材包；高級-建立跨領域整合教材"
+      ],
+      "referenceLinks": [
+        {
+          "label": "reveal.js CDN",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/",
+          "description": "reveal.js 官方 CDN 資源"
+        },
+        {
+          "label": "impress.js GitHub",
+          "url": "https://github.com/impress/impress.js",
+          "description": "impress.js 開源專案"
+        },
+        {
+          "label": "Canva",
+          "url": "https://www.canva.com/",
+          "description": "Canva 線上設計工具（需付費方案）"
+        }
+      ],
+      "cdnResources": {
+        "impressjs": [
+          "<link href=\"https://impress.js.org/css/impress-demo.css\" rel=\"stylesheet\">",
+          "<link href=\"https://impress.js.org/css/impress-common.css\" rel=\"stylesheet\">",
+          "<script src=\"https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js\"></script>"
+        ],
+        "revealjs": [
+          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css\">",
+          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css\">",
+          "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js\"></script>"
+        ]
+      }
     },
     {
       "id": "case-07",
