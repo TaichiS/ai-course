@@ -31,17 +31,17 @@ const getIcon = (iconName: string) => {
 }
 
 // 獲取顏色類別
-const getColorClass = (color: string, type: 'text' | 'bg' | 'border' = 'text') => {
+const getColorClass = (color: string, type: 'text' | 'bg' | 'border' | 'bg-dark' | 'bg-light' | 'text-light' | 'bg-medium' = 'text') => {
   const colorMap: Record<string, Record<string, string>> = {
-    green: { text: 'text-green-600', bg: 'bg-green-50', border: 'border-green-500' },
-    blue: { text: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-500' },
-    purple: { text: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-500' },
-    cyan: { text: 'text-cyan-600', bg: 'bg-cyan-50', border: 'border-cyan-500' },
-    indigo: { text: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-500' },
-    orange: { text: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-500' },
-    red: { text: 'text-red-600', bg: 'bg-red-50', border: 'border-red-500' }
+    green:  { text: 'text-green-600',  bg: 'bg-green-50',  border: 'border-green-500',  'bg-dark': 'bg-green-600',  'bg-light': 'bg-green-100',  'text-light': 'text-green-100',  'bg-medium': 'bg-green-200' },
+    blue:   { text: 'text-blue-600',   bg: 'bg-blue-50',   border: 'border-blue-500',   'bg-dark': 'bg-blue-600',   'bg-light': 'bg-blue-100',   'text-light': 'text-blue-100',   'bg-medium': 'bg-blue-200' },
+    purple: { text: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-500', 'bg-dark': 'bg-purple-600', 'bg-light': 'bg-purple-100', 'text-light': 'text-purple-100', 'bg-medium': 'bg-purple-200' },
+    cyan:   { text: 'text-cyan-600',   bg: 'bg-cyan-50',   border: 'border-cyan-500',   'bg-dark': 'bg-cyan-600',   'bg-light': 'bg-cyan-100',   'text-light': 'text-cyan-100',   'bg-medium': 'bg-cyan-200' },
+    indigo: { text: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-500', 'bg-dark': 'bg-indigo-600', 'bg-light': 'bg-indigo-100', 'text-light': 'text-indigo-100', 'bg-medium': 'bg-indigo-200' },
+    orange: { text: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-500', 'bg-dark': 'bg-orange-600', 'bg-light': 'bg-orange-100', 'text-light': 'text-orange-100', 'bg-medium': 'bg-orange-200' },
+    red:    { text: 'text-red-600',    bg: 'bg-red-50',    border: 'border-red-500',    'bg-dark': 'bg-red-600',    'bg-light': 'bg-red-100',    'text-light': 'text-red-100',    'bg-medium': 'bg-red-200' }
   }
-  return colorMap[color]?.[type] || (type === 'text' ? 'text-gray-600' : type === 'bg' ? 'bg-gray-50' : 'border-gray-500')
+  return colorMap[color]?.[type] || (type === 'text' ? 'text-gray-600' : type === 'bg' ? 'bg-gray-50' : type === 'bg-dark' ? 'bg-gray-600' : 'border-gray-500')
 }
 
 // 展開狀態
@@ -108,13 +108,13 @@ const copyToClipboard = async (text: string) => {
         <CardHeader class="cursor-pointer" @click="toggleSection(section.id)">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <div :class="['p-2 rounded-lg text-white group-hover:scale-110 transition-transform', `bg-${section.color}-600`]">
+              <div :class="['p-2 rounded-lg text-white group-hover:scale-110 transition-transform', getColorClass(section.color, 'bg-dark')]">
                 <component :is="getIcon(section.icon)" class="h-6 w-6" />
               </div>
               <div>
                 <div class="flex items-center gap-2">
                   <CardTitle class="text-2xl text-gray-900">{{ section.title }}</CardTitle>
-                  <Badge v-if="section.is_new" :class="`bg-${section.color}-600 animate-pulse`">NEW</Badge>
+                  <Badge v-if="section.is_new" :class="[getColorClass(section.color, 'bg-dark'), 'animate-pulse']">NEW</Badge>
                 </div>
                 <CardDescription :class="[getColorClass(section.color), 'font-medium']">{{ section.description }}</CardDescription>
               </div>
@@ -125,10 +125,10 @@ const copyToClipboard = async (text: string) => {
         <CardContent v-show="isExpanded(section.id)" class="space-y-6">
           <div v-for="(step, idx) in section.steps" :key="idx" class="relative pl-8 pb-4 last:pb-0">
             <!-- 步數裝飾 -->
-            <div :class="['absolute left-0 top-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border', `bg-${section.color}-100`, `text-${section.color}-600`, `border-${section.color}-200`]">
+            <div :class="['absolute left-0 top-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border', getColorClass(section.color, 'bg-light'), getColorClass(section.color), getColorClass(section.color, 'border')]">
               {{ idx + 1 }}
             </div>
-            <div v-if="idx < section.steps.length - 1" :class="['absolute left-3 top-6 bottom-0 w-0.5', `bg-${section.color}-100`]"></div>
+            <div v-if="idx < section.steps.length - 1" :class="['absolute left-3 top-6 bottom-0 w-0.5', getColorClass(section.color, 'bg-light')]"></div>
 
             <h4 class="font-semibold text-gray-900 mb-2">{{ step.title }}</h4>
             <p class="text-sm text-gray-700 mb-3">{{ step.description }}</p>
