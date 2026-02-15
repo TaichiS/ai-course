@@ -265,112 +265,98 @@
     },
     {
       "id": "case-03",
-      "title": "旅行規劃",
-      "fullTitle": "課程案例 3 - 旅行規劃助理",
-      "description": "使用 Playwright MCP 自動查詢機票與行程規劃",
-      "icon": "MapPin",
-      "color": "emerald",
+      "title": "官方 Skill 應用",
+      "fullTitle": "課程案例 3 - Claude 官方 Skill 應用 (Claude Code 專屬)",
+      "description": "安裝官方 Skill 進行 PDF、Word、Excel 讀寫與前端設計",
+      "icon": "FileText",
+      "color": "indigo",
       "difficulty": 3,
       "difficultyLabel": "中級",
       "funScore": 8,
-      "practicalScore": 5,
-      "duration": "40-50 分鐘",
+      "practicalScore": 9,
+      "duration": "30-40 分鐘",
       "platforms": [
         "Windows",
         "MacOS"
       ],
       "objectives": [
-        "理解多數據源整合的概念",
-        "學習如何讓 AI 處理複雜的規劃任務",
-        "體驗 AI 的決策支援能力",
-        "了解 End-to-End 測試模式的應用"
+        "掌握 Claude Code 官方 Skill 的安裝流程",
+        "學習處理多種辦公室文件格式 (PDF, Docx, Xlsx, Pptx)",
+        "體驗自動化前端 UI 設計與實作",
+        "學會使用 Skill Creator 創建自定義技能"
       ],
       "tools": {
         "claudeCode": true,
-        "geminiCLI": true
+        "geminiCLI": false
       },
       "requiredMCP": {
-        "name": "Playwright MCP",
-        "package": "@playwright/mcp@latest",
-        "description": "網頁自動化測試與操作工具"
+        "name": "Claude Official Skills",
+        "package": "anthropic-agent-skills",
+        "description": "包含 document-skills, example-skills 等官方技能包"
       },
       "installation": {
         "claudeCode": {
-          "install": "claude mcp add playwright npx @playwright/mcp@latest",
-          "verify": "claude mcp list",
-          "expectedOutput": "Installed MCP servers:\n- playwright: npx @playwright/mcp@latest"
-        },
-        "geminiCLI": {
-          "install": "gemini mcp add playwright npx @playwright/mcp@latest",
-          "verify": "gemini mcp list",
-          "expectedOutput": "playwright: npx @playwright/mcp@latest"
+          "install": "方式 1 (互動式安裝)：\n/plugin marketplace add anthropics/skills\n接下來選擇：\n1. Browse and install plugins\n2. anthropic-agent-skills\n3. document-skills (或 example-skills)\n4. Install now\n\n方式 2 (直接安裝)：\n/plugin install document-skills@anthropic-agent-skills\n/plugin install example-skills@anthropic-agent-skills",
+          "verify": "claude skill list",
+          "expectedOutput": "Installed Skills:\n- document-skills\n- example-skills"
         }
       },
       "steps": [
         {
-          "title": "安裝 Playwright MCP",
-          "description": "依照你使用的工具選擇安裝方式"
+          "title": "使用插件市場安裝",
+          "description": "輸入 `/plugin marketplace add anthropics/skills` 進入互動選單，這是最推薦的方式"
         },
         {
-          "title": "安裝 Playwright 瀏覽器",
-          "command": "npx playwright install",
-          "description": "此指令會安裝 Playwright 特製化的瀏覽器（Chrome、Firefox、WebKit 等），這些瀏覽器經過優化，專門用於自動化測試與網頁操作"
+          "title": "選擇並安裝技能",
+          "description": "依照選單指引，安裝 `document-skills` (處理文件) 或 `example-skills` (包含 Skill Creator)"
         },
         {
-          "title": "啟動完全授權模式（選用）",
-          "claudeCode": "claude --dangerously-skip-permissions",
-          "geminiCLI": "gemini -y",
-          "description": "方便但請謹慎使用"
+          "title": "驗證安裝",
+          "description": "安裝完成後，這些技能集會提供 PDF 讀取、文件轉換等能力"
         },
         {
-          "title": "開始規劃查詢",
-          "description": "輸入旅行相關的提示詞"
+          "title": "執行複雜任務",
+          "description": "嘗試讓 AI 讀取 PDF 並轉換為 Word，或使用 Skill Creator 創建新技能"
         }
       ],
       "examplePrompts": [
         {
-          "title": "機票查詢",
-          "prompt": "請使用 playwright mcp 幫我打開 https://www.skyscanner.com.tw/，並使用 end to end 的方法，幫我查詢台北飛曼谷，2026年2月5日至2月10日，兩位成人，經濟艙，列出並挑選最優選項的機票。"
+          "title": "PDF 轉 Word",
+          "prompt": "請使用 document-skills 中的能力，讀取 lecture.pdf，並將其轉換成 docx 格式的講義。"
         },
         {
-          "title": "台北一日遊",
-          "prompt": "請幫我規劃台北一日遊行程，包含交通、景點、餐廳建議"
+          "title": "Excel 數據處理",
+          "prompt": "讀取 students_grades.xlsx，分析各科平均分數，並生成一份新的成績摘要檔。"
         },
         {
-          "title": "花東三日遊",
-          "prompt": "請規劃三天兩夜花東旅行，考慮天氣因素，包含住宿和交通建議"
+          "title": "前端設計實作",
+          "prompt": "使用 frontend-design (包含在 example-skills 中)，幫我設計一個現代化的教師登入介面。"
+        },
+        {
+          "title": "創建新技能",
+          "prompt": "啟動 skill-creator (包含在 example-skills 中)，我想建立一個專門幫我批改學生程式作業並給予建議的技能。"
         }
       ],
       "troubleshooting": [
         {
-          "problem": "瀏覽器啟動失敗",
-          "solution": "確認已安裝必要的瀏覽器驅動程式"
+          "problem": "指令無效",
+          "solution": "請確認使用的是 Claude Code，且版本支援 /plugin 指令"
         },
         {
-          "problem": "網站載入緩慢",
-          "solution": "等待網頁完全載入後再進行操作"
-        },
-        {
-          "problem": "權限不足",
-          "solution": "使用 --dangerously-skip-permissions 模式（謹慎使用）"
+          "problem": "找不到特定技能",
+          "solution": "確認已安裝對應的技能包：document-skills 用於文件，example-skills 用於範例和創建器"
         }
       ],
       "tips": [
-        "End-to-End 模式模擬真實使用者的完整操作流程，測試整個應用程式的多個功能環節",
-        "一般模式針對特定功能測試，執行速度較快但範圍較小",
-        "Playwright 支援 Edge、Firefox 等多種瀏覽器，比 ChromeDevTools 更具通用性",
-        "實作練習：初級-規劃台北一日遊；中級-規劃三天兩夜花東旅行；高級-結合學校戶外教學需求的規劃"
+        "document-skills 是處理辦公室文件的核心，支援 PDF, DOCX, XLSX, PPTX",
+        "example-skills 包含 Skill Creator，這是擴充 Claude 能力的關鍵工具",
+        "官方 Skills 庫會持續更新，建議定期檢查是否有新功能"
       ],
       "referenceLinks": [
         {
-          "label": "Skyscanner 機票比價",
-          "url": "https://www.skyscanner.com.tw/",
-          "description": "全球機票比價搜尋引擎"
-        },
-        {
-          "label": "Playwright 官方文件",
-          "url": "https://playwright.dev/",
-          "description": "Playwright 自動化測試框架"
+          "label": "Claude Skills GitHub",
+          "url": "https://github.com/anthropics/skills",
+          "description": "官方技能庫源代碼與清單"
         }
       ]
     },
@@ -599,116 +585,94 @@
     },
     {
       "id": "case-06",
-      "title": "投影片製作",
-      "fullTitle": "課程案例 6 - 投影片製作",
-      "description": "使用 reveal.js 或 impress.js 自動生成投影片",
-      "icon": "Presentation",
-      "color": "purple",
-      "difficulty": 4,
+      "title": "智慧出題",
+      "fullTitle": "課程案例 6 - 智慧出題機器人",
+      "description": "使用 Skill 製作包含出題與審題 Sub Agents 的自動化系統",
+      "icon": "Lightbulb",
+      "color": "pink",
+      "difficulty": 5,
       "difficultyLabel": "進階級",
-      "funScore": 7,
+      "funScore": 8,
       "practicalScore": 5,
-      "duration": "45-60 分鐘",
+      "duration": "50-60 分鐘",
       "platforms": [
         "Windows",
         "MacOS"
       ],
       "objectives": [
-        "理解 AI 在教育內容創作上的應用",
-        "學習如何指導 AI 生成符合教學需求的內容",
-        "掌握教材品質控制與調整技巧",
-        "學習創建 Sub Agent"
+        "學習 Multi-Agent 的協作模式",
+        "掌握 Sub Agent 的 Prompt 設計",
+        "利用 Skill 封裝複雜的業務邏輯"
       ],
       "tools": {
         "claudeCode": true,
-        "geminiCLI": false
+        "geminiCLI": true
+      },
+      "requiredMCP": {
+        "name": "Exam Generator Skill",
+        "package": "exam-generator-skill",
+        "description": "自定義的出題與審題技能包"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "（需手動創建 skill 定義檔）",
+          "verify": "claude skill list",
+          "expectedOutput": "Installed Skills:\n- exam-generator"
+        },
+        "geminiCLI": {
+          "install": "（需手動創建 skill 定義檔）",
+          "verify": "gemini skill list",
+          "expectedOutput": "exam-generator"
+        }
       },
       "steps": [
         {
-          "title": "準備課程內容",
-          "description": "將課程大綱或內容準備成 Markdown 檔案"
+          "title": "設計出題 Agent",
+          "description": "定義 Question Generator 的角色與規則，負責根據主題生成試題"
         },
         {
-          "title": "選擇投影片框架",
-          "description": "reveal.js 適合正式場合，impress.js 適合輕鬆場合"
+          "title": "設計審題 Agent",
+          "description": "定義 Reviewer 的角色與標準，負責檢查試題的正確性與適切性"
         },
         {
-          "title": "啟動 Claude Code",
-          "claudeCode": "claude",
-          "geminiCLI": ""
+          "title": "封裝為 Skill",
+          "description": "將兩個 Agent 的邏輯整合為一個可重複使用的 Skill"
         },
         {
-          "title": "生成投影片",
-          "description": "讓 AI 將內容轉換為投影片"
+          "title": "實際應用",
+          "description": "輸入教學主題，觀察兩個 Agent 如何協作產出最終試卷"
         }
       ],
       "examplePrompts": [
         {
-          "title": "基本製作 - impress.js",
-          "prompt": "@2025-12-01-使用AI研究股票的問題.md 這是我的講稿。\n請你使用 impress.js 幫我做成單頁的 html 投影片。\n你可能會用到的 CDN 網址：\n\n<!-- Impress.js CSS -->\n<link href=\"https://impress.js.org/css/impress-demo.css\" rel=\"stylesheet\">\n<link href=\"https://impress.js.org/css/impress-common.css\" rel=\"stylesheet\">\n<script src=\"https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js\"></script>"
+          "title": "建立數學試題",
+          "prompt": "請使用 exam-generator skill 幫我出一份國中二年級的「一元二次方程式」考卷，包含 10 題選擇題"
         },
         {
-          "title": "基本製作 - reveal.js",
-          "prompt": "XXX.md 是我的課程內容，請你使用 reveal.js 為我生成單一 html 的投影片檔案。\n\n底下是對應的 CDN 網址：\n\n<!-- reveal.js CSS -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css\">\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css\">\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js\"></script>"
+          "title": "建立歷史試題",
+          "prompt": "請製作一份關於「台灣日治時期」的混合題型試卷，要有 5 題是非、5 題簡答，並經過嚴格審查"
         },
         {
-          "title": "參考範本製作",
-          "prompt": "請你參考 xxx.html 的投影片檔案，用我的教材 yyy.md 生成一個新的投影片檔案。"
-        },
-        {
-          "title": "創建 Sub Agent",
-          "prompt": "請你為我設計一個 sub agent，是一個製作投影片的子代理，投影片製作方式，主要是透過 impress.js 或 reveal.js 這兩個套件，請讓使用者選擇，前者花俏適合輕鬆的場合，後者則比較適合正式的場合。配色風格、動畫多寡，也都能讓使用者選擇，最終的結果要生成單一 html 檔案，方便使用者運用。請你把此 agent 放在全域空間中，並且命名為 slide-maker。"
+          "title": "檢視協作過程",
+          "prompt": "請顯示出題 Agent 與審題 Agent 之間的溝通紀錄，讓我了解題目修改的原因"
         }
       ],
       "troubleshooting": [
         {
-          "problem": "無法寫入檔案",
-          "solution": "確認目標資料夾有寫入權限"
+          "problem": "Agent 溝通無效",
+          "solution": "檢查 Prompt 中的任務邊界是否清晰，避免職責重疊"
         },
         {
-          "problem": "CDN 資源載入失敗",
-          "solution": "檢查網路連線或改用本地安裝的套件"
-        },
-        {
-          "problem": "投影片樣式不正確",
-          "solution": "確認已正確引用 CSS 和 JS 檔案"
+          "problem": "題目品質不佳",
+          "solution": "加強 Reviewer 的審核標準，例如加入具體的課綱要求"
         }
       ],
       "tips": [
-        "reveal.js 適合正式場合，impress.js 適合輕鬆、創意場合",
-        "可使用 Canva MCP 製作投影片：claude mcp add --transport http Canva https://mcp.canva.com/mcp",
-        "建立 Sub Agent 可以讓投影片製作流程標準化",
-        "實作練習：初級-製作單一概念的教學簡報；中級-設計完整單元的教材包；高級-建立跨領域整合教材"
-      ],
-      "referenceLinks": [
-        {
-          "label": "reveal.js CDN",
-          "url": "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/",
-          "description": "reveal.js 官方 CDN 資源"
-        },
-        {
-          "label": "impress.js GitHub",
-          "url": "https://github.com/impress/impress.js",
-          "description": "impress.js 開源專案"
-        },
-        {
-          "label": "Canva",
-          "url": "https://www.canva.com/",
-          "description": "Canva 線上設計工具（需付費方案）"
-        }
-      ],
-      "cdnResources": {
-        "impressjs": [
-          "<link href=\"https://impress.js.org/css/impress-demo.css\" rel=\"stylesheet\">",
-          "<link href=\"https://impress.js.org/css/impress-common.css\" rel=\"stylesheet\">",
-          "<script src=\"https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js\"></script>"
-        ],
-        "revealjs": [
-          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css\">",
-          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css\">",
-          "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js\"></script>"
-        ]
-      }
+        "Main Agent 負責協調與轉發訊息，不直接參與出題",
+        "出題 Agent 應專注於創意與多樣性",
+        "審題 Agent 應專注於正確性與難度控制",
+        "可加入第三個 Agent 負責排版或轉換為 Google Form 格式"
+      ]
     },
     {
       "id": "case-07",
@@ -825,112 +789,61 @@
     },
     {
       "id": "case-08",
-      "title": "資訊圖卡設計",
-      "fullTitle": "課程案例 8 - 資訊圖卡設計",
-      "description": "使用 Canvas Design Skill 設計精美資訊圖卡",
-      "icon": "Image",
-      "color": "pink",
-      "difficulty": 3,
-      "difficultyLabel": "中級",
-      "funScore": 8,
-      "practicalScore": 4,
-      "duration": "30-40 分鐘",
+      "title": "影音下載",
+      "fullTitle": "課程案例 8 - 影音下載挑戰 (Claude Code 專屬)",
+      "description": "思考並實作 YouTube 轉 MP3 下載 Skill",
+      "icon": "Download",
+      "color": "red",
+      "difficulty": 5,
+      "difficultyLabel": "挑戰級",
+      "funScore": 9,
+      "practicalScore": 5,
+      "duration": "40-60 分鐘",
       "platforms": [
         "Windows",
         "MacOS"
       ],
       "objectives": [
-        "學習使用 Skills 擴展 AI 能力",
-        "體驗視覺化內容的自動生成",
-        "掌握 infographic 設計概念"
+        "自主思考如何封裝外部工具 (如 yt-dlp)",
+        "自主設計 Skill 的輸入參數與邏輯",
+        "實作出符合個人需求的影音工具"
       ],
       "tools": {
         "claudeCode": true,
         "geminiCLI": false
       },
       "requiredMCP": {
-        "name": "Canvas Design Skill",
-        "package": "canvas-design skill",
-        "description": "設計圖卡和視覺化內容的技能"
+        "name": "YT Downloader Skill",
+        "package": "自定義實作",
+        "description": "由學員自行設計的音訊下載技能"
       },
-      "installation": {
-        "claudeCode": {
-          "install": "（此案例使用 Claude Web 版本的 Canvas Design Skill）",
-          "verify": "確認 Canvas Design Skill 已在 Claude Web 中啟用",
-          "expectedOutput": ""
-        },
-        "geminiCLI": {
-          "install": "（此案例建議使用 Claude Web）",
-          "verify": "",
-          "expectedOutput": ""
-        }
-      },
-      "steps": [
-        {
-          "title": "開啟 Claude Web",
-          "description": "前往 Claude Web 版本"
-        },
-        {
-          "title": "啟用 Canvas Design Skill",
-          "description": "確認 canvas-design skill 支援已開啟"
-        },
-        {
-          "title": "輸入設計需求",
-          "description": "描述你想要的圖卡內容和風格"
-        }
-      ],
       "examplePrompts": [
         {
-          "title": "天氣卡片",
-          "prompt": "請你使用 canvas-design skill 幫我設計一個精美的天氣預報卡片，如果可以，請上網搜尋明日花蓮的真實天氣作為示範。"
+          "title": "單曲下載",
+          "prompt": "請幫我設計一個 yt-downloader skill，能下載連結 https://www.youtube.com/watch?v=dQw4w9WgXcQ 並自動轉成高品質 MP3"
         },
         {
-          "title": "教學資訊圖",
-          "prompt": "請設計一張關於「光合作用」的資訊圖卡，適合高中生閱讀"
-        },
-        {
-          "title": "活動海報",
-          "prompt": "請設計學校運動會的宣傳海報，包含日期、地點和主要活動"
+          "title": "進階功能挑戰",
+          "prompt": "我的下載 Skill 是否能支援批次下載播放清單，並自動把歌手名稱寫入檔案資訊中？"
         }
       ],
       "troubleshooting": [
         {
-          "problem": "Skill 未啟用",
-          "solution": "確認在 Claude Web 設定中已啟用 canvas-design skill"
-        },
-        {
-          "problem": "生成速度慢",
-          "solution": "複雜的設計需要較長處理時間，請耐心等待"
-        },
-        {
-          "problem": "樣式不如預期",
-          "solution": "提供更具體的設計規格，如顏色、排版、風格等"
+          "problem": "找不到下載工具",
+          "solution": "提示：系統中是否已安裝必要的命令列工具（如 yt-dlp 或 ffmpeg）？"
         }
       ],
       "tips": [
-        "Skills 適合結構化、可重複的任務，如文件處理、程式碼審查",
-        "不適合一次性創意任務或高度靈活的探索性工作",
-        "將內容製作成 infographic 時，建議：標題水平置中、周圍保留 10% Padding、移除虛構圖片、使用統一色系",
-        "控制投影片比例在 16:9，以 infographic 形式呈現"
-      ],
-      "referenceLinks": [
-        {
-          "label": "Claude Web",
-          "url": "https://claude.ai/",
-          "description": "Claude AI 網頁版本"
-        },
-        {
-          "label": "Skills 整合平台",
-          "url": "https://www.skillsclaude.com/",
-          "description": "Claude Code Skills 社群平台"
-        }
+        "本題為開放式挑戰，請善用 Skill Creator 協助你設計邏輯",
+        "思考如何安全地處理系統指令呼叫",
+        "請在法律允許的範圍內進行技術練習"
       ]
     }
   ],
   "metadata": {
-    "version": "2.0.0",
-    "lastUpdated": "2025-11-17",
-    "author": "虎尾科技大學",
+    "version": "2.2.0",
+    "lastUpdated": "2026-02-05",
+    "author": "詹嘉隆",
     "totalCases": 8
   }
 }

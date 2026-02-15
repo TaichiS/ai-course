@@ -1,6 +1,27 @@
 {
   "sections": [
     {
+      "id": "one-click-setup",
+      "title": "Windows 一鍵自動安裝 (推薦)",
+      "icon": "Download",
+      "color": "indigo",
+      "description": "自動化檢查並安裝 Git, Node.js, Python, VS Code, UV 與 Claude Code",
+      "is_new": true,
+      "steps": [
+        {
+          "title": "執行安裝指令",
+          "description": "請以「系統管理員身分」開啟 PowerShell，然後複製貼上並執行以下指令，即可自動搞定所有複雜的安裝與路徑設定。",
+          "showInstallCommand": true,
+          "note": "注意：執行時若跳出權限請求，請選擇「是」/「確認」或直接按 Y。"
+        },
+        {
+          "title": "驗證與登入",
+          "description": "安裝完成後，請重新開啟一個新的 PowerShell 視窗，輸入 `claude` 進入互動模式，再輸入 `/login` 登入您的 Google 帳號：",
+          "commands": ["claude", "/login"]
+        }
+      ]
+    },
+    {
       "id": "nodejs",
       "title": "Node.js 與 VS Code 安裝",
       "icon": "Download",
@@ -263,8 +284,8 @@
           "description": "程式碼版本控制與協作平台"
         },
         {
-          "name": "Vercel",
-          "url": "https://vercel.com/",
+          "name": "Netlify",
+          "url": "https://www.netlify.com/",
           "description": "網站部署平台"
         }
       ],
@@ -280,6 +301,6 @@
   "metadata": {
     "source": "花蓮高中-AI講義完整版",
     "version": "1.0.0",
-    "lastUpdated": "2025-11-16"
+    "lastUpdated": "2026-02-05"
   }
 }

@@ -380,26 +380,26 @@ prompt = &quot;請使用 shell 指令，執行 say '語音測試成功&quot;`" /
           <div class="space-y-2">
             <h4 class="font-semibold text-gray-900">SKILL.md 範例結構：</h4>
             <CodeBlock :code="`---
-name: &quot;花蓮高中物理名師&quot;
-description: &quot;專業教學設計助理，協助教師進行考卷命題、教案設計等...&quot;
+name: &quot;行銷文案專家&quot;
+description: &quot;專業行銷內容助理，協助撰寫廣告文案、社群貼文、產品說明等...&quot;
 ---
 
-底下開始詳細描述這個名師教師助理需要遵守的規範
+底下開始詳細描述這個行銷助理需要遵守的規範
 
-考卷模板規範：
-- 考卷標題：「花蓮高級中學115學年度上學期平時測驗-物理科」
-- 考卷一共只出5題選擇題，皆為單選
-- 配分每題20分，共100分
+文案風格規範：
+- 目標受眾：25-45 歲的職場專業人士
+- 語調：專業但不失親和，避免過度使用術語
+- 每則社群貼文長度控制在 150 字以內
 ...`" />
           </div>
 
           <!-- 教師應用範例 -->
           <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
-            <h4 class="font-semibold text-indigo-800 mb-2">教師可以創建的 Skills：</h4>
+            <h4 class="font-semibold text-indigo-800 mb-2">各種角色都可以創建的 Skills：</h4>
             <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-              <li><strong>出題模板</strong> - 考卷需要遵守某個固定的規範</li>
-              <li><strong>計劃模板</strong> - 優質化計劃需要具備什麼元素與規格</li>
-              <li><strong>輔導紀錄</strong> - 保存過程需遵守什麼規範（學生班級姓名、談話日期等）</li>
+              <li><strong>企業主</strong> - 客服回覆規範、品牌語調標準、報價單格式</li>
+              <li><strong>創作者</strong> - 內容風格指南、發文頻率模板、受眾定位規範</li>
+              <li><strong>專業工作者</strong> - 文件格式標準、工作流程規範、報告撰寫模板</li>
             </ul>
           </div>
 

@@ -1,0 +1,33 @@
+#cloud-config
+
+# ── 1. ubuntu 帳號 root 權限（NOPASSWD）──────────────────────
+write_files:
+  - path: /etc/sudoers.d/90-ubuntu-nopasswd
+    content: "ubuntu ALL=(ALL) NOPASSWD:ALL\n"
+    permissions: '0440'
+    owner: root:root
+
+# ── 2. 更新套件索引，安裝基礎相依 ────────────────────────────
+package_update: true
+
+packages:
+  - curl
+  - gnupg
+  - ca-certificates
+  - apt-transport-https
+
+# ── 3. 安裝各工具 ─────────────────────────────────────────────
+runcmd:
+  # Node.js LTS（npm、npx 一併包含）
+  - curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+  - apt-get install -y nodejs
+
+  # uv / uvx（安裝至系統路徑，所有使用者可用）
+  - curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/usr/local/bin sh
+
+  # openclaw（全域 npm 安裝）
+  - npm install -g openclaw@latest
+
+  # Tailscale（官方安裝腳本 + 啟用服務）
+  - curl -fsSL https://tailscale.com/install.sh | sh
+  - systemctl enable --now tailscaled

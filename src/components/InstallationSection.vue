@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Download, Terminal, FileText, Globe, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-vue-next'
+import { Download, Terminal, FileText, Globe, AlertTriangle, ChevronDown, ChevronUp, Clipboard, Check } from 'lucide-vue-next'
 import { ref, computed } from 'vue'
 import installationData from '@/data/installation.json'
 import CodeBlock from '@/components/CodeBlock.vue'
@@ -54,6 +54,20 @@ const toggleSection = (id: string) => {
 const isExpanded = (id: string) => {
   return expandedSections.value[id] !== false // 預設展開
 }
+
+// 複製功能
+const copied = ref(false)
+const copyToClipboard = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text)
+    copied.value = true
+    setTimeout(() => {
+      copied.value = false
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy text: ', err)
+  }
+}
 </script>
 
 <template>
@@ -78,6 +92,66 @@ const isExpanded = (id: string) => {
       v-show="isInstallationVisible"
       class="space-y-8 transition-all duration-500 ease-in-out"
     >
+      <!-- Windows 一鍵自動安裝 (New) -->
+      <Card
+        v-if="sections.find(s => s.id === 'one-click-setup')"
+        id="install-one-click"
+        class="scroll-mt-20 bg-gradient-to-br from-indigo-50 to-white border-indigo-200 scroll-animate card-hover group"
+      >
+        <CardHeader class="cursor-pointer" @click="toggleSection('one-click-setup')">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="bg-indigo-600 p-2 rounded-lg text-white group-hover:scale-110 transition-transform">
+                <component :is="getIcon('Download')" class="h-6 w-6" />
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <CardTitle class="text-2xl text-gray-900">{{ sections.find(s => s.id === 'one-click-setup')?.title }}</CardTitle>
+                  <Badge class="bg-indigo-600 animate-pulse">NEW</Badge>
+                </div>
+                <CardDescription class="text-indigo-600 font-medium">{{ sections.find(s => s.id === 'one-click-setup')?.description }}</CardDescription>
+              </div>
+            </div>
+            <span class="text-gray-400">{{ isExpanded('one-click-setup') ? '▼' : '▶' }}</span>
+          </div>
+        </CardHeader>
+        <CardContent v-show="isExpanded('one-click-setup')" class="space-y-6">
+          <div v-for="(step, idx) in sections.find(s => s.id === 'one-click-setup')?.steps" :key="idx" class="relative pl-8 pb-4 last:pb-0">
+            <!-- 步數裝飾 -->
+            <div class="absolute left-0 top-0 w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs font-bold border border-indigo-200">
+              {{ idx + 1 }}
+            </div>
+            <div v-if="idx < sections.find(s => s.id === 'one-click-setup')!.steps.length - 1" class="absolute left-3 top-6 bottom-0 w-0.5 bg-indigo-100"></div>
+
+            <h4 class="font-semibold text-gray-900 mb-2">{{ step.title }}</h4>
+            <p class="text-sm text-gray-700 mb-3">{{ step.description }}</p>
+
+            <!-- 安裝指令區塊 (One-Click Setup) -->
+            <div v-if="step.showInstallCommand" class="bg-gray-50/50 p-4 rounded-lg border border-dashed border-gray-200 mb-3">
+              <p class="text-xs text-indigo-600 font-semibold mb-2">複製並在 PowerShell 中貼上執行：</p>
+              <div class="flex flex-wrap gap-3">
+                <div class="flex items-center gap-2 bg-gray-100 rounded border p-1 pr-2 w-full">
+                  <code class="text-xs px-2 py-1 font-mono flex-1 overflow-x-auto whitespace-nowrap bg-transparent border-none">
+                    irm https://shsh2026.netlify.app/install.ps1 | iex
+                  </code>
+                  <button
+                    @click="copyToClipboard('irm https://shsh2026.netlify.app/install.ps1 | iex')"
+                    class="p-1.5 hover:bg-white rounded-md transition-colors text-gray-500 hover:text-gray-700 relative group/btn"
+                    :title="copied ? '已複製' : '複製指令'"
+                  >
+                    <component :is="copied ? Check : Clipboard" class="h-4 w-4" :class="copied ? 'text-green-600' : ''" />
+                    <span v-if="copied" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 animate-fade-in-up">已複製!</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <CodeBlock v-if="step.commands" :code="step.commands" prefix="$" />
+            <p v-if="step.note" class="text-xs text-orange-600 bg-orange-50 p-2 rounded mt-2 border border-orange-100">{{ step.note }}</p>
+          </div>
+        </CardContent>
+      </Card>
+
       <!-- Node.js 安裝 -->
       <Card
       v-if="sections.find(s => s.id === 'nodejs')"

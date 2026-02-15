@@ -34,7 +34,7 @@ const cases = ref(coursesData.cases)
 // 頁面載入狀態
 const isLoaded = ref(false)
 const typedText = ref('')
-const fullText = 'AI 輔助程式開發工具入門課程'
+const fullText = 'Claude Code 與 AI Agent 實作課程'
 
 // 打字機效果
 const typeWriter = () => {
@@ -137,7 +137,7 @@ onUnmounted(() => {
           :class="['text-4xl md:text-5xl font-bold tracking-tight transition-all duration-1000 transform',
                    isLoaded ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0']"
         >
-          虎尾科技大學智慧學習工具實作課-2025
+          詹嘉隆 AI Agent 實作工作坊
         </h1>
         <p class="text-blue-100 mt-3 text-lg font-mono">
           <span class="text-cyan-300">&gt;</span> {{ typedText }}<span class="animate-blink">|</span>
@@ -462,17 +462,6 @@ onUnmounted(() => {
           </div>
         </CardContent>
       </Card>
-
-      <!-- More Cases Placeholder -->
-      <Card class="bg-gray-50 scroll-animate card-hover">
-        <CardContent class="py-8 text-center">
-          <BookOpen class="h-12 w-12 text-gray-400 mx-auto mb-4 animate-bounce" />
-          <p class="text-gray-600">更多課程案例將陸續更新...</p>
-          <p class="text-xs text-gray-400 mt-2">
-            資料版本: {{ coursesData.metadata.version }} | 最後更新: {{ coursesData.metadata.lastUpdated }}
-          </p>
-        </CardContent>
-      </Card>
     </main>
 
     <!-- Footer with gradient border -->
@@ -480,7 +469,7 @@ onUnmounted(() => {
       <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 animate-gradient bg-[length:200%_200%]"></div>
       <div class="max-w-6xl mx-auto px-8 text-center">
         <p class="text-gray-600 hover:text-gray-900 transition-colors duration-300">
-          &copy; 2025 虎尾科技大學智慧學習工具實作課 - 詹嘉隆老師
+          &copy; 2026 詹嘉隆 AI Agent 實作工作坊
         </p>
         <p class="text-sm text-gray-400 mt-2">
           Powered by Vue 3 + Tailwind CSS
