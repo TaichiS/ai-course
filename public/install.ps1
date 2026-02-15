@@ -1,10 +1,10 @@
 # Bootstrap script - downloads and runs the main installer with proper UTF-8 encoding
-# Usage: irm https://shsh2026.netlify.app/install.ps1 | iex
+# Usage: irm https://taichis.github.io/ai-course/install.ps1 | iex
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
-$scriptUrl = "https://shsh2026.netlify.app/install-course-env.ps1"
+$scriptUrl = "https://taichis.github.io/ai-course/install-course-env.ps1"
 
 try {
     $response = Invoke-WebRequest -Uri $scriptUrl -UseBasicParsing -ErrorAction Stop

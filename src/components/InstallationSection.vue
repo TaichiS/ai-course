@@ -132,10 +132,10 @@ const copyToClipboard = async (text: string) => {
               <div class="flex flex-wrap gap-3">
                 <div class="flex items-center gap-2 bg-gray-100 rounded border p-1 pr-2 w-full">
                   <code class="text-xs px-2 py-1 font-mono flex-1 overflow-x-auto whitespace-nowrap bg-transparent border-none">
-                    irm https://shsh2026.netlify.app/install.ps1 | iex
+                    irm https://taichis.github.io/ai-course/install.ps1 | iex
                   </code>
                   <button
-                    @click="copyToClipboard('irm https://shsh2026.netlify.app/install.ps1 | iex')"
+                    @click="copyToClipboard('irm https://taichis.github.io/ai-course/install.ps1 | iex')"
                     class="p-1.5 hover:bg-white rounded-md transition-colors text-gray-500 hover:text-gray-700 relative group/btn"
                     :title="copied ? '已複製' : '複製指令'"
                   >
