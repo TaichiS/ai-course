@@ -266,6 +266,40 @@ onUnmounted(() => {
           </CardContent>
         </Card>
 
+      <!-- 課程投影片模組 -->
+      <Card
+        v-if="modules.find(m => m.id === 'lecture-slides')"
+        :id="modules.find(m => m.id === 'lecture-slides')?.id"
+        class="scroll-mt-20 bg-white scroll-animate card-hover group"
+      >
+        <CardHeader>
+          <div class="flex items-center gap-3">
+            <component :is="getIcon(modules.find(m => m.id === 'lecture-slides')?.icon || 'Presentation')" :class="['h-6 w-6', getColorClass(modules.find(m => m.id === 'lecture-slides')?.color || 'pink'), 'group-hover:animate-pulse']" />
+            <CardTitle class="text-2xl text-gray-900">{{ modules.find(m => m.id === 'lecture-slides')?.title }}</CardTitle>
+          </div>
+          <CardDescription class="text-gray-600">{{ modules.find(m => m.id === 'lecture-slides')?.description }}</CardDescription>
+        </CardHeader>
+        <CardContent class="prose max-w-none">
+          <template v-for="(section, idx) in modules.find(m => m.id === 'lecture-slides')?.content.sections" :key="idx">
+            <h3 class="text-lg font-semibold mb-3 text-gray-900">{{ section.title }}</h3>
+            <p class="text-gray-800 mb-4">{{ section.text }}</p>
+          </template>
+          <div v-if="modules.find(m => m.id === 'lecture-slides')?.content.links" class="mt-6">
+            <ExternalLinks :links="modules.find(m => m.id === 'lecture-slides')?.content.links" layout="vertical" />
+          </div>
+          <div class="flex gap-2 mt-4">
+            <Badge
+              v-for="(tag, idx) in modules.find(m => m.id === 'lecture-slides')?.content.tags"
+              :key="idx"
+              variant="outline"
+              class="hover:scale-110 transition-transform duration-300"
+            >
+              {{ tag }}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
+
       <!-- 核心概念與進階功能區塊 -->
       <section id="concepts-section" class="scroll-mt-20">
         <ConceptsSection />

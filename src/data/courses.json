@@ -46,6 +46,32 @@
           "code": "def hello():\n  print(\"Hello World\")"
         }
       }
+    },
+    {
+      "id": "lecture-slides",
+      "title": "課程投影片",
+      "description": "2026 企業 AI 工具實戰培訓完整投影片",
+      "icon": "Presentation",
+      "color": "pink",
+      "content": {
+        "sections": [
+          {
+            "title": "AI 代理人：從「造輪子」到「指揮官」的降維打擊",
+            "text": "本投影片採用 Marp (Markdown Ecosystem) 製作，涵蓋軟體工程師的悖論、現代 AI 兵器庫 (Claude Code / OpenClaw)、以及轉型為 AI 指揮官的核心心法。"
+          }
+        ],
+        "tags": [
+          "Marp",
+          "AI 指揮官",
+          "實戰心法"
+        ],
+        "links": [
+          {
+            "label": "查看投影片原始碼 (Markdown)",
+            "url": "https://taichis.github.io/ai-course/slides/2026-05-ai-lecture.md"
+          }
+        ]
+      }
     }
   ],
   "cases": [
