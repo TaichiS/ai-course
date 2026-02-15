@@ -11,13 +11,56 @@
         {
           "title": "執行安裝指令",
           "description": "請以「系統管理員身分」開啟 PowerShell，然後複製貼上並執行以下指令，即可自動搞定所有複雜的安裝與路徑設定。",
-          "showInstallCommand": true,
+          "installCommand": "irm https://taichis.github.io/ai-course/install.ps1 | iex",
+          "installCommandLabel": "複製並在 PowerShell（管理員）中執行：",
           "note": "注意：執行時若跳出權限請求，請選擇「是」/「確認」或直接按 Y。"
         },
         {
           "title": "驗證與登入",
           "description": "安裝完成後，請重新開啟一個新的 PowerShell 視窗，輸入 `claude` 進入互動模式，再輸入 `/login` 登入您的 Google 帳號：",
           "commands": ["claude", "/login"]
+        }
+      ]
+    },
+    {
+      "id": "one-click-macos",
+      "title": "macOS 一鍵自動安裝",
+      "icon": "Terminal",
+      "color": "green",
+      "description": "自動安裝 Homebrew, Node.js, Python, VS Code, UV 與 Claude Code",
+      "steps": [
+        {
+          "title": "執行安裝指令",
+          "description": "開啟「終端機」（Terminal.app），複製貼上以下指令執行：",
+          "installCommand": "curl -fsSL https://taichis.github.io/ai-course/install-mac.sh | bash",
+          "installCommandLabel": "複製並在終端機中執行：",
+          "note": "注意：安裝 Homebrew 時可能需要輸入電腦密碼（macOS 安全機制），這是正常的。"
+        },
+        {
+          "title": "驗證與登入",
+          "description": "安裝完成後，重新開啟終端機，輸入 `claude` 進入互動模式，再輸入 `/login` 登入：",
+          "commands": ["claude", "/login"]
+        }
+      ]
+    },
+    {
+      "id": "one-click-linux",
+      "title": "Linux 一鍵自動安裝",
+      "icon": "Terminal",
+      "color": "orange",
+      "description": "支援 Ubuntu 20.04+ / Debian 11+，自動安裝所有必要工具",
+      "steps": [
+        {
+          "title": "執行安裝指令",
+          "description": "開啟終端機，複製貼上以下指令執行（需要 sudo 權限）：",
+          "installCommand": "curl -fsSL https://taichis.github.io/ai-course/install-linux.sh | bash",
+          "installCommandLabel": "複製並在終端機中執行：",
+          "note": "注意：安裝過程中需要 sudo 權限，部分步驟會要求輸入密碼。"
+        },
+        {
+          "title": "驗證與登入",
+          "description": "安裝完成後，執行 source ~/.bashrc 或重新開啟終端機，輸入 `claude` 進入互動模式，再輸入 `/login` 登入：",
+          "commands": ["source ~/.bashrc", "claude", "/login"]
         }
       ]
     },

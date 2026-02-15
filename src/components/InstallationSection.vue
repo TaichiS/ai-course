@@ -92,57 +92,62 @@ const copyToClipboard = async (text: string) => {
       v-show="isInstallationVisible"
       class="space-y-8 transition-all duration-500 ease-in-out"
     >
-      <!-- Windows 一鍵自動安裝 (New) -->
+      <!-- 一鍵自動安裝（Windows / macOS / Linux 共用模板） -->
       <Card
-        v-if="sections.find(s => s.id === 'one-click-setup')"
-        id="install-one-click"
-        class="scroll-mt-20 bg-gradient-to-br from-indigo-50 to-white border-indigo-200 scroll-animate card-hover group"
+        v-for="section in sections.filter(s => s.id.startsWith('one-click'))"
+        :key="section.id"
+        :id="`install-${section.id}`"
+        :class="[
+          'scroll-mt-20 scroll-animate card-hover group',
+          getColorClass(section.color, 'bg') === 'bg-indigo-50' ? 'bg-gradient-to-br from-indigo-50 to-white border-indigo-200' :
+          getColorClass(section.color, 'bg') === 'bg-green-50'  ? 'bg-gradient-to-br from-green-50 to-white border-green-200' :
+          getColorClass(section.color, 'bg') === 'bg-orange-50' ? 'bg-gradient-to-br from-orange-50 to-white border-orange-200' :
+          'bg-gradient-to-br from-gray-50 to-white border-gray-200'
+        ]"
       >
-        <CardHeader class="cursor-pointer" @click="toggleSection('one-click-setup')">
+        <CardHeader class="cursor-pointer" @click="toggleSection(section.id)">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <div class="bg-indigo-600 p-2 rounded-lg text-white group-hover:scale-110 transition-transform">
-                <component :is="getIcon('Download')" class="h-6 w-6" />
+              <div :class="['p-2 rounded-lg text-white group-hover:scale-110 transition-transform', `bg-${section.color}-600`]">
+                <component :is="getIcon(section.icon)" class="h-6 w-6" />
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <CardTitle class="text-2xl text-gray-900">{{ sections.find(s => s.id === 'one-click-setup')?.title }}</CardTitle>
-                  <Badge class="bg-indigo-600 animate-pulse">NEW</Badge>
+                  <CardTitle class="text-2xl text-gray-900">{{ section.title }}</CardTitle>
+                  <Badge v-if="section.is_new" :class="`bg-${section.color}-600 animate-pulse`">NEW</Badge>
                 </div>
-                <CardDescription class="text-indigo-600 font-medium">{{ sections.find(s => s.id === 'one-click-setup')?.description }}</CardDescription>
+                <CardDescription :class="[getColorClass(section.color), 'font-medium']">{{ section.description }}</CardDescription>
               </div>
             </div>
-            <span class="text-gray-400">{{ isExpanded('one-click-setup') ? '▼' : '▶' }}</span>
+            <span class="text-gray-400">{{ isExpanded(section.id) ? '▼' : '▶' }}</span>
           </div>
         </CardHeader>
-        <CardContent v-show="isExpanded('one-click-setup')" class="space-y-6">
-          <div v-for="(step, idx) in sections.find(s => s.id === 'one-click-setup')?.steps" :key="idx" class="relative pl-8 pb-4 last:pb-0">
+        <CardContent v-show="isExpanded(section.id)" class="space-y-6">
+          <div v-for="(step, idx) in section.steps" :key="idx" class="relative pl-8 pb-4 last:pb-0">
             <!-- 步數裝飾 -->
-            <div class="absolute left-0 top-0 w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xs font-bold border border-indigo-200">
+            <div :class="['absolute left-0 top-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border', `bg-${section.color}-100`, `text-${section.color}-600`, `border-${section.color}-200`]">
               {{ idx + 1 }}
             </div>
-            <div v-if="idx < sections.find(s => s.id === 'one-click-setup')!.steps.length - 1" class="absolute left-3 top-6 bottom-0 w-0.5 bg-indigo-100"></div>
+            <div v-if="idx < section.steps.length - 1" :class="['absolute left-3 top-6 bottom-0 w-0.5', `bg-${section.color}-100`]"></div>
 
             <h4 class="font-semibold text-gray-900 mb-2">{{ step.title }}</h4>
             <p class="text-sm text-gray-700 mb-3">{{ step.description }}</p>
 
-            <!-- 安裝指令區塊 (One-Click Setup) -->
-            <div v-if="step.showInstallCommand" class="bg-gray-50/50 p-4 rounded-lg border border-dashed border-gray-200 mb-3">
-              <p class="text-xs text-indigo-600 font-semibold mb-2">複製並在 PowerShell 中貼上執行：</p>
-              <div class="flex flex-wrap gap-3">
-                <div class="flex items-center gap-2 bg-gray-100 rounded border p-1 pr-2 w-full">
-                  <code class="text-xs px-2 py-1 font-mono flex-1 overflow-x-auto whitespace-nowrap bg-transparent border-none">
-                    irm https://taichis.github.io/ai-course/install.ps1 | iex
-                  </code>
-                  <button
-                    @click="copyToClipboard('irm https://taichis.github.io/ai-course/install.ps1 | iex')"
-                    class="p-1.5 hover:bg-white rounded-md transition-colors text-gray-500 hover:text-gray-700 relative group/btn"
-                    :title="copied ? '已複製' : '複製指令'"
-                  >
-                    <component :is="copied ? Check : Clipboard" class="h-4 w-4" :class="copied ? 'text-green-600' : ''" />
-                    <span v-if="copied" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 animate-fade-in-up">已複製!</span>
-                  </button>
-                </div>
+            <!-- 一鍵安裝指令區塊 -->
+            <div v-if="step.installCommand" class="bg-gray-50/50 p-4 rounded-lg border border-dashed border-gray-200 mb-3">
+              <p :class="['text-xs font-semibold mb-2', getColorClass(section.color)]">{{ step.installCommandLabel }}</p>
+              <div class="flex items-center gap-2 bg-gray-100 rounded border p-1 pr-2 w-full">
+                <code class="text-xs px-2 py-1 font-mono flex-1 overflow-x-auto whitespace-nowrap bg-transparent border-none">
+                  {{ step.installCommand }}
+                </code>
+                <button
+                  @click="copyToClipboard(step.installCommand)"
+                  class="p-1.5 hover:bg-white rounded-md transition-colors text-gray-500 hover:text-gray-700 relative group/btn flex-shrink-0"
+                  :title="copied ? '已複製' : '複製指令'"
+                >
+                  <component :is="copied ? Check : Clipboard" class="h-4 w-4" :class="copied ? 'text-green-600' : ''" />
+                  <span v-if="copied" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 animate-fade-in-up">已複製!</span>
+                </button>
               </div>
             </div>
 
