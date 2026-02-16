@@ -1,0 +1,386 @@
+{
+  "title": "OpenClaw 應用場景大全",
+  "subtitle": "41 個真實世界的 AI 自動化應用案例",
+  "description": "從開發到生活，探索 OpenClaw 如何改變工作方式",
+  "categories": [
+    {
+      "id": "development",
+      "title": "開發與程式碼管理",
+      "icon": "Code2",
+      "color": "blue",
+      "scenarios": [
+        {
+          "id": "auto-fix",
+          "number": "05",
+          "title": "自動修復生產環境錯誤",
+          "description": "理解錯誤日誌、分析程式碼庫、編寫修復補丁、自主提交 PR",
+          "features": ["錯誤理解", "程式碼分析", "自動修復", "多步驟執行"]
+        },
+        {
+          "id": "code-review",
+          "number": "06",
+          "title": "程式碼審查與合併決策",
+          "description": "PR 審查工作流，AI 理解程式碼邏輯並做出決策",
+          "features": ["程式碼理解", "品質評估", "決策制定"]
+        },
+        {
+          "id": "night-coding",
+          "number": "07",
+          "title": "夜間驅動編碼代理",
+          "description": "睡前提交需求，通宵開發微應用，睡醒即可測試",
+          "features": ["需求理解", "自主規劃", "持續執行"]
+        },
+        {
+          "id": "cicd-diagnosis",
+          "number": "08",
+          "title": "CI/CD 故障智慧診斷",
+          "description": "GitHub Actions 失敗時自動分析日誌、診斷問題、推送報告",
+          "features": ["日誌分析", "問題診斷", "智慧報告"]
+        }
+      ]
+    },
+    {
+      "id": "content",
+      "title": "內容創作與行銷",
+      "icon": "PenTool",
+      "color": "purple",
+      "scenarios": [
+        {
+          "id": "youtube-auto",
+          "number": "09",
+          "title": "YouTube 影片全自動製作",
+          "description": "從腳本生成到影片上傳，全程文字訊息完成",
+          "features": ["創意生成", "多工具協調", "端到端自動化"]
+        },
+        {
+          "id": "seo-pipeline",
+          "number": "10",
+          "title": "SEO 內容管道自動化",
+          "description": "1 人替代 3 人團隊，每天自動產出 2-5 篇高品質內容",
+          "features": ["關鍵詞研究", "內容創作", "SEO 最佳化", "自動發布"]
+        },
+        {
+          "id": "ugc-video",
+          "number": "11",
+          "title": "UGC 影響者影片自動生成",
+          "description": "自動生成影響者風格的行銷影片，理解品牌調性",
+          "features": ["品牌理解", "創意生成", "影片製作"]
+        },
+        {
+          "id": "reddit-digest",
+          "number": "12",
+          "title": "每日 Reddit/X 精華內容智慧摘要",
+          "description": "自動抓取精華帖，按個人興趣偏好整理成早報",
+          "features": ["品質評估", "個人化篩選", "智慧摘要"]
+        }
+      ]
+    },
+    {
+      "id": "crm",
+      "title": "客戶服務與 CRM",
+      "icon": "Users",
+      "color": "green",
+      "scenarios": [
+        {
+          "id": "slack-support",
+          "number": "13",
+          "title": "Slack 客戶支援自動化",
+          "description": "70% 支援工單完全自主處理，AI 成為第一響應者",
+          "features": ["語義理解", "問題解決", "高自主率"]
+        },
+        {
+          "id": "investor-outreach",
+          "number": "14",
+          "title": "投資者溝通批量起草",
+          "description": "一次會話起草 21 封投資者郵件，每封內容客製化",
+          "features": ["關係理解", "個人化生成", "批量處理"]
+        },
+        {
+          "id": "personal-crm",
+          "number": "15",
+          "title": "個人 CRM 系統",
+          "description": "主動分析關係狀態，提醒維護關係，提供聊天話題建議",
+          "features": ["關係分析", "主動提醒", "智慧建議"]
+        },
+        {
+          "id": "cold-email",
+          "number": "16",
+          "title": "冷郵件個人化生成",
+          "description": "自動研究目標客戶背景，生成高度個人化的 cold email",
+          "features": ["客戶研究", "個人化生成"]
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "title": "金融交易與投資",
+      "icon": "TrendingUp",
+      "color": "amber",
+      "warning": "投資有風險，盡量不要用 OpenClaw 做交易",
+      "scenarios": [
+        {
+          "id": "polymarket",
+          "number": "17",
+          "title": "Polymarket 自動化交易",
+          "description": "掃描 Twitter 情緒+新聞+技術指標，AI 自主決策交易",
+          "features": ["多維度分析", "自主決策", "快速執行"]
+        },
+        {
+          "id": "sentiment-trading",
+          "number": "18",
+          "title": "小紅書情緒分析+自動交易",
+          "description": "透過 API 捕捉社交媒體情緒訊號，識別個股是否過熱",
+          "features": ["情緒理解", "訊號關聯", "自動交易"]
+        },
+        {
+          "id": "earnings-tracker",
+          "number": "19",
+          "title": "AI 財報追蹤器",
+          "description": "自動化科技公司財報預覽與摘要，生成投資洞察",
+          "features": ["財報理解", "資訊提取", "投資洞察"]
+        }
+      ]
+    },
+    {
+      "id": "smart-home",
+      "title": "智慧家居與 IoT",
+      "icon": "Home",
+      "color": "cyan",
+      "scenarios": [
+        {
+          "id": "sky-camera",
+          "number": "20",
+          "title": "攝像頭智慧觸發",
+          "description": "AI 理解什麼是「漂亮的天空」，智慧觸發拍照",
+          "features": ["圖像理解", "價值判斷", "智慧觸發"]
+        },
+        {
+          "id": "iot-calibration",
+          "number": "21",
+          "title": "IoT 設備智慧校準",
+          "description": "AI 理解設備資料並自主最佳化配置",
+          "features": ["資料理解", "自主最佳化"]
+        },
+        {
+          "id": "server-healing",
+          "number": "22",
+          "title": "家庭伺服器自愈系統",
+          "description": "網路故障時自動診斷問題並執行修復操作",
+          "features": ["故障診斷", "自主修復"]
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "title": "教育學習",
+      "icon": "GraduationCap",
+      "color": "indigo",
+      "scenarios": [
+        {
+          "id": "chinese-learning",
+          "number": "23",
+          "title": "中文學習引擎",
+          "description": "帶有發音反饋和學習流程的 AI 中文學習引擎",
+          "features": ["發音評估", "個人化反饋", "學習路徑調整"]
+        },
+        {
+          "id": "writer-assistant",
+          "number": "24",
+          "title": "作家研究助手",
+          "description": "研究歷史事實、生成角色背景、保持故事連貫性",
+          "features": ["內容理解", "連貫性檢查", "創作建議"]
+        },
+        {
+          "id": "student-helper",
+          "number": "25",
+          "title": "學生學習助手",
+          "description": "自動搜尋教材、整理課件、跟蹤學習進度、論文潤色",
+          "features": ["需求理解", "資源搜尋", "進度跟蹤"]
+        }
+      ]
+    },
+    {
+      "id": "creative",
+      "title": "創意與實驗",
+      "icon": "Palette",
+      "color": "pink",
+      "scenarios": [
+        {
+          "id": "daily-art",
+          "number": "26",
+          "title": "每日 AI 藝術生成",
+          "description": "每天早上生成「歷史上的今天」木刻風格圖像",
+          "features": ["創意生成", "多工具協調", "定時執行"]
+        },
+        {
+          "id": "overnight-app",
+          "number": "27",
+          "title": "通宵微應用構建",
+          "description": "睡前提交需求，通宵構建微應用，睡醒即可測試",
+          "features": ["需求理解", "自主開發", "自動部署"]
+        },
+        {
+          "id": "radio-decode",
+          "number": "28",
+          "title": "緊急無線電解碼",
+          "description": "30 分鐘內完成緊急無線電訊號解碼和設備配置",
+          "features": ["自主研究", "設備配置", "任務執行"]
+        },
+        {
+          "id": "ai-arbitrator",
+          "number": "29",
+          "title": "AI 管理其他 AI",
+          "description": "讓多個 AI 辯論、聽取論點並做出最終決定",
+          "features": ["多 AI 協調", "觀點評估", "決策制定"]
+        },
+        {
+          "id": "ai-girlfriend",
+          "number": "30",
+          "title": "AI 女友",
+          "description": "配置女友的 SOUL，體驗戀愛的感覺",
+          "features": ["需求理解", "SOUL 文件", "多模態處理"]
+        }
+      ]
+    },
+    {
+      "id": "ecommerce",
+      "title": "電商與零售",
+      "icon": "ShoppingCart",
+      "color": "orange",
+      "scenarios": [
+        {
+          "id": "car-negotiation",
+          "number": "31",
+          "title": "汽車購買自動談判",
+          "description": "多輪郵件談判比價，成交價比標價低 $4,200",
+          "features": ["談判策略", "多輪對話", "動態決策"]
+        },
+        {
+          "id": "tea-business",
+          "number": "32",
+          "title": "茶葉業務全流程自動化",
+          "description": "庫存管理/訂單處理/客戶服務全流程自動化",
+          "features": ["業務協調", "自主決策", "全流程自動化"]
+        },
+        {
+          "id": "ar-shopping",
+          "number": "33",
+          "title": "智慧眼鏡實時比價",
+          "description": "AR 購物助手，AI 實時進行價格比較",
+          "features": ["視覺理解", "實時搜尋", "決策建議"]
+        },
+        {
+          "id": "tesco-auto",
+          "number": "34",
+          "title": "Tesco 購物自動駕駛",
+          "description": "每周餐飲計劃→常購商品→預訂配送，全流程自動化",
+          "features": ["需求理解", "清單規劃", "流程執行"]
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "title": "健康與生活管理",
+      "icon": "Heart",
+      "color": "rose",
+      "scenarios": [
+        {
+          "id": "health-tracking",
+          "number": "35",
+          "title": "健康與症狀追蹤",
+          "description": "記錄飲食、追蹤症狀、分析誘因，發現潛在健康問題",
+          "features": ["資料理解", "模式分析", "健康洞察"]
+        },
+        {
+          "id": "meditation",
+          "number": "36",
+          "title": "個人化冥想腳本生成",
+          "description": "根據當日狀態生成個人化冥想腳本，持續追蹤",
+          "features": ["狀態理解", "個人化生成"]
+        },
+        {
+          "id": "travel-planning",
+          "number": "37",
+          "title": "旅遊規劃助手",
+          "description": "綜合考慮預算、飲食禁忌、身體狀況、興趣點，給出可執行方案",
+          "features": ["約束理解", "綜合規劃", "可執行方案"]
+        },
+        {
+          "id": "family-monitor",
+          "number": "38",
+          "title": "家庭 WhatsApp 監控+人臉識別",
+          "description": "監控學校群組，人臉識別了解孩子在校情況",
+          "features": ["內容理解", "人臉識別", "洞察生成"]
+        }
+      ]
+    },
+    {
+      "id": "legal",
+      "title": "法律與企業服務",
+      "icon": "Scale",
+      "color": "slate",
+      "scenarios": [
+        {
+          "id": "contract-review",
+          "number": "39",
+          "title": "合同審查與風險標註",
+          "description": "自動審查條款、標註風險、生成報告，100 份合同從 10 天縮短至 1 天",
+          "features": ["法律理解", "風險識別", "專業報告"]
+        },
+        {
+          "id": "sales-report",
+          "number": "40",
+          "title": "智慧銷售報表生成",
+          "description": "每日定時呼叫多平台 API、分析趨勢、生成業務洞察",
+          "features": ["資料整合", "趨勢分析", "業務洞察"]
+        },
+        {
+          "id": "invoice-processing",
+          "number": "41",
+          "title": "發票智慧處理",
+          "description": "拍照上傳發票，AI 識別內容、自動分類、記錄到財務系統",
+          "features": ["內容識別", "智慧分類", "自動記錄"]
+        }
+      ]
+    }
+  ],
+  "coreFeatures": [
+    {
+      "title": "AI 理解",
+      "description": "理解語義、上下文、意圖",
+      "icon": "Brain"
+    },
+    {
+      "title": "多步驟規劃",
+      "description": "分解任務、規劃步驟、執行",
+      "icon": "GitBranch"
+    },
+    {
+      "title": "跨工具協調",
+      "description": "呼叫多個工具完成流程",
+      "icon": "Layers"
+    },
+    {
+      "title": "自主決策",
+      "description": "根據情況做出判斷",
+      "icon": "GitCommit"
+    },
+    {
+      "title": "持久記憶",
+      "description": "記住歷史交互和上下文",
+      "icon": "Database"
+    },
+    {
+      "title": "複雜約束處理",
+      "description": "處理多約束條件",
+      "icon": "Puzzle"
+    }
+  ],
+  "notSuitable": [
+    "簡單定時任務（cron）",
+    "單一功能自動化（IFTTT/Zapier）",
+    "規則-based 處理（如果 A 則 B）",
+    "固定模板操作",
+    "單一工具即可完成"
+  ]
+}

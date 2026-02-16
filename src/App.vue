@@ -8,6 +8,7 @@ import InstallationSection from '@/components/InstallationSection.vue'
 import CodeBlock from '@/components/CodeBlock.vue'
 import ConceptsSection from '@/components/ConceptsSection.vue'
 import ExternalLinks from '@/components/ExternalLinks.vue'
+import OpenClawUseCases from '@/components/OpenClawUseCases.vue'
 
 // 圖標映射
 const iconMap: Record<string, any> = {
@@ -497,6 +498,9 @@ onUnmounted(() => {
         </CardContent>
       </Card>
     </main>
+
+    <!-- OpenClaw 應用場景 -->
+    <OpenClawUseCases />
 
     <!-- Footer with gradient border -->
     <footer class="relative bg-gray-100 border-t border-gray-200 py-8 mt-12 overflow-hidden">
