@@ -4,38 +4,74 @@
   "description": "從開發到生活，探索 OpenClaw 如何改變工作方式",
   "categories": [
     {
+      "id": "intro",
+      "title": "OpenClaw 核心功能",
+      "icon": "Sparkles",
+      "color": "cyan",
+      "scenarios": [
+        {
+          "id": "why-openclaw",
+          "number": "01",
+          "title": "為什麼需要 OpenClaw",
+          "description": "從異質資料源（日曆/天氣/郵件/RSS/GitHub/社交媒體）提取資訊，根據使用者偏好智慧篩選和排序，生成連貫的個人化摘要",
+          "features": ["多源資料整合", "智慧篩選", "個人化生成"]
+        },
+        {
+          "id": "personal-crm",
+          "number": "02",
+          "title": "個人 CRM 系統（關係維護提醒）",
+          "description": "從郵件和日曆自動提取聯絡人資訊，記錄上次聊天內容、興趣愛好、重要紀念日，見面前獲得提醒",
+          "features": ["資訊提取", "長期記憶", "主動提醒"]
+        },
+        {
+          "id": "whatsapp-brain",
+          "number": "03",
+          "title": "WhatsApp 第二大腦",
+          "description": "連結儲存 + 分類 + 洞察提取，自動整理 WhatsApp 中的重要資訊",
+          "features": ["連結儲存", "智慧分類", "洞察提取"]
+        },
+        {
+          "id": "bug-fix",
+          "number": "04",
+          "title": "自動修復生產環境錯誤",
+          "description": "理解錯誤日誌和堆疊跟蹤，分析程式碼庫定位問題，編寫修復補丁並測試，自主提交 PR",
+          "features": ["錯誤理解", "程式碼分析", "自動修復", "多步驟執行"]
+        }
+      ]
+    },
+    {
       "id": "development",
       "title": "開發與程式碼管理",
       "icon": "Code2",
       "color": "blue",
       "scenarios": [
         {
-          "id": "auto-fix",
-          "number": "05",
-          "title": "自動修復生產環境錯誤",
-          "description": "理解錯誤日誌、分析程式碼庫、編寫修復補丁、自主提交 PR",
-          "features": ["錯誤理解", "程式碼分析", "自動修復", "多步驟執行"]
-        },
-        {
           "id": "code-review",
-          "number": "06",
+          "number": "05",
           "title": "程式碼審查與合併決策",
           "description": "PR 審查工作流，AI 理解程式碼邏輯並做出決策",
           "features": ["程式碼理解", "品質評估", "決策制定"]
         },
         {
           "id": "night-coding",
-          "number": "07",
+          "number": "06",
           "title": "夜間驅動編碼代理",
           "description": "睡前提交需求，通宵開發微應用，睡醒即可測試",
           "features": ["需求理解", "自主規劃", "持續執行"]
         },
         {
           "id": "cicd-diagnosis",
-          "number": "08",
+          "number": "07",
           "title": "CI/CD 故障智慧診斷",
           "description": "GitHub Actions 失敗時自動分析日誌、診斷問題、推送報告",
           "features": ["日誌分析", "問題診斷", "智慧報告"]
+        },
+        {
+          "id": "auto-pr",
+          "number": "08",
+          "title": "自動化 PR 生成與提交",
+          "description": "根據需求自動生成程式碼變更，創建 PR 並撰寫說明",
+          "features": ["需求理解", "程式碼生成", "自動提交"]
         }
       ]
     },
@@ -323,8 +359,8 @@
         {
           "id": "contract-review",
           "number": "39",
-          "title": "合同審查與風險標註",
-          "description": "自動審查條款、標註風險、生成報告，100 份合同從 10 天縮短至 1 天",
+          "title": "合約審查與風險標註",
+          "description": "自動審查條款、標註風險、生成報告，100 份合約從 10 天縮短至 1 天",
           "features": ["法律理解", "風險識別", "專業報告"]
         },
         {
