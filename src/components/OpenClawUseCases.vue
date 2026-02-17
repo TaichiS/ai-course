@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { 
-  Sparkles, Code2, PenTool, Users, TrendingUp, Home, 
-  GraduationCap, Palette, ShoppingCart, Heart, 
-  Scale, Brain, GitBranch, Layers, GitCommit, 
+import {
+  Sparkles, Code2, PenTool, Users, TrendingUp, Home,
+  GraduationCap, Palette, ShoppingCart, Heart,
+  Scale, Brain, GitBranch, Layers, GitCommit,
   Database, Puzzle, X, ArrowRight, ExternalLink
 } from 'lucide-vue-next'
 import useCasesData from '@/data/openclaw-use-cases.json'
+
+const emit = defineEmits<{
+  navigate: [page: 'home']
+}>()
 
 // 圖標映射
 const iconMap: Record<string, any> = {
@@ -211,6 +215,17 @@ const navigateScenario = (direction: 'prev' | 'next') => {
 
     <!-- 主列表頁 -->
     <div v-show="!showDetailPage">
+      <!-- 返回首頁導覽列 -->
+      <nav class="border-b border-slate-800 bg-slate-950/90 px-6 py-4 backdrop-blur-xl">
+        <button
+          @click="emit('navigate', 'home')"
+          class="flex items-center gap-2 text-slate-400 transition-colors hover:text-white"
+        >
+          <ArrowRight class="h-5 w-5 rotate-180" />
+          <span>返回首頁</span>
+        </button>
+      </nav>
+
       <!-- Hero Section -->
       <section class="relative overflow-hidden px-6 py-24 lg:px-8">
         <!-- 背景裝飾 -->
