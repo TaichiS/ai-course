@@ -2,7 +2,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Download, Terminal, FileText, Globe, AlertTriangle, ChevronDown, ChevronUp, Clipboard, Check, ExternalLink } from 'lucide-vue-next'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import installationData from '@/data/installation.json'
 import CodeBlock from '@/components/CodeBlock.vue'
 
@@ -55,6 +55,33 @@ const toggleSection = (id: string) => {
 const isExpanded = (id: string) => {
   return expandedSections.value[id] !== false // 預設展開
 }
+
+// scroll-animate 觸發
+let observer: IntersectionObserver | null = null
+
+onMounted(async () => {
+  await nextTick()
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('animate-in')
+      })
+    },
+    { threshold: 0.05, rootMargin: '50px 0px 0px 0px' }
+  )
+  const elements = document.querySelectorAll('.scroll-animate')
+  elements.forEach((el, index) => {
+    observer?.observe(el)
+    setTimeout(() => {
+      const rect = el.getBoundingClientRect()
+      if (rect.top < window.innerHeight) el.classList.add('animate-in')
+    }, index * 100)
+  })
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 
 // 複製功能
 const copied = ref(false)
