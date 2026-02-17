@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Download, Terminal, FileText, Globe, AlertTriangle, ChevronDown, ChevronUp, Clipboard, Check } from 'lucide-vue-next'
+import { Download, Terminal, FileText, Globe, AlertTriangle, ChevronDown, ChevronUp, Clipboard, Check, ExternalLink } from 'lucide-vue-next'
 import { ref, computed } from 'vue'
 import installationData from '@/data/installation.json'
 import CodeBlock from '@/components/CodeBlock.vue'
@@ -12,7 +12,8 @@ const iconMap: Record<string, any> = {
   Terminal,
   FileText,
   Globe,
-  AlertTriangle
+  AlertTriangle,
+  ExternalLink
 }
 
 // 資料
@@ -85,6 +86,16 @@ const copyToClipboard = async (text: string) => {
         <component :is="isInstallationVisible ? ChevronUp : ChevronDown" class="h-4 w-4" />
         {{ isInstallationVisible ? '隱藏安裝設定' : '顯示安裝設定' }}
       </button>
+
+      <!-- 查看完整指南連結 -->
+      <a
+        href="/installation.html"
+        target="_blank"
+        class="mt-3 ml-3 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-sm font-medium"
+      >
+        <ExternalLink class="h-4 w-4" />
+        <span>查看完整安裝指南</span>
+      </a>
     </div>
 
     <!-- 可收合的內容區塊 -->

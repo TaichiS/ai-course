@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 安裝指南 | AI Agent 實作工作坊</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#020617',
+              900: '#0f172a',
+              800: '#1e293b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .gradient-text {
+      background: linear-gradient(to right, #22d3ee, #818cf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .code-block {
+      background: #1e293b;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+    }
+    .step-number {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen text-white">
+  <!-- 導航欄 -->
+  <nav class="sticky top-0 z-50 border-b border-slate-800/50 bg-slate-950/90 backdrop-blur-xl px-6 py-4">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回首頁</span>
+      </a>
+      <div class="text-sm text-slate-500">安裝指南</div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden px-6 py-16">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute -left-1/4 -top-1/4 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl"></div>
+      <div class="absolute -right-1/4 top-1/2 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl"></div>
+    </div>
+    
+    <div class="relative max-w-4xl mx-auto text-center">
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
+        <i class="fas fa-download text-emerald-400"></i>
+        <span class="text-sm font-medium text-emerald-300">快速開始</span>
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+        Claude Code 安裝指南
+      </h1>
+      
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        選擇您的作業系統，跟著步驟快速完成安裝
+      </p>
+    </div>
+  </section>
+
+  <!-- 安裝選項 -->
+  <section class="px-6 py-8">
+    <div class="max-w-4xl mx-auto space-y-6">
+      
+      <!-- Windows -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden">
+        <button onclick="toggleSection('windows')" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500">
+              <i class="fab fa-windows text-white text-xl"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-xl font-semibold text-white">Windows 一鍵自動安裝</h2>
+                <span class="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2 py-0.5 text-xs font-medium text-white">推薦</span>
+              </div>
+              <p class="mt-1 text-sm text-slate-400">自動化檢查並安裝 Git, Node.js, Python, VS Code, UV 與 Claude Code</p>
+            </div>
+          </div>
+          <i id="windows-icon" class="fas fa-chevron-down text-slate-500 transition-transform"></i>
+        </button>
+        
+        <div id="windows-content" class="hidden border-t border-slate-800 px-6 py-6">
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="step-number">1</div>
+                <h3 class="text-lg font-medium text-white">執行安裝指令</h3>
+              </div>
+              <p class="pl-11 text-slate-300 mb-3">請以「系統管理員身分」開啟 PowerShell，然後複製貼上並執行以下指令：</p>
+              <div class="pl-11">
+                <div class="code-block text-emerald-400">
+                  irm https://taichis.github.io/ai-course/install.ps1 | iex
+                </div>
+                <p class="mt-2 text-sm text-amber-400"><i class="fas fa-exclamation-triangle mr-1"></i> 注意：執行時若跳出權限請求，請選擇「是」/「確認」或直接按 Y。</p>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="step-number">2</div>
+                <h3 class="text-lg font-medium text-white">驗證與登入</h3>
+              </div>
+              <p class="pl-11 text-slate-300 mb-3">安裝完成後，請重新開啟一個新的 PowerShell 視窗，輸入 <code class="bg-slate-800 px-2 py-1 rounded">claude</code> 進入互動模式，再輸入 <code class="bg-slate-800 px-2 py-1 rounded">/login</code> 登入您的 Google 帳號：</p>
+              <div class="pl-11 space-y-2">
+                <div class="code-block text-cyan-400">claude</div>
+                <div class="code-block text-cyan-400">/login</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- macOS -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden">
+        <button onclick="toggleSection('macos')" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500">
+              <i class="fab fa-apple text-white text-xl"></i>
+            </div>
+            <div>
+              <h2 class="text-xl font-semibold text-white">macOS 一鍵自動安裝</h2>
+              <p class="mt-1 text-sm text-slate-400">自動安裝 Homebrew, Node.js, Python, VS Code, UV 與 Claude Code</p>
+            </div>
+          </div>
+          <i id="macos-icon" class="fas fa-chevron-down text-slate-500 transition-transform"></i>
+        </button>
+        
+        <div id="macos-content" class="hidden border-t border-slate-800 px-6 py-6">
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="step-number">1</div>
+                <h3 class="text-lg font-medium text-white">執行安裝指令</h3>
+              </div>
+              <p class="pl-11 text-slate-300 mb-3">開啟「終端機」（Terminal.app），複製貼上以下指令執行：</p>
+              <div class="pl-11">
+                <div class="code-block text-emerald-400">
+                  curl -fsSL https://taichis.github.io/ai-course/install-mac.sh | bash
+                </div>
+                <p class="mt-2 text-sm text-amber-400"><i class="fas fa-exclamation-triangle mr-1"></i> 注意：安裝 Homebrew 時可能需要輸入電腦密碼（macOS 安全機制），這是正常的。</p>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="step-number">2</div>
+                <h3 class="text-lg font-medium text-white">驗證與登入</h3>
+              </div>
+              <p class="pl-11 text-slate-300 mb-3">安裝完成後，重新開啟終端機，輸入 <code class="bg-slate-800 px-2 py-1 rounded">claude</code> 進入互動模式，再輸入 <code class="bg-slate-800 px-2 py-1 rounded">/login</code> 登入：</p>
+              <div class="pl-11 space-y-2">
+                <div class="code-block text-cyan-400">claude</div>
+                <div class="code-block text-cyan-400">/login</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linux -->
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden">
+        <button onclick="toggleSection('linux')" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-800/50 transition-colors">
+          <div class="flex items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500">
+              <i class="fab fa-linux text-white text-xl"></i>
+            </div>
+            <div>
+              <h2 class="text-xl font-semibold text-white">Linux 一鍵自動安裝</h2>
+              <p class="mt-1 text-sm text-slate-400">支援 Ubuntu/Debian 等主流發行版</p>
+            </div>
+          </div>
+          <i id="linux-icon" class="fas fa-chevron-down text-slate-500 transition-transform"></i>
+        </button>
+        
+        <div id="linux-content" class="hidden border-t border-slate-800 px-6 py-6">
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="step-number">1</div>
+                <h3 class="text-lg font-medium text-white">執行安裝指令</h3>
+              </div>
+              <p class="pl-11 text-slate-300 mb-3">開啟終端機，複製貼上以下指令執行：</p>
+              <div class="pl-11">
+                <div class="code-block text-emerald-400">
+                  curl -fsSL https://taichis.github.io/ai-course/install-linux.sh | bash
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="step-number">2</div>
+                <h3 class="text-lg font-medium text-white">驗證與登入</h3>
+              </div>
+              <p class="pl-11 text-slate-300 mb-3">安裝完成後，重新開啟終端機，輸入 <code class="bg-slate-800 px-2 py-1 rounded">claude</code> 進入互動模式，再輸入 <code class="bg-slate-800 px-2 py-1 rounded">/login</code> 登入：</p>
+              <div class="pl-11 space-y-2">
+                <div class="code-block text-cyan-400">claude</div>
+                <div class="code-block text-cyan-400">/login</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 注意事項 -->
+  <section class="border-t border-slate-800/50 px-6 py-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-exclamation-triangle text-amber-400 text-xl mt-1"></i>
+          <div>
+            <h3 class="mb-2 text-lg font-semibold text-amber-300">安裝前注意事項</h3>
+            <ul class="space-y-2 text-amber-200/80">
+              <li>• 請確保網路連線穩定，安裝過程需要下載多個套件</li>
+              <li>• Windows 用戶請以「系統管理員身分」執行 PowerShell</li>
+              <li>• macOS/Linux 用戶請確保已安裝 curl 或 wget</li>
+              <li>• 安裝過程中若跳出權限請求，請選擇「是」或「允許」</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/50 px-6 py-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm text-slate-500">
+        遇到問題？請聯絡課程助教或參考課程文件
+      </p>
+      <p class="mt-2 text-xs text-slate-600">
+        &copy; 2026 詹嘉隆 AI Agent 實作工作坊
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleSection(id) {
+      const content = document.getElementById(id + '-content');
+      const icon = document.getElementById(id + '-icon');
+      
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+  </script>
+</body>
+</html>
