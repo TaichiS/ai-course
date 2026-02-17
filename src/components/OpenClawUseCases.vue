@@ -91,14 +91,27 @@ const closeDetailPage = () => {
 // 導航到上一個/下一個場景
 const navigateScenario = (direction: 'prev' | 'next') => {
   if (!selectedScenario.value) return
-  
+
   const currentIndex = allScenarios.value.findIndex(s => s.id === selectedScenario.value.id)
   let newIndex = direction === 'prev' ? currentIndex - 1 : currentIndex + 1
-  
+
   if (newIndex < 0) newIndex = allScenarios.value.length - 1
   if (newIndex >= allScenarios.value.length) newIndex = 0
-  
+
   selectedScenario.value = allScenarios.value[newIndex]
+}
+
+// 滑動手勢
+let touchStartX = 0
+
+const onTouchStart = (e: TouchEvent) => {
+  touchStartX = e.touches[0].clientX
+}
+
+const onTouchEnd = (e: TouchEvent) => {
+  const diff = touchStartX - e.changedTouches[0].clientX
+  if (Math.abs(diff) < 50) return // 小於 50px 不觸發
+  navigateScenario(diff > 0 ? 'next' : 'prev')
 }
 </script>
 
@@ -116,6 +129,8 @@ const navigateScenario = (direction: 'prev' | 'next') => {
       <div
         v-if="showDetailPage && selectedScenario"
         class="fixed inset-0 z-50 overflow-y-auto bg-slate-950"
+        @touchstart="onTouchStart"
+        @touchend="onTouchEnd"
       >
         <!-- 詳情頁導航欄 -->
         <nav class="sticky top-0 z-10 border-b border-slate-800 bg-slate-950/90 px-6 py-4 backdrop-blur-xl">
