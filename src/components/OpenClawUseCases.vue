@@ -282,7 +282,7 @@ const navigateScenario = (direction: 'prev' | 'next') => {
             <button
               @click="activeCategory = null"
               :class="[
-                'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
+                'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap shrink-0',
                 activeCategory === null
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/25'
                   : 'border border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-600 hover:text-slate-200'
@@ -295,13 +295,13 @@ const navigateScenario = (direction: 'prev' | 'next') => {
               :key="category.id"
               @click="toggleCategory(category.id)"
               :class="[
-                'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300',
+                'rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 whitespace-nowrap shrink-0',
                 activeCategory === category.id
                   ? `bg-gradient-to-r ${colorMap[category.color]} text-white shadow-lg`
                   : 'border border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-600 hover:text-slate-200'
               ]"
             >
-              <span class="flex items-center gap-2">
+              <span class="flex items-center gap-2 whitespace-nowrap">
                 <component :is="iconMap[category.icon]" class="h-4 w-4" />
                 {{ category.title }}
               </span>
