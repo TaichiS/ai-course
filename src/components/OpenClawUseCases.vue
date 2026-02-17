@@ -427,10 +427,10 @@ const navigateScenario = (direction: 'prev' | 'next') => {
       <footer class="border-t border-slate-800/50 px-6 py-8">
         <div class="mx-auto max-w-7xl text-center">
           <p class="text-sm text-slate-500">
-            資料來源：小紅書筆記「首发！全网41个Openclaw应用场景汇总」by 小馬ai
+            資料來源：社群整理「41 個 OpenClaw 應用場景彙整」
           </p>
           <p class="mt-2 text-xs text-slate-600">
-            整理時間：2026-02-17 | 處理工具：Jarvis (Kimi K2.5)
+            整理時間：2026-02-17
           </p>
         </div>
       </footer>
