@@ -103,6 +103,7 @@ const navigateScenario = (direction: 'prev' | 'next') => {
 
 // 滑動手勢
 let touchStartX = 0
+const slideDirection = ref<'left' | 'right'>('left')
 
 const onTouchStart = (e: TouchEvent) => {
   touchStartX = e.touches[0].clientX
@@ -110,8 +111,14 @@ const onTouchStart = (e: TouchEvent) => {
 
 const onTouchEnd = (e: TouchEvent) => {
   const diff = touchStartX - e.changedTouches[0].clientX
-  if (Math.abs(diff) < 50) return // 小於 50px 不觸發
+  if (Math.abs(diff) < 50) return
+  slideDirection.value = diff > 0 ? 'left' : 'right'
   navigateScenario(diff > 0 ? 'next' : 'prev')
+}
+
+const handleNavigate = (direction: 'prev' | 'next') => {
+  slideDirection.value = direction === 'next' ? 'left' : 'right'
+  navigateScenario(direction)
 }
 </script>
 
@@ -145,7 +152,7 @@ const onTouchEnd = (e: TouchEvent) => {
             
             <div class="flex items-center gap-4">
               <button
-                @click="navigateScenario('prev')"
+                @click="handleNavigate('prev')"
                 class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-400 transition-colors hover:border-slate-600 hover:text-white"
               >
                 上一個
@@ -154,7 +161,7 @@ const onTouchEnd = (e: TouchEvent) => {
                 {{ selectedScenario.number }} / 41
               </span>
               <button
-                @click="navigateScenario('next')"
+                @click="handleNavigate('next')"
                 class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-400 transition-colors hover:border-slate-600 hover:text-white"
               >
                 下一個
@@ -164,66 +171,70 @@ const onTouchEnd = (e: TouchEvent) => {
         </nav>
 
         <!-- 詳情內容 -->
-        <div class="px-6 py-12">
-          <div class="mx-auto max-w-4xl">
-            <!-- 場景標題 -->
-            <div class="mb-8">
-              <div class="mb-4 flex items-center gap-3">
-                <span :class="`text-5xl font-bold bg-gradient-to-r ${colorMap[selectedScenario.category.color]} bg-clip-text text-transparent`">
-                  {{ selectedScenario.number }}
-                </span>
-                <div :class="`rounded-full px-3 py-1 text-xs font-medium ${bgColorMap[selectedScenario.category.color]}`">
-                  {{ selectedScenario.category.title }}
+        <div class="overflow-hidden">
+          <Transition :name="slideDirection === 'left' ? 'slide-left' : 'slide-right'" mode="out-in">
+            <div :key="selectedScenario.id" class="px-6 py-12">
+              <div class="mx-auto max-w-4xl">
+                <!-- 場景標題 -->
+                <div class="mb-8">
+                  <div class="mb-4 flex items-center gap-3">
+                    <span :class="`text-5xl font-bold bg-gradient-to-r ${colorMap[selectedScenario.category.color]} bg-clip-text text-transparent`">
+                      {{ selectedScenario.number }}
+                    </span>
+                    <div :class="`rounded-full px-3 py-1 text-xs font-medium ${bgColorMap[selectedScenario.category.color]}`">
+                      {{ selectedScenario.category.title }}
+                    </div>
+                  </div>
+                  <h1 class="mb-4 text-3xl font-bold text-white md:text-4xl">
+                    {{ selectedScenario.title }}
+                  </h1>
+                  <p class="text-lg text-slate-300">
+                    {{ selectedScenario.description }}
+                  </p>
+                </div>
+
+                <!-- 特性標籤 -->
+                <div class="mb-12">
+                  <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
+                    OpenClaw 核心能力
+                  </h2>
+                  <div class="flex flex-wrap gap-3">
+                    <span
+                      v-for="feature in selectedScenario.features"
+                      :key="feature"
+                      :class="`rounded-full px-4 py-2 text-sm font-medium border ${bgColorMap[selectedScenario.category.color]}`"
+                    >
+                      {{ feature }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 詳細說明區塊 -->
+                <div class="space-y-6">
+                  <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+                    <h2 class="mb-4 text-xl font-semibold text-white">應用說明</h2>
+                    <p class="leading-relaxed text-slate-300">
+                      {{ selectedScenario.description }}
+                    </p>
+                  </div>
+
+                  <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+                    <h2 class="mb-4 text-xl font-semibold text-white">為什麼需要 OpenClaw？</h2>
+                    <ul class="space-y-3">
+                      <li
+                        v-for="(feature, idx) in selectedScenario.features"
+                        :key="idx"
+                        class="flex items-start gap-3 text-slate-300"
+                      >
+                        <span :class="`mt-1.5 h-2 w-2 rounded-full bg-gradient-to-r ${colorMap[selectedScenario.category.color]}`"></span>
+                        <span>{{ feature }}</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <h1 class="mb-4 text-3xl font-bold text-white md:text-4xl">
-                {{ selectedScenario.title }}
-              </h1>
-              <p class="text-lg text-slate-300">
-                {{ selectedScenario.description }}
-              </p>
             </div>
-
-            <!-- 特性標籤 -->
-            <div class="mb-12">
-              <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-500">
-                OpenClaw 核心能力
-              </h2>
-              <div class="flex flex-wrap gap-3">
-                <span
-                  v-for="feature in selectedScenario.features"
-                  :key="feature"
-                  :class="`rounded-full px-4 py-2 text-sm font-medium border ${bgColorMap[selectedScenario.category.color]}`"
-                >
-                  {{ feature }}
-                </span>
-              </div>
-            </div>
-
-            <!-- 詳細說明區塊（可擴展） -->
-            <div class="space-y-6">
-              <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
-                <h2 class="mb-4 text-xl font-semibold text-white">應用說明</h2>
-                <p class="leading-relaxed text-slate-300">
-                  {{ selectedScenario.description }}
-                </p>
-              </div>
-
-              <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
-                <h2 class="mb-4 text-xl font-semibold text-white">為什麼需要 OpenClaw？</h2>
-                <ul class="space-y-3">
-                  <li
-                    v-for="(feature, idx) in selectedScenario.features"
-                    :key="idx"
-                    class="flex items-start gap-3 text-slate-300"
-                  >
-                    <span :class="`mt-1.5 h-2 w-2 rounded-full bg-gradient-to-r ${colorMap[selectedScenario.category.color]}`"></span>
-                    <span>{{ feature }}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          </Transition>
         </div>
       </div>
     </transition>
@@ -479,5 +490,33 @@ const onTouchEnd = (e: TouchEvent) => {
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/* 向左滑動（下一個）*/
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.slide-left-enter-from {
+  transform: translateX(60px);
+  opacity: 0;
+}
+.slide-left-leave-to {
+  transform: translateX(-60px);
+  opacity: 0;
+}
+
+/* 向右滑動（上一個）*/
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.slide-right-enter-from {
+  transform: translateX(-60px);
+  opacity: 0;
+}
+.slide-right-leave-to {
+  transform: translateX(60px);
+  opacity: 0;
 }
 </style>
