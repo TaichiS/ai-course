@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw Windows 安裝指南 | AI Agent 實作工作坊</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .gradient-text {
+      background: linear-gradient(to right, #22d3ee, #818cf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .step-number {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .code-block {
+      background: #1e293b;
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      overflow-x: auto;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    .warning-box {
+      border-left: 4px solid #f59e0b;
+      background: rgba(245, 158, 11, 0.1);
+    }
+    .tip-box {
+      border-left: 4px solid #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen text-white">
+  <!-- 導航欄 -->
+  <nav class="sticky top-0 z-50 border-b border-slate-800/50 bg-slate-950/90 backdrop-blur-xl px-6 py-4">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <a href="/ai-course/" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回課程首頁</span>
+      </a>
+      <div class="text-sm text-slate-500">OpenClaw 安裝指南</div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden px-6 py-16">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute -left-1/4 -top-1/4 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl"></div>
+      <div class="absolute -right-1/4 top-1/2 h-96 w-96 rounded-full bg-purple-500/20 blur-3xl"></div>
+    </div>
+    
+    <div class="relative max-w-4xl mx-auto text-center">
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5">
+        <i class="fas fa-robot text-cyan-400"></i>
+        <span class="text-sm font-medium text-cyan-300">AI Agent 平台</span>
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">
+        OpenClaw Windows 安裝指南
+      </h1>
+      
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        透過 WSL 在 Windows 上安裝 OpenClaw，打造你的專屬 AI 助理
+      </p>
+      
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700">
+          <i class="fab fa-windows text-blue-400"></i>
+          <span class="text-sm text-slate-300">Windows 10/11</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700">
+          <i class="fab fa-linux text-orange-400"></i>
+          <span class="text-sm text-slate-300">WSL + Ubuntu</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700">
+          <i class="fas fa-clock text-emerald-400"></i>
+          <span class="text-sm text-slate-300">約 10-15 分鐘</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 前置需求 -->
+  <section class="px-6 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 mb-8">
+        <div class="flex items-start gap-4">
+          <i class="fas fa-exclamation-triangle text-amber-400 text-xl mt-1"></i>
+          <div>
+            <h3 class="text-lg font-semibold text-amber-300 mb-2">前置需求</h3>
+            <ul class="space-y-1 text-amber-200/80">
+              <li>• Windows 10 版本 2004 及以上（建議 Windows 11）</li>
+              <li>• 需要系統管理員權限</li>
+              <li>• 穩定的網路連線</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安裝步驟 -->
+  <section class="px-6 py-8">
+    <div class="max-w-4xl mx-auto space-y-12">
+
+      <!-- 步驟 1 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">1</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">檢查 WSL 狀態</h2>
+            <p class="text-slate-300 mb-4">開啟 PowerShell（系統管理員），執行以下指令檢查 WSL 是否已安裝：</p>
+            
+            <div class="code-block mb-4">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <code class="text-cyan-400">wsl --version</code>
+            </div>
+
+            <div class="rounded-xl bg-slate-800/50 p-4">
+              <p class="text-sm text-slate-400 mb-2">預期輸出（表示 WSL 已安裝）：</p>
+              <pre class="text-sm text-emerald-400 font-mono">WSL 版本：2.x.x.x
+核心版本：5.x.x
+WSLg 版本：1.x.x</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟 2 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">2</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">安裝 WSL</h2>
+            <p class="text-slate-300 mb-4">如果 WSL 尚未安裝，執行以下指令（需要管理員權限）：</p>
+            
+            <div class="code-block mb-4">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <code class="text-cyan-400">wsl --install</code>
+            </div>
+
+            <div class="tip-box rounded-xl p-4 mb-4">
+              <div class="flex items-start gap-3">
+                <i class="fas fa-lightbulb text-emerald-400 mt-1"></i>
+                <div>
+                  <p class="text-emerald-200"><strong>安裝過程會：</strong></p>
+                  <ul class="mt-2 space-y-1 text-emerald-200/80 text-sm">
+                    <li>• 啟用 WSL 功能</li>
+                    <li>• 啟用虛擬機平台</li>
+                    <li>• 下載並安裝 Ubuntu</li>
+                  </ul>
+                  <p class="mt-3 text-amber-300 text-sm"><i class="fas fa-exclamation-circle mr-1"></i> 安裝完成後請重新啟動電腦</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟 3 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">3</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">設定 Ubuntu 使用者帳號</h2>
+            <p class="text-slate-300 mb-4">重新開機後，Ubuntu 會自動啟動，請設定使用者帳號和密碼：</p>
+            
+            <div class="rounded-xl bg-slate-800/50 p-4 mb-4">
+              <pre class="text-sm text-slate-300 font-mono">Enter new UNIX username: <span class="text-cyan-400">your_username</span>
+New password: <span class="text-cyan-400">********</span>
+Retype new password: <span class="text-cyan-400">********</span>
+Password updated successfully</pre>
+            </div>
+
+            <div class="warning-box rounded-xl p-4">
+              <div class="flex items-start gap-3">
+                <i class="fas fa-exclamation-triangle text-amber-400 mt-1"></i>
+                <p class="text-amber-200"><strong>請記住這組帳號密碼！</strong> 後續步驟會需要用到。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟 4 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">4</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">設定 sudo 免密碼（重要）</h2>
+            <p class="text-slate-300 mb-4">為了讓 OpenClaw 能順利運作，需要設定 sudo 免密碼：</p>
+            
+            <div class="code-block mb-4">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <code class="text-cyan-400">sudo visudo</code>
+            </div>
+
+            <div class="rounded-xl bg-slate-800/50 p-4 mb-4">
+              <h3 class="text-white font-semibold mb-3"><i class="fas fa-keyboard mr-2"></i>編輯器操作步驟：</h3>
+              <ol class="space-y-2 text-slate-300 text-sm">
+                <li>使用方向鍵移動到檔案最下方</li>
+                <li>新增一行：<span class="text-cyan-400 font-mono ml-2">your_username ALL=(ALL) NOPASSWD: ALL</span>
+                  <br><span class="text-slate-500">（將 your_username 換成你的使用者名稱）</span>
+                </li>
+                <li>按 <kbd class="px-2 py-1 bg-slate-700 rounded text-xs">Ctrl</kbd> + <kbd class="px-2 py-1 bg-slate-700 rounded text-xs">O</kbd> 儲存</li>
+                <li>按 <kbd class="px-2 py-1 bg-slate-700 rounded text-xs">Enter</kbd> 確認檔名</li>
+                <li>按 <kbd class="px-2 py-1 bg-slate-700 rounded text-xs">Ctrl</kbd> + <kbd class="px-2 py-1 bg-slate-700 rounded text-xs">X</kbd> 離開</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟 5 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">5</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">安裝 OpenClaw</h2>
+            <p class="text-slate-300 mb-4">執行官方安裝指令，會自動安裝 Node.js 和 Python 環境：</p>
+            
+            <div class="code-block mb-4">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <code class="text-cyan-400">curl -fsSL https://openclaw.ai/install.sh | bash</code>
+            </div>
+
+            <div class="tip-box rounded-xl p-4">
+              <div class="flex items-start gap-3">
+                <i class="fas fa-info-circle text-emerald-400 mt-1"></i>
+                <div>
+                  <p class="text-emerald-200"><strong>安裝過程會自動：</strong></p>
+                  <ul class="mt-2 space-y-1 text-emerald-200/80 text-sm">
+                    <li>• 安裝 Node.js（如果尚未安裝）</li>
+                    <li>• 安裝 Python（如果尚未安裝）</li>
+                    <li>• 安裝 OpenClaw CLI</li>
+                    <li>• 設定環境變數</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟 6 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">6</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">驗證安裝</h2>
+            <p class="text-slate-300 mb-4">安裝完成後，重新開啟 WSL 終端機，執行以下指令驗證：</p>
+            
+            <div class="code-block mb-4">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <code class="text-cyan-400">openclaw --version</code>
+            </div>
+
+            <div class="rounded-xl bg-slate-800/50 p-4">
+              <p class="text-sm text-slate-400 mb-2">預期輸出：</p>
+              <pre class="text-sm text-emerald-400 font-mono">openclaw version x.x.x</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟 7 -->
+      <div class="relative">
+        <div class="flex items-start gap-4">
+          <div class="step-number flex-shrink-0">7</div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">啟動 OpenClaw</h2>
+            <p class="text-slate-300 mb-4">現在可以啟動 OpenClaw 了：</p>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this)">複製</button>
+                <code class="text-cyan-400">openclaw gateway start</code>
+                <p class="text-slate-500 text-xs mt-2">背景模式啟動</p>
+              </div>
+
+              <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this)">複製</button>
+                <code class="text-cyan-400">openclaw</code>
+                <p class="text-slate-500 text-xs mt-2">互動模式</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 常見問題 -->
+  <section class="px-6 py-12 border-t border-slate-800/50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold text-white mb-8"><i class="fas fa-question-circle mr-2"></i>常見問題</h2>
+      
+      <div class="space-y-6">
+        <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">Q1: WSL 安裝失敗，顯示「虛擬化未啟用」</h3>
+          <p class="text-slate-300 mb-3">解決方案：</p>
+          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-sm">
+            <li>進入 BIOS 啟用 Intel VT-x 或 AMD-V</li>
+            <li>或在 PowerShell 執行：</li>
+          </ol>
+          <div class="code-block mt-3">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <code class="text-cyan-400">bcdedit /set hypervisorlaunchtype auto</code>
+          </div>
+          <p class="text-slate-400 text-sm mt-2">然後重新啟動電腦</p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">Q2: Ubuntu 無法啟動</h3>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-cyan-400 text-sm">wsl --shutdown
+wsl --unregister Ubuntu
+wsl --install -d Ubuntu</pre>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">Q3: OpenClaw 指令找不到</h3>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-cyan-400 text-sm">source ~/.bashrc
+# 或重新開啟 WSL 終端機</pre>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+          <h3 class="text-lg font-semibold text-white mb-2">Q4: visudo 編輯器不會用</h3>
+          <p class="text-slate-300 mb-3">替代方案：</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-cyan-400 text-sm">sudo usermod -aG sudo $USER
+sudo nano /etc/sudoers
+# 加入：your_username ALL=(ALL) NOPASSWD: ALL</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 下一步 -->
+  <section class="px-6 py-12 border-t border-slate-800/50">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl font-bold text-white mb-6">🎉 安裝完成！</h2>
+      
+      <p class="text-slate-300 mb-8">接下來可以參考以下資源繼續學習：</p>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <a href="https://docs.openclaw.ai/quickstart" target="_blank" class="group rounded-xl border border-slate-700 bg-slate-800/50 p-6 hover:border-cyan-500/50 transition-all">
+          <i class="fas fa-rocket text-3xl text-cyan-400 mb-3 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-white font-semibold mb-2">快速入門</h3>
+          <p class="text-slate-400 text-sm">了解 OpenClaw 基本操作</p>
+        </a>
+
+        <a href="https://docs.openclaw.ai/telegram" target="_blank" class="group rounded-xl border border-slate-700 bg-slate-800/50 p-6 hover:border-cyan-500/50 transition-all">
+          <i class="fab fa-telegram text-3xl text-cyan-400 mb-3 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-white font-semibold mb-2">設定 Telegram Bot</h3>
+          <p class="text-slate-400 text-sm">連結 Telegram 開始對話</p>
+        </a>
+
+        <a href="https://docs.openclaw.ai/models" target="_blank" class="group rounded-xl border border-slate-700 bg-slate-800/50 p-6 hover:border-cyan-500/50 transition-all">
+          <i class="fas fa-brain text-3xl text-cyan-400 mb-3 group-hover:scale-110 transition-transform"></i>
+          <h3 class="text-white font-semibold mb-2">設定 AI 模型</h3>
+          <p class="text-slate-400 text-sm">配置 Gemini、Claude 等模型</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/50 px-6 py-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm text-slate-500">
+        遇到問題？請聯繫課程助教或參考 <a href="https://docs.openclaw.ai" target="_blank" class="text-cyan-400 hover:underline">官方文件</a>
+      </p>
+      <p class="mt-2 text-xs text-slate-600">
+        © 2026 詹嘉隆 AI Agent 實作工作坊
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode(btn) {
+      const code = btn.nextElementSibling.textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = '已複製！';
+        btn.style.color = '#10b981';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

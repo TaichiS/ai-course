@@ -272,6 +272,18 @@ const navigateScenario = (direction: 'prev' | 'next') => {
               <div class="text-sm text-slate-400">可能性</div>
             </div>
           </div>
+
+          <!-- 安裝指南按鈕 -->
+          <div class="mt-10">
+            <a
+              href="/ai-course/openclaw-install.html"
+              target="_blank"
+              class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition-all hover:scale-105 hover:shadow-cyan-500/40"
+            >
+              <ArrowRight class="h-4 w-4" />
+              查看 OpenClaw 安裝指南（Windows）
+            </a>
+          </div>
         </div>
       </section>
 
