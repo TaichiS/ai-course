@@ -35,16 +35,16 @@ const colorMap: Record<string, string> = {
 }
 
 const bgColorMap: Record<string, string> = {
-  cyan: 'bg-cyan-500/10 border-cyan-500/20',
-  blue: 'bg-blue-500/10 border-blue-500/20',
-  purple: 'bg-purple-500/10 border-purple-500/20',
-  green: 'bg-emerald-500/10 border-emerald-500/20',
-  amber: 'bg-amber-500/10 border-amber-500/20',
-  indigo: 'bg-indigo-500/10 border-indigo-500/20',
-  pink: 'bg-pink-500/10 border-pink-500/20',
-  orange: 'bg-orange-500/10 border-orange-500/20',
-  rose: 'bg-rose-500/10 border-rose-500/20',
-  slate: 'bg-slate-500/10 border-slate-500/20'
+  cyan: 'bg-cyan-500/10 border-cyan-500/20 text-cyan-300',
+  blue: 'bg-blue-500/10 border-blue-500/20 text-blue-300',
+  purple: 'bg-purple-500/10 border-purple-500/20 text-purple-300',
+  green: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300',
+  amber: 'bg-amber-500/10 border-amber-500/20 text-amber-300',
+  indigo: 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300',
+  pink: 'bg-pink-500/10 border-pink-500/20 text-pink-300',
+  orange: 'bg-orange-500/10 border-orange-500/20 text-orange-300',
+  rose: 'bg-rose-500/10 border-rose-500/20 text-rose-300',
+  slate: 'bg-slate-500/10 border-slate-500/20 text-slate-300'
 }
 
 // 數據
@@ -278,7 +278,7 @@ const navigateScenario = (direction: 'prev' | 'next') => {
       <!-- 分類過濾器 -->
       <section class="sticky top-0 z-40 border-b border-slate-800/50 bg-slate-950/80 px-6 py-4 backdrop-blur-xl">
         <div class="mx-auto max-w-7xl">
-          <div class="flex flex-wrap items-center justify-center gap-2">
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" style="flex-wrap: nowrap">
             <button
               @click="activeCategory = null"
               :class="[
@@ -444,5 +444,13 @@ const navigateScenario = (direction: 'prev' | 'next') => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 </style>
