@@ -135,9 +135,6 @@ onUnmounted(() => {
         <p class="text-gray-600 hover:text-gray-900 transition-colors duration-300">
           &copy; 2026 詹嘉隆 AI Agent 實作工作坊
         </p>
-        <p class="text-sm text-gray-400 mt-2">
-          Powered by Vue 3 + Tailwind CSS
-        </p>
       </div>
     </footer>
   </div>
