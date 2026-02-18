@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multipass OpenClaw 環境建置指南 | AI Agent 實作工作坊</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .gradient-text {
+      background: linear-gradient(to right, #22d3ee, #818cf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .step-number {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .code-block {
+      background: #1e293b;
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      overflow-x: auto;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    .warning-box {
+      border-left: 4px solid #f59e0b;
+      background: rgba(245, 158, 11, 0.1);
+    }
+    .tip-box {
+      border-left: 4px solid #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .info-box {
+      border-left: 4px solid #6366f1;
+      background: rgba(99, 102, 241, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(100, 116, 139, 0.3);
+    }
+    th {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      font-weight: 600;
+      text-align: left;
+    }
+    td {
+      color: #cbd5e1;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen text-white">
+
+  <!-- 導航欄 -->
+  <nav class="sticky top-0 z-50 border-b border-slate-800/50 bg-slate-950/90 backdrop-blur-xl px-6 py-4">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <a href="/ai-course/" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+        <i class="fas fa-arrow-left"></i>
+        <span>返回課程首頁</span>
+      </a>
+      <div class="text-sm text-slate-500">Multipass OpenClaw 環境建置</div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden px-6 py-16">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute -left-1/4 -top-1/4 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl"></div>
+      <div class="absolute -right-1/4 top-1/2 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto text-center">
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5">
+        <i class="fas fa-server text-indigo-400 text-sm"></i>
+        <span class="text-sm font-medium text-indigo-300">虛擬機環境</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-6">
+        <span class="gradient-text">Multipass AI Agent (OpenClaw)</span><br>
+        <span class="text-3xl sm:text-4xl text-white">環境建置指南</span>
+      </h1>
+      <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+        在 Windows 10 上透過 Multipass 建立具備 GUI 顯示能力（執行 Chrome）與 systemd 支援的 Ubuntu 環境，供 OpenClaw AI Agent 使用。
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <span class="rounded-full border border-slate-700 bg-slate-900/50 px-4 py-1.5 text-sm text-slate-300">
+          <i class="fab fa-windows mr-1.5 text-blue-400"></i>Windows 10+
+        </span>
+        <span class="rounded-full border border-slate-700 bg-slate-900/50 px-4 py-1.5 text-sm text-slate-300">
+          <i class="fab fa-ubuntu mr-1.5 text-orange-400"></i>Ubuntu VM
+        </span>
+        <span class="rounded-full border border-slate-700 bg-slate-900/50 px-4 py-1.5 text-sm text-slate-300">
+          <i class="fas fa-robot mr-1.5 text-cyan-400"></i>OpenClaw
+        </span>
+        <span class="rounded-full border border-slate-700 bg-slate-900/50 px-4 py-1.5 text-sm text-slate-300">
+          <i class="fab fa-chrome mr-1.5 text-yellow-400"></i>Chrome
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主要內容 -->
+  <main class="max-w-4xl mx-auto px-6 pb-20 space-y-12">
+
+    <!-- 步驟 1：安裝 Multipass -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">1</div>
+        <h2 class="text-2xl font-bold text-white">安裝 Multipass（宿主機）</h2>
+      </div>
+      <p class="text-slate-300 mb-4">首先，請先在 Windows 10 上安裝 Multipass：</p>
+      <div class="info-box rounded-lg p-4 mb-4">
+        <div class="flex items-center gap-2 mb-2">
+          <i class="fas fa-download text-indigo-400"></i>
+          <span class="font-semibold text-indigo-300">下載連結</span>
+        </div>
+        <a href="https://canonical.com/multipass/install" target="_blank" rel="noopener noreferrer"
+           class="text-cyan-400 hover:text-cyan-300 underline transition-colors">
+          https://canonical.com/multipass/install
+        </a>
+      </div>
+      <div class="warning-box rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fas fa-exclamation-triangle text-amber-400"></i>
+          <span class="font-semibold text-amber-300">注意</span>
+        </div>
+        <p class="text-amber-200/80 text-sm">安裝完成後，請重啟電腦以確保環境變數生效。</p>
+      </div>
+    </section>
+
+    <!-- 步驟 2：建立虛擬機 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">2</div>
+        <h2 class="text-2xl font-bold text-white">建立並配置 openclaw 虛擬機</h2>
+      </div>
+      <p class="text-slate-300 mb-4">開啟 PowerShell，執行以下指令建立一個高效能的環境（建議 4 核 CPU / 8GB RAM）：</p>
+      <div class="code-block mb-2">
+        <button class="copy-btn" onclick="copyCode(this)">複製</button>
+        <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 1. 建立虛擬機</span>
+multipass launch --name openclaw --cpus 4 --memory 8G --disk 40G
+
+<span class="text-slate-500"># 2. (選配) 若日後需要修改資源，請先 stop 再 set</span>
+<span class="text-slate-500"># multipass stop openclaw</span>
+<span class="text-slate-500"># multipass set local.openclaw.cpus=4</span>
+<span class="text-slate-500"># multipass set local.openclaw.memory=8G</span>
+<span class="text-slate-500"># multipass start openclaw</span></code></pre>
+      </div>
+    </section>
+
+    <!-- 步驟 3：配置 GUI 顯示環境 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">3</div>
+        <h2 class="text-2xl font-bold text-white">配置 GUI 顯示環境（Windows 宿主機端）</h2>
+      </div>
+      <p class="text-slate-300 mb-6">為了讓 Ubuntu 裡的 Chrome 畫面能顯示在 Windows 上，我們需要 X11 Server：</p>
+      <div class="space-y-4">
+        <div class="flex items-start gap-4 p-4 rounded-xl border border-slate-700 bg-slate-800/30">
+          <div class="w-7 h-7 rounded-full bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-300 text-sm font-bold flex-shrink-0 mt-0.5">1</div>
+          <div>
+            <p class="text-slate-200">下載並安裝
+              <a href="https://sourceforge.net/projects/vcxsrv/" target="_blank" rel="noopener noreferrer"
+                 class="text-cyan-400 hover:text-cyan-300 underline transition-colors">VcXsrv (XLaunch)</a>
+            </p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 p-4 rounded-xl border border-slate-700 bg-slate-800/30">
+          <div class="w-7 h-7 rounded-full bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-300 text-sm font-bold flex-shrink-0 mt-0.5">2</div>
+          <div>
+            <p class="text-slate-200">啟動 <strong>XLaunch</strong>，選擇 <code class="text-cyan-300 bg-slate-800 px-1.5 py-0.5 rounded text-sm">Multiple windows</code></p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 p-4 rounded-xl border border-amber-800/30 bg-amber-900/10">
+          <div class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 text-sm font-bold flex-shrink-0 mt-0.5">3</div>
+          <div>
+            <p class="text-amber-200">在設定頁面務必勾選 <strong class="text-amber-300">Disable access control</strong></p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4 p-4 rounded-xl border border-slate-700 bg-slate-800/30">
+          <div class="w-7 h-7 rounded-full bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-300 text-sm font-bold flex-shrink-0 mt-0.5">4</div>
+          <div>
+            <p class="text-slate-200">完成啟動（Windows 右下角小圖示會出現一個「X」）</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 步驟 4：安裝 OpenClaw 與 Chrome -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">4</div>
+        <h2 class="text-2xl font-bold text-white">進入 Ubuntu 並安裝 OpenClaw 與 Chrome</h2>
+      </div>
+      <p class="text-slate-300 mb-6">執行 <code class="text-cyan-300 bg-slate-800 px-1.5 py-0.5 rounded">multipass shell openclaw</code> 進入虛擬機，接著在 Linux 終端機執行：</p>
+
+      <!-- A. 更新系統與安裝 Node.js -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-indigo-300 mb-3 flex items-center gap-2">
+          <span class="text-indigo-400">A.</span> 更新系統與安裝 Node.js
+        </h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code>sudo apt update && sudo apt upgrade -y
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs git</code></pre>
+        </div>
+      </div>
+
+      <!-- B. 安裝 Chrome -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-indigo-300 mb-3 flex items-center gap-2">
+          <span class="text-indigo-400">B.</span> 安裝 Chrome 瀏覽器
+        </h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code>wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb -y</code></pre>
+        </div>
+      </div>
+
+      <!-- C. 安裝 OpenClaw -->
+      <div>
+        <h3 class="text-lg font-semibold text-indigo-300 mb-3 flex items-center gap-2">
+          <span class="text-indigo-400">C.</span> 安裝 OpenClaw
+        </h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 使用官方安裝腳本</span>
+curl -fsSL https://openclaw.ai/install.sh | bash
+
+<span class="text-slate-500"># 設定 PATH</span>
+export PATH="$HOME/.npm-global/bin:$PATH"
+echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+<span class="text-slate-500"># 驗證安裝</span>
+openclaw --version</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 步驟 5：檔案共享 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">5</div>
+        <h2 class="text-2xl font-bold text-white">掛載宿主機檔案（Windows ↔ Ubuntu 檔案共享）</h2>
+      </div>
+      <p class="text-slate-300 mb-6">在 Multipass 中，存取宿主機（Windows）檔案最快且最直覺的方式是使用 <strong class="text-white">mount（掛載）</strong> 功能。這能讓宿主機的資料夾直接出現在 Ubuntu 虛擬機的路徑中，實現雙向同步。</p>
+
+      <!-- 5.1 mount 指令 -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold text-white mb-2">5.1 使用 mount 指令（最推薦）</h3>
+        <p class="text-slate-400 text-sm mb-4">你可以在 PowerShell 中將 Windows 的某個資料夾掛載到 openclaw 內。</p>
+        <div class="info-box rounded-lg p-4 mb-4">
+          <p class="text-indigo-300 text-sm font-medium mb-1">指令格式</p>
+          <code class="text-cyan-300 text-sm font-mono">multipass mount "&lt;宿主機路徑&gt;" openclaw:&lt;虛擬機路徑&gt;</code>
+        </div>
+        <p class="text-slate-400 text-sm mb-3">實戰範例 — 將 <code class="text-cyan-300 bg-slate-800 px-1 rounded">C:\ai_project</code> 掛載到 Ubuntu 的 <code class="text-cyan-300 bg-slate-800 px-1 rounded">/home/ubuntu/project</code>：</p>
+        <div class="code-block mb-4">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 1. 在虛擬機內先建立目標目錄</span>
+multipass exec openclaw -- mkdir -p /home/ubuntu/project
+
+<span class="text-slate-500"># 2. 執行掛載（注意：路徑含空白需加引號）</span>
+multipass mount "C:\ai_project" openclaw:/home/ubuntu/project
+
+<span class="text-slate-500"># 3. 驗證結果</span>
+multipass info openclaw
+<span class="text-slate-500"># 你會在 Mounts 欄位看到對應關係</span></code></pre>
+        </div>
+
+        <div class="tip-box rounded-lg p-4 mb-4">
+          <p class="text-emerald-300 font-semibold mb-2 flex items-center gap-2">
+            <i class="fas fa-check-circle"></i> 掛載後的優勢
+          </p>
+          <ul class="space-y-1.5 text-emerald-200/80 text-sm">
+            <li>• <strong class="text-emerald-300">雙向同步</strong>：在 Windows 修改檔案，Ubuntu 內會立即更新；反之亦然</li>
+            <li>• <strong class="text-emerald-300">VS Code 開發</strong>：在 Windows 用 VS Code 寫程式，讓 Ubuntu 裡的 OpenClaw 執行</li>
+            <li>• <strong class="text-emerald-300">資料持久化</strong>：即使刪除虛擬機，檔案仍保留在 Windows</li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 卸載指令</span>
+multipass umount openclaw</code></pre>
+        </div>
+      </div>
+
+      <!-- 5.2 transfer 指令 -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold text-white mb-2">5.2 使用 transfer 指令（單次搬移）</h3>
+        <p class="text-slate-400 text-sm mb-4">如果你不想建立持續的連動，只想「丟一個檔案進去」或「拿一個結果出來」：</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 從 Windows 傳入 Ubuntu</span>
+multipass transfer C:\config.json openclaw:/home/ubuntu/
+
+<span class="text-slate-500"># 從 Ubuntu 傳回 Windows</span>
+multipass transfer openclaw:/home/ubuntu/log.txt C:\logs\</code></pre>
+        </div>
+      </div>
+
+      <!-- 5.3 VS Code 遠端開發 -->
+      <div>
+        <h3 class="text-xl font-semibold text-white mb-2">5.3 進階：透過 VS Code 遠端開發（推薦）</h3>
+        <p class="text-slate-400 text-sm mb-4">對於 OpenClaw 開發者，推薦直接從 Windows 的 VS Code 連進虛擬機：</p>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">1.</span>
+            <span>在 Windows VS Code 安裝 <strong class="text-white">"Remote - SSH"</strong> 擴充功能</span>
+          </div>
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">2.</span>
+            <span>透過 <code class="text-cyan-300 bg-slate-800 px-1 rounded">multipass list</code> 取得 openclaw 的 IP</span>
+          </div>
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">3.</span>
+            <span>在 VS Code 按 <kbd class="bg-slate-700 border border-slate-600 rounded px-1.5 py-0.5 text-xs">F1</kbd> → <code class="text-cyan-300 bg-slate-800 px-1 rounded">Remote-SSH: Connect to Host</code> → <code class="text-cyan-300 bg-slate-800 px-1 rounded">ubuntu@&lt;你的IP&gt;</code></span>
+          </div>
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">4.</span>
+            <span>輸入密碼（預設為 <code class="text-cyan-300 bg-slate-800 px-1 rounded">ubuntu</code>）</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 步驟 6：設定 DISPLAY -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">6</div>
+        <h2 class="text-2xl font-bold text-white">設定顯示連結（Display）</h2>
+      </div>
+      <p class="text-slate-300 mb-4">在 Ubuntu 內，讓程式知道要把畫面傳送到 Windows 的哪裡：</p>
+      <div class="code-block mb-4">
+        <button class="copy-btn" onclick="copyCode(this)">複製</button>
+        <pre class="text-slate-300 text-sm leading-relaxed"><code>echo "export DISPLAY=&lt;Host_IP&gt;:0.0" >> ~/.bashrc
+source ~/.bashrc</code></pre>
+      </div>
+      <div class="info-box rounded-lg p-4">
+        <p class="text-indigo-300 text-sm font-medium mb-1">
+          <i class="fas fa-lightbulb mr-1"></i> 取得 Windows IP 的方法
+        </p>
+        <p class="text-slate-300 text-sm">在 PowerShell 執行 <code class="text-cyan-300 bg-slate-800 px-1 rounded">ipconfig</code>，找到你的區域網路 IP（例如 <code class="text-cyan-300">192.168.1.10</code>）。</p>
+      </div>
+    </section>
+
+    <!-- 步驟 7：一鍵啟動腳本 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">7</div>
+        <h2 class="text-2xl font-bold text-white">一鍵啟動腳本（自動化設定）</h2>
+      </div>
+      <p class="text-slate-300 mb-4">為了簡化每次重啟電腦後的環境設定，我們提供一個 PowerShell 腳本，會自動：</p>
+      <ul class="list-disc list-inside text-slate-300 space-y-1.5 mb-6 ml-2">
+        <li>偵測 Windows IP</li>
+        <li>設定 Ubuntu 的 DISPLAY 環境變數</li>
+        <li>掛載指定的 Windows 資料夾</li>
+      </ul>
+
+      <!-- 7.1 建立腳本 -->
+      <div class="mb-6">
+        <h3 class="text-xl font-semibold text-white mb-3">7.1 建立啟動腳本</h3>
+        <p class="text-slate-400 text-sm mb-3">在 Windows 建立檔案 <code class="text-cyan-300 bg-slate-800 px-1.5 py-0.5 rounded">start-openclaw.ps1</code>：</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># start-openclaw.ps1</span>
+<span class="text-slate-500"># OpenClaw 環境一鍵啟動腳本</span>
+
+param(
+    [string]$MountPath = "C:\ai_project",
+    [string]$VmName = "openclaw"
+)
+
+Write-Host "🚀 啟動 OpenClaw 環境..." -ForegroundColor Cyan
+
+<span class="text-slate-500"># 1. 檢查虛擬機狀態</span>
+Write-Host "📋 檢查虛擬機狀態..." -ForegroundColor Yellow
+$vmInfo = multipass info $VmName 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "❌ 虛擬機 $VmName 不存在，請先執行 multipass launch"
+    exit 1
+}
+
+<span class="text-slate-500"># 2. 啟動虛擬機（如果未運行）</span>
+$vmState = multipass list | Select-String $VmName | ForEach-Object { ($_ -split "\s+")[1] }
+if ($vmState -ne "Running") {
+    Write-Host "▶️  啟動虛擬機..." -ForegroundColor Yellow
+    multipass start $VmName
+}
+
+<span class="text-slate-500"># 3. 取得 Windows IP（用於 X11 顯示）</span>
+Write-Host "🌐 偵測 Windows IP..." -ForegroundColor Yellow
+$windowsIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object {
+    $_.InterfaceAlias -notlike "*Loopback*" -and
+    $_.IPAddress -notlike "169.254.*" -and
+    $_.IPAddress -like "192.168.*"
+} | Select-Object -First 1).IPAddress
+
+if (-not $windowsIP) {
+    $windowsIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object {
+        $_.InterfaceAlias -notlike "*Loopback*" -and
+        $_.IPAddress -notlike "169.254.*"
+    } | Select-Object -First 1).IPAddress
+}
+
+Write-Host "   Windows IP: $windowsIP" -ForegroundColor Green
+
+<span class="text-slate-500"># 4. 設定 Ubuntu 的 DISPLAY</span>
+Write-Host "🖥️  設定 DISPLAY 環境變數..." -ForegroundColor Yellow
+multipass exec $VmName -- bash -c "echo 'export DISPLAY=$windowsIP`:0.0' >> ~/.bashrc"
+
+<span class="text-slate-500"># 5. 掛載資料夾（如果路徑存在）</span>
+if (Test-Path $MountPath) {
+    Write-Host "📂 掛載資料夾 $MountPath ..." -ForegroundColor Yellow
+    $mountInfo = multipass info $VmName | Select-String $MountPath
+    if (-not $mountInfo) {
+        multipass exec $VmName -- mkdir -p /home/ubuntu/project
+        multipass mount "$MountPath" "$VmName`:/home/ubuntu/project"
+        Write-Host "   ✅ 掛載完成" -ForegroundColor Green
+    } else {
+        Write-Host "   ℹ️  資料夾已掛載" -ForegroundColor Gray
+    }
+} else {
+    Write-Host "   ⚠️  掛載路徑不存在: $MountPath" -ForegroundColor Red
+}
+
+<span class="text-slate-500"># 6. 顯示狀態摘要</span>
+Write-Host ""
+Write-Host "═══════════════════════════════════════" -ForegroundColor Cyan
+Write-Host "✅ OpenClaw 環境已就緒！" -ForegroundColor Green
+Write-Host "═══════════════════════════════════════" -ForegroundColor Cyan
+Write-Host "虛擬機: $VmName"
+Write-Host "Windows IP: $windowsIP"
+Write-Host "掛載路徑: $MountPath → /home/ubuntu/project"
+Write-Host ""
+Write-Host "常用指令："
+Write-Host "  進入虛擬機: multipass shell $VmName"
+Write-Host "  啟動 Gateway: openclaw gateway start"
+Write-Host "  查看狀態: multipass info $VmName"
+Write-Host "═══════════════════════════════════════" -ForegroundColor Cyan</code></pre>
+        </div>
+      </div>
+
+      <!-- 7.2 使用腳本 -->
+      <div class="mb-6">
+        <h3 class="text-xl font-semibold text-white mb-3">7.2 使用腳本</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 基本使用（掛載預設路徑 C:\ai_project）</span>
+.\start-openclaw.ps1
+
+<span class="text-slate-500"># 指定其他路徑</span>
+.\start-openclaw.ps1 -MountPath "D:\my-workspace"
+
+<span class="text-slate-500"># 指定其他虛擬機名稱</span>
+.\start-openclaw.ps1 -VmName "my-agent"</code></pre>
+        </div>
+      </div>
+
+      <!-- 7.3 桌面捷徑 -->
+      <div>
+        <h3 class="text-xl font-semibold text-white mb-3">7.3 建立桌面捷徑（選配）</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">1.</span>
+            <span>在桌面建立新的捷徑</span>
+          </div>
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">2.</span>
+            <span>目標輸入：<code class="text-cyan-300 bg-slate-800 px-1 rounded">powershell.exe -ExecutionPolicy Bypass -File "C:\path\to\start-openclaw.ps1"</code></span>
+          </div>
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">3.</span>
+            <span>命名為「啟動 OpenClaw」</span>
+          </div>
+          <div class="flex items-start gap-3 text-slate-300 text-sm">
+            <span class="text-indigo-400 font-bold mt-0.5">4.</span>
+            <span>（選配）變更圖示</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 步驟 8：使用與管理 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="step-number">8</div>
+        <h2 class="text-2xl font-bold text-white">使用與管理</h2>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-xl font-semibold text-white mb-3">啟動 OpenClaw Gateway</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm"><code>openclaw gateway start</code></pre>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-semibold text-white mb-3">使用 systemd 管理服務（選配）</h3>
+        <p class="text-slate-400 text-sm mb-3">如果你希望 OpenClaw 在背景常駐，可以建立服務檔：</p>
+        <div class="code-block mb-4">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code>sudo nano /etc/systemd/system/openclaw.service</code></pre>
+        </div>
+        <p class="text-slate-400 text-sm mb-3">內容範例：</p>
+        <div class="code-block mb-4">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm leading-relaxed"><code>[Unit]
+Description=OpenClaw AI Agent Service
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu
+ExecStart=/home/ubuntu/.npm-global/bin/openclaw gateway start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+        </div>
+        <p class="text-slate-400 text-sm mb-3">啟動服務：</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">複製</button>
+          <pre class="text-slate-300 text-sm"><code>sudo systemctl enable --now openclaw</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 常用指令快速參考 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <h2 class="text-2xl font-bold text-white mb-6">常用 Multipass 指令快速參考</h2>
+      <div class="overflow-x-auto rounded-xl">
+        <table>
+          <thead>
+            <tr>
+              <th>指令</th>
+              <th>說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>multipass info openclaw</td>
+              <td class="font-sans text-slate-300">查看虛擬機狀態</td>
+            </tr>
+            <tr>
+              <td>multipass shell openclaw</td>
+              <td class="font-sans text-slate-300">進入虛擬機終端機</td>
+            </tr>
+            <tr>
+              <td>multipass stop openclaw</td>
+              <td class="font-sans text-slate-300">停止虛擬機</td>
+            </tr>
+            <tr>
+              <td>multipass start openclaw</td>
+              <td class="font-sans text-slate-300">啟動虛擬機</td>
+            </tr>
+            <tr>
+              <td>multipass delete openclaw</td>
+              <td class="font-sans text-slate-300">刪除虛擬機（接著執行 multipass purge 徹底清空）</td>
+            </tr>
+            <tr>
+              <td>multipass mount &lt;src&gt; openclaw:&lt;dst&gt;</td>
+              <td class="font-sans text-slate-300">掛載資料夾</td>
+            </tr>
+            <tr>
+              <td>multipass umount openclaw</td>
+              <td class="font-sans text-slate-300">卸載所有掛載</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 故障排除 -->
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+      <h2 class="text-2xl font-bold text-white mb-6">
+        <i class="fas fa-tools text-amber-400 mr-2"></i>故障排除
+      </h2>
+
+      <div class="space-y-6">
+        <div class="warning-box rounded-xl p-5">
+          <h3 class="text-lg font-semibold text-amber-300 mb-3">問題：openclaw 指令找不到</h3>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-slate-300 text-sm leading-relaxed"><code><span class="text-slate-500"># 確認 PATH 設定</span>
+export PATH="$HOME/.npm-global/bin:$PATH"
+source ~/.bashrc
+
+<span class="text-slate-500"># 檢查是否安裝成功</span>
+ls -la ~/.npm-global/bin/openclaw</code></pre>
+          </div>
+        </div>
+
+        <div class="warning-box rounded-xl p-5">
+          <h3 class="text-lg font-semibold text-amber-300 mb-3">問題：Chrome 無法顯示畫面</h3>
+          <ol class="list-decimal list-inside text-amber-200/80 space-y-1.5 text-sm ml-1">
+            <li>確認 VcXsrv 已啟動且勾選「Disable access control」</li>
+            <li>確認 Windows 防火牆允許 X11 連線</li>
+            <li>確認 <code class="text-cyan-300 bg-slate-800 px-1 rounded">DISPLAY</code> 環境變數設定正確</li>
+          </ol>
+        </div>
+
+        <div class="warning-box rounded-xl p-5">
+          <h3 class="text-lg font-semibold text-amber-300 mb-3">問題：掛載後檔案權限錯誤</h3>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-slate-300 text-sm"><code><span class="text-slate-500"># 在 Ubuntu 內修正權限</span>
+sudo chown -R ubuntu:ubuntu /home/ubuntu/project</code></pre>
+          </div>
+        </div>
+
+        <div class="warning-box rounded-xl p-5">
+          <h3 class="text-lg font-semibold text-amber-300 mb-3">問題：安裝腳本失敗</h3>
+          <p class="text-amber-200/80 text-sm mb-3">嘗試手動安裝：</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-slate-300 text-sm leading-relaxed"><code>npm config set prefix '~/.npm-global'
+npm install -g openclaw</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/50 px-6 py-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-sm text-slate-500">
+        遇到問題？請聯絡課程助教或參考課程文件
+      </p>
+      <p class="mt-2 text-xs text-slate-600">
+        本指南更新日期：2026-02-18
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode(btn) {
+      const codeBlock = btn.parentElement
+      const code = codeBlock.querySelector('code')
+      const text = code.innerText
+
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '已複製！'
+        btn.style.color = '#34d399'
+        setTimeout(() => {
+          btn.textContent = '複製'
+          btn.style.color = ''
+        }, 2000)
+      }).catch(() => {
+        btn.textContent = '失敗'
+        setTimeout(() => {
+          btn.textContent = '複製'
+        }, 2000)
+      })
+    }
+  </script>
+</body>
+</html>
