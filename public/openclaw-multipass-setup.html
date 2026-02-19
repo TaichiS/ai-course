@@ -684,6 +684,57 @@ sudo chown -R ubuntu:ubuntu /home/ubuntu/project</code></pre>
 npm install -g openclaw</code></pre>
           </div>
         </div>
+
+        <!-- IPv6 重大坑 -->
+        <div class="rounded-xl border-2 border-red-500/40 bg-red-500/5 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fas fa-skull-crossbones text-red-400"></i>
+            <h3 class="text-lg font-semibold text-red-300">已知重大坑：Telegram Gateway 永遠 Network request failed</h3>
+          </div>
+
+          <div class="mb-4 text-sm text-slate-300 space-y-1.5">
+            <p class="font-medium text-slate-200">症狀：</p>
+            <p class="text-slate-400">Gateway 啟動後，Telegram Bot 永遠回應 <code class="text-red-300 bg-slate-800 px-1 rounded">Network request failed</code>，重啟也無效。</p>
+          </div>
+
+          <div class="mb-4 p-4 rounded-lg bg-slate-900/60 border border-slate-700 text-sm space-y-2">
+            <p class="font-medium text-slate-200 mb-2">根本原因：Node.js 22 Happy Eyeballs（autoSelectFamily）</p>
+            <p class="text-slate-400">Node.js 22 預設開啟 <code class="text-cyan-300 bg-slate-800 px-1 rounded">autoSelectFamily=true</code>（Happy Eyeballs），每次建立新連線時同時嘗試 IPv4 + IPv6。</p>
+            <p class="text-slate-400">Multipass / Hyper-V 虛擬機沒有 IPv6，IPv6 連線秒死但死法異常，導致計時器錯亂，連帶把 IPv4 也拖成 <code class="text-red-300 bg-slate-800 px-1 rounded">ETIMEDOUT</code>。</p>
+            <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+              <div class="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-2 text-center text-emerald-300">
+                curl api.telegram.org ✅
+              </div>
+              <div class="rounded-lg border border-red-500/30 bg-red-500/10 p-2 text-center text-red-300">
+                Node.js fetch ❌ ETIMEDOUT
+              </div>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">同一個 IP、同一個 port，curl 通但 Node.js 不通</p>
+          </div>
+
+          <div class="mb-3">
+            <p class="text-sm font-medium text-slate-200 mb-2">解法：在 Ubuntu 內停用 IPv6（立即生效）</p>
+            <div class="code-block">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <pre class="text-slate-300 text-sm leading-relaxed"><code>sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1</code></pre>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <p class="text-sm font-medium text-slate-200 mb-2">永久生效（重開機不消失）</p>
+            <div class="code-block">
+              <button class="copy-btn" onclick="copyCode(this)">複製</button>
+              <pre class="text-slate-300 text-sm leading-relaxed"><code>echo "net.ipv6.conf.all.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf</code></pre>
+            </div>
+          </div>
+
+          <div class="rounded-lg bg-slate-900/60 border border-red-500/20 p-3 text-xs text-red-300 flex items-start gap-2">
+            <i class="fas fa-exclamation-triangle mt-0.5 flex-shrink-0"></i>
+            <span><strong>注意：</strong><code class="bg-slate-800 px-1 rounded">sysctl -w</code> 設定重開機後消失，記得執行永久生效的指令。加了 <code class="bg-slate-800 px-1 rounded">NODE_OPTIONS=--no-network-family-autoselection</code> 無效，因為 OpenClaw 的 Telegram client 是硬設的，不受此參數控制。</span>
+          </div>
+        </div>
       </div>
     </section>
 

@@ -360,4 +360,34 @@ npm install -g openclaw
 
 ---
 
-*本指南更新日期：2026-02-18*
+### ⚠️ 已知重大坑：Telegram Gateway 永遠 Network request failed
+
+**症狀：** Gateway 啟動後，Telegram Bot 永遠回應 `Network request failed`，重啟也無效。
+
+**根本原因：Node.js 22 Happy Eyeballs（autoSelectFamily）**
+
+Node.js 22 預設開啟 `autoSelectFamily=true`（Happy Eyeballs），每次建立新連線時同時嘗試 IPv4 + IPv6。Multipass / Hyper-V 虛擬機沒有 IPv6，IPv6 連線秒死但死法異常，導致計時器錯亂，連帶把 IPv4 也拖成 `ETIMEDOUT`。
+
+> 同一個 IP、同一個 port：`curl api.telegram.org` ✅ 正常，但 Node.js fetch ❌ ETIMEDOUT
+
+**注意：** `NODE_OPTIONS=--no-network-family-autoselection` 無效，因為 OpenClaw 的 Telegram client 是硬設的，不受此參數控制。
+
+**解法：在 Ubuntu 內停用 IPv6**
+
+立即生效（重開機後消失）：
+
+```bash
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+```
+
+**永久生效（重開機不消失）**：
+
+```bash
+echo "net.ipv6.conf.all.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
+```
+
+---
+
+*本指南更新日期：2026-02-19*
