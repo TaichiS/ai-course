@@ -135,6 +135,31 @@
     </div>
   </section>
 
+  <!-- 一鍵啟動區塊 -->
+  <div class="max-w-4xl mx-auto px-6 pb-4">
+    <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 sm:p-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex-shrink-0">
+          <i class="fas fa-bolt text-white"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-emerald-300">已完成安裝？一鍵啟動環境</h2>
+          <p class="text-sm text-slate-400 mt-0.5">每次重開電腦後，在 PowerShell（系統管理員）執行以下指令，自動偵測 IP、設定 DISPLAY、掛載資料夾</p>
+        </div>
+      </div>
+      <div class="code-block mb-3">
+        <button class="copy-btn" onclick="copyCode(this)">複製</button>
+        <pre class="text-slate-300 text-sm leading-relaxed"><code>irm https://taichis.github.io/ai-course/start-openclaw.ps1 | iex</code></pre>
+      </div>
+      <div class="flex flex-wrap gap-3 text-xs text-slate-400">
+        <span><i class="fas fa-check-circle text-emerald-400 mr-1"></i>自動偵測 Windows IP</span>
+        <span><i class="fas fa-check-circle text-emerald-400 mr-1"></i>設定 Ubuntu DISPLAY</span>
+        <span><i class="fas fa-check-circle text-emerald-400 mr-1"></i>掛載 C:\ai_project</span>
+        <span><i class="fas fa-check-circle text-emerald-400 mr-1"></i>顯示常用指令</span>
+      </div>
+    </div>
+  </div>
+
   <!-- 主要內容 -->
   <main class="max-w-4xl mx-auto px-6 pb-20 space-y-12">
 
