@@ -162,7 +162,7 @@
       <!-- 步驟 1 -->
       <div class="flex items-start gap-4">
         <div class="step-number">1</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">檢查 WSL 狀態</h2>
           <p class="text-slate-300 mb-4">開啟 PowerShell（系統管理員），執行以下指令檢查 WSL 是否已安裝：</p>
 
@@ -183,7 +183,7 @@ WSLg 版本：1.x.x</pre>
       <!-- 步驟 2 -->
       <div class="flex items-start gap-4">
         <div class="step-number">2</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">安裝 WSL</h2>
           <p class="text-slate-300 mb-4">如果 WSL 尚未安裝，執行以下指令（需要管理員權限）：</p>
 
@@ -212,7 +212,7 @@ WSLg 版本：1.x.x</pre>
       <!-- 步驟 3 -->
       <div class="flex items-start gap-4">
         <div class="step-number">3</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">設定 Ubuntu 使用者帳號</h2>
           <p class="text-slate-300 mb-4">重新開機後，Ubuntu 會自動啟動，請設定使用者帳號和密碼：</p>
 
@@ -238,7 +238,7 @@ Password updated successfully</pre>
       <!-- 步驟 4 -->
       <div class="flex items-start gap-4">
         <div class="step-number">4</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">修復 WSL2 的 DNS 問題</h2>
 
           <div class="danger-box rounded-xl p-4 mb-4">
@@ -274,7 +274,7 @@ sudo sh -c 'echo -e "[network]\ngenerateResolvConf = false" > /etc/wsl.conf'</pr
       <!-- 步驟 5 -->
       <div class="flex items-start gap-4">
         <div class="step-number">5</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">安裝 Node.js 22</h2>
           <p class="text-slate-300 mb-4">OpenClaw 需要 Node.js 22 以上版本，Ubuntu 預設版本太舊，需要手動安裝：</p>
 
@@ -298,7 +298,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 6 -->
       <div class="flex items-start gap-4">
         <div class="step-number">6</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">設定 sudo 免密碼（重要）</h2>
           <p class="text-slate-300 mb-4">為了讓 OpenClaw 能順利運作，需要設定 sudo 免密碼：</p>
 
@@ -325,7 +325,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 7 -->
       <div class="flex items-start gap-4">
         <div class="step-number">7</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">安裝 OpenClaw</h2>
 
           <div class="warning-box rounded-xl p-4 mb-4">
@@ -352,7 +352,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 8 -->
       <div class="flex items-start gap-4">
         <div class="step-number">8</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">驗證安裝</h2>
           <p class="text-slate-300 mb-4">安裝完成後，重新開啟 WSL 終端機，執行以下指令驗證：</p>
 
@@ -371,7 +371,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 9 -->
       <div class="flex items-start gap-4">
         <div class="step-number">9</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">啟動 OpenClaw</h2>
           <p class="text-slate-300 mb-4">現在可以啟動 OpenClaw 了：</p>
 
@@ -400,7 +400,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 10 -->
       <div class="flex items-start gap-4">
         <div class="step-number">10</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">取得 Claude API 金鑰</h2>
 
           <ol class="space-y-4 text-slate-300 mb-5">
@@ -458,7 +458,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 11 -->
       <div class="flex items-start gap-4">
         <div class="step-number">11</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">建立 Telegram 機器人</h2>
 
           <div class="space-y-4 mb-5">
@@ -493,7 +493,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 12 -->
       <div class="flex items-start gap-4">
         <div class="step-number">12</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">設定精靈 + Telegram 配對</h2>
 
           <p class="text-slate-300 mb-4">在 OpenClaw 設定精靈中依序選擇：</p>
@@ -541,7 +541,7 @@ sudo apt-get install -y nodejs</pre>
       <!-- 步驟 13 -->
       <div class="flex items-start gap-4">
         <div class="step-number">13</div>
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h2 class="text-2xl font-bold text-white mb-3">安裝技能（Skills）</h2>
           <p class="text-slate-300 mb-4">直接在 <strong>Telegram</strong> 裡跟 bot 說你想要的功能（例如「幫我設定 email skill」），它會引導你完成安裝。</p>
 
