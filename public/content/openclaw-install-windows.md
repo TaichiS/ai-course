@@ -251,10 +251,10 @@ Telegram 欄位應顯示 `enabled, configured, running, mode:polling`。
 | 排名 | 技能名稱 | 功能說明 | 安裝量 |
 |------|---------|---------|--------|
 | 1 | **self-improving-agent** | 自我改進/主動代理，讓 Agent 記住錯誤、自我優化 | 46k+ |
-| 2 | **tavily-search** | 聯網搜索，查即時資訊，沒這個就是井底之蛙 | 37k+ |
+| 2 | **tavily-search** | 連網搜尋，查即時資訊，沒這個就是井底之蛙 | 37k+ |
 | 3 | **gog** | Google Workspace CLI，Gmail/日曆/Drive/Docs 全家桶 | 46k+ |
-| 4 | **github** | GitHub 集成，搜代碼、管 issue/PR、創 repo | 35k+ |
-| 5 | **summarize** | 總結 URL/PDF/圖片/YouTube/音頻，快速消化資訊 | 36k+ |
+| 4 | **github** | GitHub 整合，搜程式碼、管 issue/PR、創 repo | 35k+ |
+| 5 | **summarize** | 總結 URL/PDF/圖片/YouTube/音訊，快速消化資訊 | 36k+ |
 | 6 | **find-skills** | 讓 Agent 自己去搜尋並推薦技能，解決「不知道裝什麼」 | - |
 | 7 | **ontology** | 結構化記憶/知識圖譜，讓 Agent 真正記住你 | 35k+ |
 | 8 | **weather** | 查天氣，無需 API key，新手第一個測試技能 | 29k+ |
