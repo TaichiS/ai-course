@@ -470,25 +470,31 @@ const handleNavigate = (direction: 'prev' | 'next') => {
       </section>
 
       <!-- Footer -->
-      <footer class="border-t border-slate-800/50 px-6 py-8">
-        <div class="mx-auto max-w-7xl text-center">
-          <p class="text-sm text-slate-500">
-            資料來源：社群整理「41 個 OpenClaw 應用場景彙整」
-          </p>
-          <p class="mt-2 text-xs text-slate-600">
-            整理時間：2026-02-17
-          </p>
-          <div class="mt-4 flex items-center justify-center gap-2">
-            <span class="text-sm text-slate-400">更多使用案例，請參考：</span>
-            <a 
-              href="https://github.com/hesamsheikh/awesome-openclaw-usecases" 
-              target="_blank" 
+      <footer class="border-t border-slate-800/50 px-6 py-16 lg:px-8">
+        <div class="mx-auto max-w-4xl">
+          <!-- 更多資源 CTA -->
+          <div class="mb-10 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900/80 to-slate-900/30 p-8 text-center">
+            <p class="mb-1.5 text-sm text-slate-500">想探索更多應用案例？</p>
+            <h3 class="mb-6 text-lg font-semibold text-slate-200">社群持續整理更多 OpenClaw 使用場景</h3>
+            <a
+              href="https://github.com/hesamsheikh/awesome-openclaw-usecases"
+              target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+              class="group inline-flex items-center gap-2.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-6 py-3 text-sm font-semibold text-cyan-300 transition-all hover:border-cyan-400/50 hover:bg-cyan-500/20 hover:text-cyan-200 hover:shadow-lg hover:shadow-cyan-500/15"
             >
-              <ExternalLink class="h-4 w-4" />
+              <ExternalLink class="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               awesome-openclaw-usecases
             </a>
+          </div>
+
+          <!-- 元資訊 -->
+          <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <div class="flex items-center gap-1.5">
+              <Database class="h-3.5 w-3.5 text-slate-600" />
+              <span class="text-xs text-slate-500">資料來源：社群整理「41 個 OpenClaw 應用場景彙整」</span>
+            </div>
+            <span class="text-slate-700 text-xs">·</span>
+            <span class="text-xs text-slate-600">整理時間：2026-02-17</span>
           </div>
         </div>
       </footer>
