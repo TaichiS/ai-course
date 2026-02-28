@@ -478,6 +478,18 @@ const handleNavigate = (direction: 'prev' | 'next') => {
           <p class="mt-2 text-xs text-slate-600">
             整理時間：2026-02-17
           </p>
+          <div class="mt-4 flex items-center justify-center gap-2">
+            <span class="text-sm text-slate-400">更多使用案例，請參考：</span>
+            <a 
+              href="https://github.com/hesamsheikh/awesome-openclaw-usecases" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              <ExternalLink class="h-4 w-4" />
+              awesome-openclaw-usecases
+            </a>
+          </div>
         </div>
       </footer>
     </div>
