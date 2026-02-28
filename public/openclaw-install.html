@@ -433,20 +433,33 @@ sudo apt-get install -y nodejs</pre>
               <thead>
                 <tr class="bg-slate-800/80 text-slate-300">
                   <th class="px-4 py-3 text-left">模型</th>
-                  <th class="px-4 py-3 text-left">特性</th>
+                  <th class="px-4 py-3 text-left">價格</th>
+                  <th class="px-4 py-3 text-left">能力</th>
+                  <th class="px-4 py-3 text-left">速度</th>
                   <th class="px-4 py-3 text-left">建議用途</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-800">
                 <tr class="text-slate-300">
-                  <td class="px-4 py-3 font-mono text-cyan-400">claude-sonnet-4-5</td>
-                  <td class="px-4 py-3">速度快、費用相對低</td>
+                  <td class="px-4 py-3 font-mono text-cyan-400">claude-opus-4-6</td>
+                  <td class="px-4 py-3 text-red-400">最高</td>
+                  <td class="px-4 py-3 text-emerald-400">最強</td>
+                  <td class="px-4 py-3 text-slate-400">較慢</td>
+                  <td class="px-4 py-3">複雜推理、高要求任務</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-4 py-3 font-mono text-cyan-400">claude-sonnet-4-6</td>
+                  <td class="px-4 py-3 text-amber-400">中等</td>
+                  <td class="px-4 py-3 text-amber-400">均衡</td>
+                  <td class="px-4 py-3 text-amber-400">中等</td>
                   <td class="px-4 py-3 text-emerald-400">日常使用首選</td>
                 </tr>
                 <tr class="text-slate-300">
-                  <td class="px-4 py-3 font-mono text-cyan-400">claude-opus-4-5</td>
-                  <td class="px-4 py-3">能力最強、費用較高</td>
-                  <td class="px-4 py-3 text-slate-400">複雜任務</td>
+                  <td class="px-4 py-3 font-mono text-cyan-400">claude-haiku-4-5</td>
+                  <td class="px-4 py-3 text-emerald-400">最低</td>
+                  <td class="px-4 py-3 text-slate-400">基本</td>
+                  <td class="px-4 py-3 text-emerald-400">最快</td>
+                  <td class="px-4 py-3">簡單問答、快速回覆</td>
                 </tr>
               </tbody>
             </table>
@@ -545,20 +558,109 @@ sudo apt-get install -y nodejs</pre>
           <h2 class="text-2xl font-bold text-white mb-3">安裝技能（Skills）</h2>
           <p class="text-slate-300 mb-4">直接在 <strong>Telegram</strong> 裡跟 bot 說你想要的功能（例如「幫我設定 email skill」），它會引導你完成安裝。</p>
 
-          <p class="text-slate-400 text-sm mb-3">也可以在終端機手動安裝：</p>
-          <div class="code-block mb-4">
-            <button class="copy-btn" onclick="copyCode(this)">複製</button>
-            <pre class="text-cyan-400">openclaw skill install @openclaw/gmail
-openclaw skill install @openclaw/google-calendar
-openclaw skill install @openclaw/files</pre>
+          <h3 class="text-white font-semibold mb-3">新手推薦技能 Top 10</h3>
+          <div class="overflow-x-auto rounded-xl border border-slate-700 mb-5">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-slate-800/80 text-slate-300">
+                  <th class="px-3 py-3 text-left">排名</th>
+                  <th class="px-3 py-3 text-left">技能名稱</th>
+                  <th class="px-3 py-3 text-left">功能說明</th>
+                  <th class="px-3 py-3 text-left">安裝量</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">1</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">self-improving-agent</td>
+                  <td class="px-3 py-3">自我改進/主動代理，讓 Agent 記住錯誤、自我優化</td>
+                  <td class="px-3 py-3 text-emerald-400">46k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">2</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">tavily-search</td>
+                  <td class="px-3 py-3">聯網搜索，查即時資訊，沒這個就是井底之蛙</td>
+                  <td class="px-3 py-3 text-emerald-400">37k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">3</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">gog</td>
+                  <td class="px-3 py-3">Google Workspace CLI，Gmail/日曆/Drive/Docs 全家桶</td>
+                  <td class="px-3 py-3 text-emerald-400">46k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">4</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">github</td>
+                  <td class="px-3 py-3">GitHub 集成，搜代碼、管 issue/PR、創 repo</td>
+                  <td class="px-3 py-3 text-emerald-400">35k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">5</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">summarize</td>
+                  <td class="px-3 py-3">總結 URL/PDF/圖片/YouTube/音頻，快速消化資訊</td>
+                  <td class="px-3 py-3 text-emerald-400">36k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">6</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">find-skills</td>
+                  <td class="px-3 py-3">讓 Agent 自己去搜尋並推薦技能，解決「不知道裝什麼」</td>
+                  <td class="px-3 py-3 text-slate-500">-</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">7</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">ontology</td>
+                  <td class="px-3 py-3">結構化記憶/知識圖譜，讓 Agent 真正記住你</td>
+                  <td class="px-3 py-3 text-emerald-400">35k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">8</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">weather</td>
+                  <td class="px-3 py-3">查天氣，無需 API key，新手第一個測試技能</td>
+                  <td class="px-3 py-3 text-emerald-400">29k+</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">9</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">proactive-agent</td>
+                  <td class="px-3 py-3">增加主動性，能自己規劃、反覆改進任務</td>
+                  <td class="px-3 py-3 text-slate-500">-</td>
+                </tr>
+                <tr class="text-slate-300">
+                  <td class="px-3 py-3 text-emerald-400 font-bold">10</td>
+                  <td class="px-3 py-3 font-mono text-cyan-400">skill-vetter</td>
+                  <td class="px-3 py-3">安全掃描，安裝前掃描技能代碼、防惡意</td>
+                  <td class="px-3 py-3 text-slate-500">-</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div class="tip-box rounded-xl p-4">
+          <h3 class="text-white font-semibold mb-3">安裝順序建議</h3>
+          <div class="rounded-xl bg-slate-800/50 p-4 mb-5">
+            <ul class="space-y-2 text-slate-300 text-sm">
+              <li class="flex gap-2"><span class="text-emerald-400 font-bold">第一階段（安全+基礎）：</span> <span>skill-vetter → weather</span></li>
+              <li class="flex gap-2"><span class="text-amber-400 font-bold">第二階段（生產力）：</span> <span>tavily-search → gog → summarize</span></li>
+              <li class="flex gap-2"><span class="text-purple-400 font-bold">第三階段（進階）：</span> <span>github → self-improving-agent → ontology → proactive-agent → find-skills</span></li>
+            </ul>
+          </div>
+
+          <h3 class="text-white font-semibold mb-3">安裝指令</h3>
+          <div class="code-block mb-4">
+            <button class="copy-btn" onclick="copyCode(this)">複製</button>
+            <pre class="text-cyan-400">clawhub install &lt;技能名稱&gt;
+# 或
+npx clawhub@latest install &lt;技能名稱&gt;</pre>
+          </div>
+
+          <div class="warning-box rounded-xl p-4">
             <div class="flex items-start gap-3">
-              <i class="fas fa-info-circle text-emerald-400 mt-1"></i>
-              <div class="text-sm">
-                <p class="text-emerald-200">Google 服務安裝時會開啟瀏覽器進行一次 OAuth 授權登入，點「允許」即可。密碼<strong>不會</strong>被儲存，Google 會給 OpenClaw 一個安全憑證存在本地。</p>
-                <p class="text-emerald-200/70 mt-2">每次安裝完新技能後建議執行 <code class="text-cyan-400">openclaw restart</code></p>
+              <i class="fas fa-shield-alt text-amber-400 mt-1"></i>
+              <div>
+                <p class="text-amber-200 font-semibold text-sm mb-1">安全提醒</p>
+                <ul class="space-y-1 text-amber-200/80 text-sm">
+                  <li>• 用隔離環境（Docker）</li>
+                  <li>• 別給敏感權限</li>
+                  <li>• 定期 <code class="text-cyan-400">clawhub update --all</code></li>
+                </ul>
               </div>
             </div>
           </div>
@@ -578,7 +680,18 @@ openclaw skill install @openclaw/files</pre>
         <h2 class="text-2xl font-bold text-white">進階設定：AI 助理人設（Persona）</h2>
       </div>
 
-      <p class="text-slate-300 mb-5">OpenClaw 支援自訂 AI 助理的個性和行為模式，打造專屬於你的助理風格。建議用以下 Prompt 透過 Claude 產生一份量身打造的人設：</p>
+      <p class="text-slate-300 mb-4">OpenClaw 支援自訂 AI 助理的個性和行為模式，打造專屬於你的助理風格。人設內容儲存在 <code class="text-purple-300">~/.openclaw/SOUL.md</code>，OpenClaw 每次回覆前都會讀取這份檔案。</p>
+
+      <div class="rounded-xl bg-slate-800/50 p-4 mb-5">
+        <h3 class="text-white font-semibold mb-3 text-sm">你可以設定的面向包括：</h3>
+        <ul class="space-y-2 text-slate-300 text-sm">
+          <li class="flex gap-2"><span class="text-purple-400">•</span> <span><strong class="text-white">個性風格</strong>：正經專業、幽默風趣、愛吐槽（說話帶刺也沒問題）、親切溫暖……隨你喜歡</span></li>
+          <li class="flex gap-2"><span class="text-purple-400">•</span> <span><strong class="text-white">辦事風格</strong>：簡潔俐落（直接給結論，不廢話）；或鉅細彌遺（補充背景、列出所有選項、步驟說清楚講明白）</span></li>
+          <li class="flex gap-2"><span class="text-purple-400">•</span> <span><strong class="text-white">語氣與稱謂</strong>：敬語、朋友口吻、甚至讓它自稱某個名字</span></li>
+        </ul>
+      </div>
+
+      <p class="text-slate-300 mb-3">建議用以下 Prompt 透過 Claude 產生一份量身打造的人設：</p>
 
       <div class="rounded-xl border border-purple-500/30 bg-purple-500/10 p-5 mb-5">
         <div class="flex items-start gap-3">
@@ -593,7 +706,7 @@ openclaw skill install @openclaw/files</pre>
         <h3 class="text-white font-semibold mb-3">套用人設的兩種方式：</h3>
         <ul class="space-y-2 text-slate-300 text-sm">
           <li class="flex gap-2"><span class="text-purple-400">•</span> 直接在 Telegram 跟 bot 說「更新你的 system prompt」，然後貼上內容</li>
-          <li class="flex gap-2"><span class="text-purple-400">•</span> 把公司介紹、產品文件丟到 Telegram 對話，跟 bot 說「請記住這份文件的內容」，讓它在回答時以這些資訊為基礎</li>
+          <li class="flex gap-2"><span class="text-purple-400">•</span> 或直接編輯 <code class="text-purple-300">~/.openclaw/SOUL.md</code>，貼上內容後存檔，下次對話即生效</li>
         </ul>
       </div>
     </div>
@@ -821,7 +934,7 @@ wsl --install -d Ubuntu</pre>
           <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
             <pre class="text-cyan-400 text-sm">ps aux | grep openclaw
-openclaw restart</pre>
+openclaw gateway restart</pre>
           </div>
         </div>
 
@@ -840,7 +953,7 @@ openclaw restart</pre>
           <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)">複製</button>
             <pre class="text-cyan-400 text-sm">ps aux | grep openclaw
-openclaw restart</pre>
+openclaw gateway restart</pre>
           </div>
         </div>
 

@@ -183,10 +183,11 @@ openclaw
 
 **模型選擇建議：**
 
-| 模型 | 特性 | 建議用途 |
-|------|------|----------|
-| claude-sonnet-4-5 | 速度快、費用相對低 | 日常使用首選 |
-| claude-opus-4-5 | 能力最強、費用較高 | 複雜任務 |
+| 模型 | 價格 | 能力 | 速度 | 建議用途 |
+|------|------|------|------|----------|
+| `claude-opus-4-6` | 最高 | 最強 | 較慢 | 複雜推理、高要求任務 |
+| `claude-sonnet-4-6` | 中等 | 均衡 | 中等 | 日常使用首選 |
+| `claude-haiku-4-5` | 最低 | 基本 | 最快 | 簡單問答、快速回覆 |
 
 實際費用約 USD $10–20/天，密集使用時會更高，務必在 Anthropic Console 持續監控使用量，避免意外帳單。
 
@@ -243,27 +244,51 @@ Telegram 欄位應顯示 `enabled, configured, running, mode:polling`。
 
 直接在 **Telegram** 裡跟 bot 說你想要的功能（例如「幫我設定 email skill」），它會引導你完成安裝。
 
-也可以在終端機手動安裝：
+### 新手推薦技能 Top 10
 
+> 這份名單主打低風險、高實用、立竿見影。安裝量高、star 多、惡意報告極少。
+
+| 排名 | 技能名稱 | 功能說明 | 安裝量 |
+|------|---------|---------|--------|
+| 1 | **self-improving-agent** | 自我改進/主動代理，讓 Agent 記住錯誤、自我優化 | 46k+ |
+| 2 | **tavily-search** | 聯網搜索，查即時資訊，沒這個就是井底之蛙 | 37k+ |
+| 3 | **gog** | Google Workspace CLI，Gmail/日曆/Drive/Docs 全家桶 | 46k+ |
+| 4 | **github** | GitHub 集成，搜代碼、管 issue/PR、創 repo | 35k+ |
+| 5 | **summarize** | 總結 URL/PDF/圖片/YouTube/音頻，快速消化資訊 | 36k+ |
+| 6 | **find-skills** | 讓 Agent 自己去搜尋並推薦技能，解決「不知道裝什麼」 | - |
+| 7 | **ontology** | 結構化記憶/知識圖譜，讓 Agent 真正記住你 | 35k+ |
+| 8 | **weather** | 查天氣，無需 API key，新手第一個測試技能 | 29k+ |
+| 9 | **proactive-agent** | 增加主動性，能自己規劃、反覆改進任務 | - |
+| 10 | **skill-vetter** | 安全掃描，安裝前掃描技能代碼、防惡意 | - |
+
+**安裝順序建議：**
+1. **第一階段（安全+基礎）：** skill-vetter → weather
+2. **第二階段（生產力）：** tavily-search → gog → summarize
+3. **第三階段（進階）：** github → self-improving-agent → ontology → proactive-agent → find-skills
+
+**安裝指令：**
 ```bash
-openclaw skill install @openclaw/gmail
-openclaw skill install @openclaw/google-calendar
-openclaw skill install @openclaw/files
+clawhub install <技能名稱>
+# 或
+npx clawhub@latest install <技能名稱>
 ```
 
-Google 服務安裝時會開啟瀏覽器進行一次 OAuth 授權登入，點「允許」即可。密碼**不會**被儲存，Google 會給 OpenClaw 一個安全憑證存在本地。
-
-每次安裝完新技能後建議執行：
-
-```bash
-openclaw restart
-```
+**安全提醒：**
+- 用隔離環境（Docker）
+- 別給敏感權限
+- 定期 `clawhub update --all`
 
 ---
 
 ## 進階設定：AI 助理人設（Persona）
 
-OpenClaw 支援自訂 AI 助理的個性和行為模式，打造專屬於你的助理風格。
+OpenClaw 支援自訂 AI 助理的個性和行為模式，打造專屬於你的助理風格。人設內容儲存在 `~/.openclaw/SOUL.md`，OpenClaw 每次回覆前都會讀取這份檔案。
+
+你可以設定的面向包括：
+
+- **個性風格**：正經專業、幽默風趣、愛吐槽（說話帶刺也沒問題）、親切溫暖……隨你喜歡
+- **辦事風格**：簡潔俐落（直接給結論，不廢話）；或鉅細彌遺（補充背景、列出所有選項、步驟說清楚講明白）
+- **語氣與稱謂**：敬語、朋友口吻、甚至讓它自稱某個名字
 
 建議用以下 Prompt 透過 Claude 產生一份量身打造的人設：
 
@@ -273,7 +298,7 @@ Claude 會先問你幾輪問題了解需求，然後產出一份完整的 system
 
 **套用人設的兩種方式：**
 1. 直接在 Telegram 跟 bot 說「更新你的 system prompt」，然後貼上內容
-2. 或直接貼到 OpenClaw 的設定檔中
+2. 或直接編輯 `~/.openclaw/SOUL.md`，貼上內容後存檔，下次對話即生效
 
 你也可以把公司介紹、產品文件等丟到 Telegram 對話，跟 bot 說「請記住這份文件的內容」，讓它在回答問題時以這些資訊為基礎。
 
@@ -352,7 +377,7 @@ openclaw gateway restart
 若仍無效，檢查是否有舊版 process 殘留：
 ```bash
 ps aux | grep openclaw
-openclaw restart
+openclaw gateway restart
 ```
 
 ### Q6: setMyCommands 網路請求失敗
@@ -365,7 +390,7 @@ openclaw gateway restart
 **解決方案：** 舊版 process 殘留，執行：
 ```bash
 ps aux | grep openclaw
-openclaw restart
+openclaw gateway restart
 ```
 
 ### Q8: allowFrom 設定不生效
