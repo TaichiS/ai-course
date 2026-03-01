@@ -318,6 +318,34 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     Show-Warning "Claude Code 指令仍無法使用，請重新開啟 PowerShell 後再試。"
 }
 
+# --- 8. 安裝 gsudo (Windows 的 sudo 工具) ---
+if (Get-Command gsudo -ErrorAction SilentlyContinue) {
+    Show-Success "gsudo 已安裝。"
+} else {
+    $null = Install-WithWinget -PackageId "gerardog.gsudo" -PackageName "gsudo"
+}
+
+# --- 9. 建立預設 Claude Code 設定檔 (CLAUDE.md) ---
+Show-Info "正在設定 Claude Code 預設指令..."
+$claudeConfigDir = "$env:USERPROFILE\.claude"
+$claudeMdPath = "$claudeConfigDir\CLAUDE.md"
+
+if (-not (Test-Path $claudeConfigDir)) {
+    New-Item -ItemType Directory -Path $claudeConfigDir -Force | Out-Null
+}
+
+if (-not (Test-Path $claudeMdPath)) {
+    $claudeContent = @"
+Always respond in Chinese-traditional
+總是使用繁體中文回覆我（不可使用簡體中文）
+如果沒有特別指定，優先使用 uvx 或 uv 執行 python 程式，不要使用 pip
+"@
+    Set-Content -Path $claudeMdPath -Value $claudeContent -Encoding UTF8
+    Show-Success "已建立 Claude Code 預設設定檔：$claudeMdPath"
+} else {
+    Show-Info "CLAUDE.md 已存在，跳過建立（保留現有設定）。"
+}
+
 Show-Info "=== 環境建置完成！ ==="
 Show-Info "請執行以下步驟以完成設定："
 Show-Info "1. 關閉此視窗，重新開啟一個新的 PowerShell 或 Git Bash。"

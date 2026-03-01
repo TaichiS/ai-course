@@ -5,7 +5,7 @@
       "title": "Windows 一鍵自動安裝 (推薦)",
       "icon": "Download",
       "color": "indigo",
-      "description": "自動化檢查並安裝 Git, Node.js, Python, VS Code, UV 與 Claude Code",
+      "description": "自動化檢查並安裝 Git, Node.js, Python, VS Code, UV 與 Claude Code，並設定 gsudo 與預設 CLAUDE.md",
       "is_new": true,
       "steps": [
         {
@@ -19,6 +19,10 @@
           "title": "驗證與登入",
           "description": "安裝完成後，請重新開啟一個新的 PowerShell 視窗，輸入 `claude` 進入互動模式，再輸入 `/login` 登入您的 Google 帳號：",
           "commands": ["claude", "/login"]
+        },
+        {
+          "title": "已自動完成：gsudo 與 CLAUDE.md",
+          "description": "安裝腳本同時完成了兩項額外設定：\n\n**gsudo**：Windows 的 `sudo` 工具，讓 Claude Code 在需要提升權限時不需要另開管理員視窗。\n\n**預設 CLAUDE.md**：Claude Code 的使用者層級預設指令檔，位於 `%USERPROFILE%\\.claude\\CLAUDE.md`，已設定預設使用繁體中文回覆，並優先使用 `uv`/`uvx` 執行 Python 程式。"
         }
       ]
     },
