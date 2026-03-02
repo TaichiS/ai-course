@@ -414,6 +414,32 @@ description: &quot;專業行銷內容助理，協助撰寫廣告文案、社群�
             </ul>
           </div>
 
+          <!-- 自我進化提示詞 -->
+          <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+            <h4 class="font-semibold text-emerald-800 mb-3">🌱 進階技巧：為 Skill 新增「自我進化」能力</h4>
+            <p class="text-sm text-gray-700 mb-3">
+              將以下提示詞加入 SKILL.md 末尾，讓你的 Skill 具備持續學習與自我完善的能力：
+            </p>
+            <CodeBlock :code="`## 自我進化機制
+
+自即日起，在執行任務的過程中，該 Skill 應具備持續學習與自我完善的意識。
+
+當出現以下情況時，請將相關內容記錄至該 Skill 目錄下的 knowledge/ 資料夾中：
+- 遇到現有知識無法解決的問題
+- 使用者提供了修正或更佳的建議
+- 發現值得記錄與複用的成功經驗
+- 遭遇原有指令未涵蓋的特殊情境
+
+每次開始新任務時，請先讀取該資料夾中既有的知識；每次完成任務後，將新學到的內容追加進去。
+
+若你判斷該 Skill 的核心指令有優化空間，請主動向使用者提出你的建議。
+
+透過此機制，該 Skill 將隨著使用次數的累積，持續變得更強大且更精準。`" />
+            <p class="text-xs text-gray-500 mt-2">
+              💡 使用方式：將以上內容新增至 SKILL.md 檔案末尾，並建立 knowledge/ 資料夾即可。
+            </p>
+          </div>
+
           <ExternalLinks
             :links="[
               { label: 'Skills 整合平台', url: 'https://www.skillsclaude.com/' }
