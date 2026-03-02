@@ -345,6 +345,17 @@ prompt = &quot;請使用 shell 指令，執行 say '語音測試成功&quot;`" /
             </div>
           </div>
 
+          <!-- 判斷準則 -->
+          <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+            <h4 class="font-semibold text-amber-800 mb-2">🎯 判斷準則：什麼時候該做成 Skill？</h4>
+            <p class="text-gray-700 font-medium mb-2">
+              「如果有一件事，你每週會重複做一次，每次你會做超過 30 分鐘。那你就該把它做成 skill。」
+            </p>
+            <p class="text-sm text-gray-600">
+              這個簡單的判斷標準能幫助你識別哪些工作值得投資時間做成 Skill，讓 AI 助理自動化處理。
+            </p>
+          </div>
+
           <!-- 不適合 Skills -->
           <div class="bg-red-50 p-4 rounded-lg border border-red-200">
             <h4 class="font-semibold text-red-800 mb-2">Skills 不適合：</h4>
