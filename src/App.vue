@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import HomeView from '@/components/HomeView.vue'
-import CoursesView from '@/components/CoursesView.vue'
-import InstallationSection from '@/components/InstallationSection.vue'
-import OpenClawUseCases from '@/components/OpenClawUseCases.vue'
+import { useRouter } from 'vue-router'
 
-type Page = 'home' | 'installation' | 'courses' | 'openclaw'
-
-const currentPage = ref<Page>('home')
+const router = useRouter()
 const isLoaded = ref(false)
 const typedText = ref('')
 const fullText = 'Claude Code 與 AI Agent 實作課程'
 
-const navigateTo = (page: Page) => {
-  currentPage.value = page
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+const navigateHome = () => {
+  router.push('/')
 }
 
 const typeWriter = () => {
@@ -48,6 +42,7 @@ onMounted(() => {
     { threshold: 0.1, rootMargin: '50px 0px 0px 0px' }
   )
 
+  // 初始動畫處理
   setTimeout(() => {
     const elements = document.querySelectorAll('.scroll-animate')
     elements.forEach((el, index) => {
@@ -59,7 +54,7 @@ onMounted(() => {
         }
       }, index * 150)
     })
-  }, 100)
+  }, 500)
 })
 
 onUnmounted(() => {
@@ -72,7 +67,7 @@ onUnmounted(() => {
     <!-- Header -->
     <header
       class="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-[length:200%_200%] animate-gradient text-white py-12 shadow-2xl cursor-pointer"
-      @click="navigateTo('home')"
+      @click="navigateHome"
     >
       <div class="absolute inset-0 overflow-hidden">
         <div class="particle particle-1"></div>
@@ -95,38 +90,15 @@ onUnmounted(() => {
       </div>
     </header>
 
-    <!-- 頁面內容 -->
-    <HomeView
-      v-if="currentPage === 'home'"
-      @navigate="navigateTo"
-    />
-
-    <div v-else-if="currentPage === 'installation'">
-      <!-- 安裝頁導覽列 -->
-      <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-10 shadow-sm">
-        <div class="max-w-6xl mx-auto px-8 py-4">
-          <button
-            @click="navigateTo('home')"
-            class="px-4 py-2 bg-gray-100 rounded-md shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 text-sm font-medium border border-gray-200"
-          >
-            ← 返回首頁
-          </button>
-        </div>
-      </nav>
-      <main class="max-w-6xl mx-auto px-8 py-8">
-        <InstallationSection />
-      </main>
-    </div>
-
-    <CoursesView
-      v-else-if="currentPage === 'courses'"
-      @navigate="navigateTo"
-    />
-
-    <OpenClawUseCases
-      v-else-if="currentPage === 'openclaw'"
-      @navigate="navigateTo"
-    />
+    <!-- 頁面內容 (由 Router 注入) -->
+    <router-view v-slot="{ Component }">
+      <transition 
+        name="fade" 
+        mode="out-in"
+      >
+        <component :is="Component" />
+      </transition>
+    </router-view>
 
     <!-- Footer -->
     <footer class="relative bg-gray-100 border-t border-gray-200 py-8 mt-12 overflow-hidden">
@@ -139,3 +111,15 @@ onUnmounted(() => {
     </footer>
   </div>
 </template>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

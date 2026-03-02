@@ -270,6 +270,11 @@
     "@vue/compiler-dom" "3.5.24"
     "@vue/shared" "3.5.24"
 
+"@vue/devtools-api@^6.6.4":
+  version "6.6.4"
+  resolved "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.6.4.tgz"
+  integrity sha512-sGhTPMuXqZ1rVOk32RylztWkfXTRhuS7vgAKv0zjqk8gbsHkJ7xfFf+jbySxt7tWObEJwyKaHMikV/WGDiQm8g==
+
 "@vue/language-core@3.1.4":
   version "3.1.4"
   resolved "https://registry.npmjs.org/@vue/language-core/-/language-core-3.1.4.tgz"
@@ -1295,6 +1300,13 @@ vue-demi@>=0.14.8:
   version "0.14.10"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.10.tgz"
   integrity sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==
+
+vue-router@^4.6.4:
+  version "4.6.4"
+  resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.6.4.tgz"
+  integrity sha512-Hz9q5sa33Yhduglwz6g9skT8OBPii+4bFn88w6J+J4MfEo4KRRpmiNG/hHHkdbRFlLBOqxN8y8gf2Fb0MTUgVg==
+  dependencies:
+    "@vue/devtools-api" "^6.6.4"
 
 vue-tsc@^3.1.3:
   version "3.1.4"

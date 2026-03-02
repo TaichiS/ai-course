@@ -60,6 +60,7 @@ const isExpanded = (id: string) => {
 let observer: IntersectionObserver | null = null
 
 onMounted(async () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
   await nextTick()
   observer = new IntersectionObserver(
     (entries) => {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import {
   Sparkles, Code2, PenTool, Users, TrendingUp, Home,
   GraduationCap, Palette, ShoppingCart, Heart,
@@ -8,9 +9,11 @@ import {
 } from 'lucide-vue-next'
 import useCasesData from '@/data/openclaw-use-cases.json'
 
-const emit = defineEmits<{
-  navigate: [page: 'home']
-}>()
+const router = useRouter()
+
+const navigateHome = () => {
+  router.push('/')
+}
 
 // 圖標映射
 const iconMap: Record<string, any> = {
@@ -244,7 +247,7 @@ const handleNavigate = (direction: 'prev' | 'next') => {
       <!-- 返回首頁導覽列 -->
       <nav class="border-b border-slate-800 bg-slate-950/90 px-6 py-4 backdrop-blur-xl">
         <button
-          @click="emit('navigate', 'home')"
+          @click="navigateHome"
           class="flex items-center gap-2 text-slate-400 transition-colors hover:text-white"
         >
           <ArrowRight class="h-5 w-5 rotate-180" />

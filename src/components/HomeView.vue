@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { Download, BookOpen, Sparkles, ArrowRight } from 'lucide-vue-next'
-
-const emit = defineEmits<{
-  navigate: [page: 'installation' | 'courses' | 'openclaw']
-}>()
 </script>
 
 <template>
@@ -15,8 +11,8 @@ const emit = defineEmits<{
 
     <div class="grid md:grid-cols-3 gap-8">
       <!-- 環境安裝 -->
-      <button
-        @click="emit('navigate', 'installation')"
+      <router-link
+        to="/installation"
         class="group text-left bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
       >
         <div class="h-2 bg-gradient-to-r from-green-400 to-blue-400"></div>
@@ -33,11 +29,11 @@ const emit = defineEmits<{
             <ArrowRight class="h-4 w-4" />
           </span>
         </div>
-      </button>
+      </router-link>
 
       <!-- 課程模組 -->
-      <button
-        @click="emit('navigate', 'courses')"
+      <router-link
+        to="/courses"
         class="group text-left bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
       >
         <div class="h-2 bg-gradient-to-r from-purple-400 to-indigo-400"></div>
@@ -54,11 +50,11 @@ const emit = defineEmits<{
             <ArrowRight class="h-4 w-4" />
           </span>
         </div>
-      </button>
+      </router-link>
 
       <!-- OpenClaw 應用場景 -->
-      <button
-        @click="emit('navigate', 'openclaw')"
+      <router-link
+        to="/openclaw"
         class="group text-left bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
       >
         <div class="h-2 bg-gradient-to-r from-cyan-400 to-blue-500"></div>
@@ -75,7 +71,7 @@ const emit = defineEmits<{
             <ArrowRight class="h-4 w-4" />
           </span>
         </div>
-      </button>
+      </router-link>
     </div>
   </main>
 </template>
