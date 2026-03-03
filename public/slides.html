@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Skills 使用指南 - 互動式簡報</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #1E293B;
+            --secondary: #334155;
+            --cta: #22C55E;
+            --bg: #0F172A;
+            --text: #F8FAFC;
+            --accent: #58a6ff;
+            --accent-2: #7ee787;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(88, 166, 255, 0.5);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 600;
+            color: var(--accent-2);
+            margin-bottom: 32px;
+        }
+
+        p {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            line-height: 1.8;
+            color: rgba(248, 250, 252, 0.9);
+            max-width: 800px;
+            margin: 0 auto 24px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .quote {
+            font-style: italic;
+            color: rgba(248, 250, 252, 0.7);
+            border-left: 4px solid var(--accent);
+            padding-left: 24px;
+            margin: 32px auto;
+            max-width: 700px;
+            text-align: left;
+        }
+
+        .comparison-table {
+            width: 100%;
+            max-width: 900px;
+            margin: 32px auto;
+            border-collapse: collapse;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px 24px;
+            text-align: left;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .comparison-table th {
+            background: rgba(51, 65, 85, 0.8);
+            font-weight: 600;
+            color: var(--accent-2);
+        }
+
+        .comparison-table td {
+            color: rgba(248, 250, 252, 0.85);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(88, 166, 255, 0.15);
+        }
+
+        .feature-card .icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .feature-card .icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .code-block {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            margin: 24px auto;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--accent-2);
+        }
+
+        .styled-list {
+            list-style: none;
+            max-width: 700px;
+            margin: 24px auto;
+            text-align: left;
+        }
+
+        .styled-list li {
+            padding: 12px 0;
+            padding-left: 32px;
+            position: relative;
+            font-size: 1.1rem;
+            color: rgba(248, 250, 252, 0.9);
+        }
+
+        .styled-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--cta);
+            border-radius: 50%;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            z-index: 100;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(51, 65, 85, 0.5);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 50px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide.active .slide-content > * {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .slide.active .slide-content > *:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active .slide-content > *:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active .slide-content > *:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active .slide-content > *:nth-child(4) { animation-delay: 0.4s; }
+        .slide.active .slide-content > *:nth-child(5) { animation-delay: 0.5s; }
+
+        .slide-cover h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 16px;
+        }
+
+        .slide-cover .subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--accent-2);
+            margin-bottom: 48px;
+        }
+
+        .slide-end .contact {
+            margin-top: 32px;
+            padding: 24px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 16px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 40px 24px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">
+        <i data-lucide="arrow-left"></i>
+        返回 Skill 介紹
+    </a>
+
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="presentation-container" id="presentation">
+        <!-- Slide 1: Cover -->
+        <div class="slide slide-cover active" data-slide="1">
+            <div class="slide-content">
+                <h1>Agent Skills<br>使用指南</h1>
+                <p class="subtitle">讓 AI 記住你的工作方式</p>
+                <p style="font-size: 1rem; color: rgba(248,250,252,0.6);">主講：詹嘉隆（阿隆）</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Assistant Analogy -->
+        <div class="slide" data-slide="2">
+            <div class="slide-content">
+                <h2>從雇一個助理說起</h2>
+                <p>想像你雇了一個新助理，第一週每件事都要手把手教：</p>
+                <ul class="styled-list">
+                    <li>格式</li>
+                    <li>邏輯</li>
+                    <li>注意事項</li>
+                </ul>
+                <p>如果你能把這些全部寫成一份<span class="highlight">說明書</span>，下一個助理直接照做，不用重教——</p>
+                <p class="highlight">Agent Skill 就是那份說明書，只是對象換成了 AI。</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Starbucks Theory -->
+        <div class="slide" data-slide="3">
+            <div class="slide-content">
+                <h2>星巴克「老樣子」理論</h2>
+                <p>每次點咖啡都要說：</p>
+                <div class="quote">「我要大杯、燕麥奶、少糖、不加糖漿、冰的、拿鐵」</div>
+                <p>花三十秒，店員也容易聽錯。</p>
+                <p>但如果你是常客，說一句 <span class="highlight">「老樣子」</span>，對方就知道要做什麼。</p>
+                <p style="margin-top: 32px; font-size: 1.3rem;"><strong>Skill 就是那句「老樣子」</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Comparison -->
+        <div class="slide" data-slide="4">
+            <div class="slide-content">
+                <h2>這跟一般 AI 對話有什麼差？</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr><th>一般對話</th><th>Agent Skill</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>每次重新說明</td><td>一次設定，重複使用</td></tr>
+                        <tr><td>輸出品質不穩定</td><td>執行品質一致</td></tr>
+                        <tr><td>換人要重新教</td><td>團隊共用</td></tr>
+                        <tr><td>上次調好的格式，下次重來</td><td>永久保存設定</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 5: Notepad vs Skill -->
+        <div class="slide" data-slide="5">
+            <div class="slide-content">
+                <h2>跟把指令存在記事本有什麼不一樣？</h2>
+                <p>概念類似，但 Skill 多做了幾件事：</p>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="zap"></i></div>
+                        <h4>自動識別觸發</h4>
+                        <p>AI 看到任務就自動套用</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="layers"></i></div>
+                        <h4>結構化定義</h4>
+                        <p>適用情境、工具、步驟</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="users"></i></div>
+                        <h4>團隊共用</h4>
+                        <p>一個人建好，所有人執行品質一致</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: GPT vs Skill -->
+        <div class="slide" data-slide="6">
+            <div class="slide-content">
+                <h2>GPT / Gem vs Skill</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4 style="color: var(--accent-2);">GPT / Gem</h4>
+                        <ul class="styled-list">
+                            <li>一個功能一個入口</li>
+                            <li>整理週報 → 點週報 GPT</li>
+                            <li>回覆 email → 點 email GPT</li>
+                            <li>任務切換 = 在不同對話跳來跳去</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: var(--accent);">Skill</h4>
+                        <ul class="styled-list">
+                            <li>同一個對話，隨時呼叫不同 skill</li>
+                            <li>甚至可以一個任務同時用好幾個</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Weekly Report -->
+        <div class="slide" data-slide="7">
+            <div class="slide-content">
+                <h2>真實場景：週報整理</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4 style="color: #EF4444;">沒有 Skill</h4>
+                        <ul class="styled-list">
+                            <li>每次重新說明格式</li>
+                            <li>輸出品質不一樣</li>
+                            <li>忘記說「不要廢話」→ 來了一堆廢話</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #22C55E;">有了 Skill</h4>
+                        <ul class="styled-list">
+                            <li>「幫我整理這週週報」</li>
+                            <li>AI 自動套用預設格式、語氣、欄位</li>
+                            <li>同事也能用，不用重新交代</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Skill Structure -->
+        <div class="slide" data-slide="8">
+            <div class="slide-content">
+                <h2>一個 Skill 長什麼樣子？</h2>
+                <p>核心是一份 <span class="highlight">Markdown 檔案</span>（SKILL.md）</p>
+                <p>回答三個問題：</p>
+                <div class="feature-grid" style="max-width: 800px;">
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="target"></i></div>
+                        <h4>1. 名字和觸發時機</h4>
+                        <p>什麼時候用它？</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="tool"></i></div>
+                        <h4>2. 能用哪些工具</h4>
+                        <p>Google Drive？網路查詢？</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="list-ordered"></i></div>
+                        <h4>3. 執行流程</h4>
+                        <p>步驟、注意事項、輸出格式</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Folder Structure -->
+        <div class="slide" data-slide="9">
+            <div class="slide-content">
+                <h2>Skill 資料夾結構</h2>
+                <div class="code-block">
+weekly-report-skill/
+├── SKILL.md          ← 必要：主設定
+├── reference.md      ← 選用：參考資料
+├── template/         ← 選用：輸出模板
+└── scripts/          ← 選用：執行腳本
+                </div>
+                <p style="margin-top: 32px;">大多數情況，只需要 <span class="highlight">SKILL.md</span> 就夠了。</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Tool Calling -->
+        <div class="slide" data-slide="10">
+            <div class="slide-content">
+                <h2>Skill 的真正威力：呼叫工具</h2>
+                <p>不只是「整理文字」，還可以：</p>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="hard-drive"></i></div>
+                        <h4>存取 Google Drive</h4>
+                        <p>自動抓雲端筆記</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="globe"></i></div>
+                        <h4>查網路資訊</h4>
+                        <p>補充相關資料</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="file-text"></i></div>
+                        <h4>產出 Word/PDF</h4>
+                        <p>直接輸出可用文件</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="cpu"></i></div>
+                        <h4>按需加載</h4>
+                        <p>需要時才啟動，不搶資源</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: MCP -->
+        <div class="slide" data-slide="11">
+            <div class="slide-content">
+                <h2>MCP 是什麼？跟 Skill 的關係？</h2>
+                <table class="comparison-table" style="max-width: 600px;">
+                    <thead>
+                        <tr><th></th><th>比喻</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>MCP</strong></td><td>餐廳後台的進貨通道</td></tr>
+                        <tr><td><strong>Skill</strong></td><td>廚師的食譜</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 32px;"><strong>分工：</strong></p>
+                <ul class="styled-list">
+                    <li>MCP 解決「AI <span class="highlight">能不能拿到</span>資料」</li>
+                    <li>Skill 解決「拿到後<span class="highlight">該怎麼處理</span>」</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: How to Create -->
+        <div class="slide" data-slide="12">
+            <div class="slide-content">
+                <h2>怎麼建一個 Skill？</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 32px;"><strong>不需要會寫程式！</strong></p>
+                <div class="feature-grid" style="max-width: 800px;">
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="wand-2"></i></div>
+                        <h4>方法一：Skill Creator</h4>
+                        <p>「幫你建 skill 的 skill」</p>
+                        <p style="margin-top: 8px; font-size: 0.9rem;">用白話描述需求，它幫你生成 SKILL.md</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="message-square"></i></div>
+                        <h4>方法二：跟 Claude 對話</h4>
+                        <p>來回幾輪講清楚流程</p>
+                        <p style="margin-top: 8px; font-size: 0.9rem;">請 Claude 打包成 SKILL.md</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Limitations -->
+        <div class="slide" data-slide="13">
+            <div class="slide-content">
+                <h2>Skill 的限制</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="refresh-cw"></i></div>
+                        <h4>維護成本</h4>
+                        <p>流程改了，skill 也要更新</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="brain"></i></div>
+                        <h4>記憶問題</h4>
+                        <p>不會記得你上次說了什麼</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="alert-triangle"></i></div>
+                        <h4>「打架」問題</h4>
+                        <p>多個 skill 條件重疊時可能衝突</p>
+                    </div>
+                </div>
+                <p style="margin-top: 32px;"><strong>最適合的場景：</strong>流程清楚、重複發生、有固定輸出格式的任務。</p>
+            </div>
+        </div>
+
+        <!-- Slide 14: Cross Platform -->
+        <div class="slide" data-slide="14">
+            <div class="slide-content">
+                <h2>Agent Skills 不是 Claude 專屬</h2>
+                <p>已經是<span class="highlight">主流 AI 工具的共同規格</span>：</p>
+                <table class="comparison-table" style="max-width: 600px;">
+                    <thead>
+                        <tr><th>平台</th><th>資料夾位置</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Claude Code</td><td><code>.claude/skills/</code></td></tr>
+                        <tr><td>Gemini CLI</td><td><code>.gemini/skills/</code></td></tr>
+                        <tr><td>OpenAI CLI</td><td><code>.openai/skills/</code></td></tr>
+                        <tr><td>Cursor / Windsurf</td><td>專案目錄下</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 32px; font-size: 1.2rem;"><strong>同一份 SKILL.md，跨工具都能用！</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 15: Where to Start -->
+        <div class="slide" data-slide="15">
+            <div class="slide-content">
+                <h2>從哪裡開始？</h2>
+                <p>想想這個月<span class="highlight">重複做了三次以上</span>的事：</p>
+                <ul class="styled-list" style="max-width: 500px;">
+                    <li>每次都要重新解釋格式？</li>
+                    <li>每次都要貼上相同的背景資料？</li>
+                </ul>
+                <p style="margin-top: 40px; padding: 24px; background: rgba(88, 166, 255, 0.1); border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <strong>那個就是最值得先建成 skill 的任務。</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 16: Summary -->
+        <div class="slide" data-slide="16">
+            <div class="slide-content">
+                <h2>重點回顧</h2>
+                <div class="feature-grid" style="max-width: 900px;">
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="bookmark"></i></div>
+                        <h4>1. Skill = AI 的「老樣子」</h4>
+                        <p>預設好的工作流程</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="repeat"></i></div>
+                        <h4>2. 一次設定，重複使用</h4>
+                        <p>品質一致</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="plug"></i></div>
+                        <h4>3. 可以呼叫工具</h4>
+                        <p>Drive、網路、文件產出</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i data-lucide="share-2"></i></div>
+                        <h4>4. 跨平台通用</h4>
+                        <p>團隊共用</p>
+                    </div>
+                    <div class="feature-card" style="grid-column: span 2;">
+                        <div class="icon"><i data-lucide="rocket"></i></div>
+                        <h4>5. 從最痛的重複工作開始建立</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Q&A -->
+        <div class="slide slide-end" data-slide="17">
+            <div class="slide-content">
+                <h2>Q & A</h2>
+                <h3 style="margin-bottom: 32px;">感謝聆聽</h3>
+                <div class="contact">
+                    <p><strong>詹嘉隆（阿隆）</strong></p>
+                    <p>企業 AI 工具實戰培訓顧問</p>
+                    <p style="margin-top: 16px; color: var(--accent);">chialung.chan@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
+            <i data-lucide="chevron-left"></i>
+        </button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / 17</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
+            <i data-lucide="chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 17;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach((slide, index) => {
+                slide.classList.remove('active', 'prev');
+                if (index + 1 === currentSlide) {
+                    slide.classList.add('active');
+                } else if (index + 1 < currentSlide) {
+                    slide.classList.add('prev');
+                }
+            });
+
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        lucide.createIcons();
+        updateSlide();
+    </script>
+</body>
+</html>
