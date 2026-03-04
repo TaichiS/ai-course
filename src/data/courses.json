@@ -864,12 +864,268 @@
         "思考如何安全地處理系統指令呼叫",
         "請在法律允許的範圍內進行技術練習"
       ]
+    },
+    {
+      "id": "case-09",
+      "title": "ERP 自動化小精靈",
+      "fullTitle": "商業挑戰 1 - ERP 自動化小精靈 📦",
+      "description": "自動從郵件/Excel 抓取訂單並登入 ERP 建單，庫存不足自動發採購提醒",
+      "icon": "FolderOpen",
+      "color": "orange",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "思考如何讓 AI 解析非結構化的訂單資料（郵件、Excel）",
+        "討論如何安全地操作 ERP 系統介面或 API",
+        "設計庫存警示與自動通知的觸發邏輯"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": false },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我每天要從數十封郵件中手動抄訂單到 ERP，你能幫我設計一個自動化流程嗎？從讀取郵件到建單，整個過程你會怎麼拆解？"
+        },
+        {
+          "title": "庫存警示",
+          "prompt": "如果庫存低於安全水位，你能自動發一封採購提醒給採購負責人嗎？請告訴我需要哪些工具和資訊。"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，請先和同學討論流程設計，再思考技術實作",
+        "提示：可以考慮 Browser Use MCP、Excel MCP 等工具組合"
+      ]
+    },
+    {
+      "id": "case-10",
+      "title": "會計傳票自動化",
+      "fullTitle": "商業挑戰 2 - 會計傳票自動化 💰",
+      "description": "讀取發票/收據圖片（OCR），自動分類會計科目並產生傳票分錄",
+      "icon": "FileText",
+      "color": "green",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "探討如何用 AI 視覺能力讀取發票與收據圖片",
+        "思考會計科目分類的判斷邏輯與例外情況",
+        "討論月底自動對帳的資料比對方式"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": false },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我有一張餐廳發票的照片，你能幫我識別金額、日期、店家，並自動判斷應該歸到哪個會計科目嗎？"
+        },
+        {
+          "title": "月底對帳",
+          "prompt": "月底我有幾百張發票要對帳，你能設計一個流程幫我批次處理並找出差異嗎？"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，重點在於討論 AI 如何輔助非結構化資料的處理",
+        "提示：Claude 具備視覺理解能力，可直接分析圖片內容"
+      ]
+    },
+    {
+      "id": "case-11",
+      "title": "蝦皮賣場小幫手",
+      "fullTitle": "商業挑戰 3 - 蝦皮賣場小幫手 🛒",
+      "description": "自動回覆買家問題、監控競品價格、自動調整商品價格並產生銷售報表",
+      "icon": "Globe",
+      "color": "pink",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "思考如何建立常見問題的自動回覆知識庫",
+        "討論競品監控與動態定價的策略設計",
+        "探討銷售數據的自動彙整與視覺化呈現"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": true },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我在蝦皮有 50 個商品，每天都有大量買家問「有現貨嗎」「可以合併運費嗎」。你能幫我設計一個自動回覆系統嗎？"
+        },
+        {
+          "title": "競品監控",
+          "prompt": "競品剛調降了價格，你能幫我設計一個流程，當競品比我便宜超過 10% 時自動通知我嗎？"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，請討論自動化與人工審核之間如何取得平衡",
+        "提示：可以考慮 Browser Use MCP 爬取價格，搭配通知工具"
+      ]
+    },
+    {
+      "id": "case-12",
+      "title": "銀行對帳機器人",
+      "fullTitle": "商業挑戰 4 - 銀行對帳機器人 🏦",
+      "description": "下載銀行 CSV 交易明細，與公司帳務系統比對，標注異常並生成對帳差異報告",
+      "icon": "TrendingUp",
+      "color": "blue",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "思考如何解析不同銀行格式的 CSV/Excel 明細",
+        "討論比對邏輯的設計：如何定義「相符」與「異常」",
+        "探討自動化對帳報告的呈現格式"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": false },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我有一份銀行的 CSV 交易紀錄和一份公司的應收帳款 Excel，你能幫我自動比對並找出哪些款項還沒入帳嗎？"
+        },
+        {
+          "title": "異常標注",
+          "prompt": "比對之後，請把差異金額超過 1000 元或逾期 7 天以上的項目特別標注，並生成一份 PDF 報告。"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，資料安全與隱私保護是討論的重點之一",
+        "提示：可以考慮 Excel MCP 或 Python 腳本處理結構化資料比對"
+      ]
+    },
+    {
+      "id": "case-13",
+      "title": "發票自動化管理",
+      "fullTitle": "商業挑戰 5 - 發票自動化管理 📄",
+      "description": "定期下載電子發票、自動驗證真偽、分類稅目，申報前自動檢查缺失",
+      "icon": "FileEdit",
+      "color": "indigo",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "討論如何串接財政部電子發票 API 或雲端發票平台",
+        "思考發票分類（進項/銷項/免稅）的判斷規則",
+        "探討申報前自動查缺補漏的檢查清單設計"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": false },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我每個月要手動整理幾百張進項發票，你能幫我設計一個自動下載、分類、並在申報期前提醒我缺漏的系統嗎？"
+        },
+        {
+          "title": "驗證真偽",
+          "prompt": "如何讓 AI 幫我驗證一張發票的真偽？有哪些方法可以做到？"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，可以從「人工流程」開始討論，再逐步找出自動化切入點",
+        "提示：財政部電子發票整合服務平台有提供 API 查詢功能"
+      ]
+    },
+    {
+      "id": "case-14",
+      "title": "供應商報價比較器",
+      "fullTitle": "商業挑戰 6 - 供應商報價比較器 📊",
+      "description": "收集多家供應商 PDF/Excel 報價單，自動比較規格與價格並生成建議",
+      "icon": "Star",
+      "color": "amber",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "探討如何從不同格式的報價單中抽取關鍵資訊",
+        "思考規格比較的標準化邏輯（單位換算、條件差異）",
+        "討論如何呈現比較結果並提供採購建議"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": true },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我有三家供應商的報價單（PDF 格式），格式都不一樣，你能幫我把它們整理成一張比較表嗎？"
+        },
+        {
+          "title": "歷史追蹤",
+          "prompt": "能不能設計一個系統，每次收到新報價就自動記錄，並顯示各供應商的歷史價格趨勢？"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，重點是討論非結構化 PDF 資料的解析策略",
+        "提示：Claude 可以直接讀取 PDF 內容，也可以搭配 Excel MCP 輸出比較表"
+      ]
+    },
+    {
+      "id": "case-15",
+      "title": "客戶帳款催收員",
+      "fullTitle": "商業挑戰 7 - 客戶帳款催收員 📞",
+      "description": "掃描應收帳款逾期名單，依逾期天數分級自動生成催款郵件並追蹤回覆",
+      "icon": "AlertTriangle",
+      "color": "red",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "思考催款郵件的語氣分級策略（友善提醒 → 正式通知 → 法律警告）",
+        "討論如何設計自動化排程與追蹤回覆狀態",
+        "探討人工審核與自動發送之間的控制機制"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": false },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我有一份應收帳款逾期名單，有的逾期 7 天、有的超過 30 天。你能幫我針對不同情況，自動生成語氣適當的催款郵件嗎？"
+        },
+        {
+          "title": "追蹤機制",
+          "prompt": "寄出催款信後，如何讓 AI 幫我追蹤哪些客戶有回覆、哪些仍未付款，並提醒我下一步行動？"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，請先討論催收流程的倫理邊界與法規遵循",
+        "提示：可以考慮 Gmail/Outlook MCP 搭配 Excel MCP 管理名單狀態"
+      ]
+    },
+    {
+      "id": "case-16",
+      "title": "HR 履歷初篩助手",
+      "fullTitle": "商業挑戰 8 - HR 履歷初篩助手 👥",
+      "description": "讀取履歷自動依職缺條件評分，標注符合項目並生成面試建議問題",
+      "icon": "BookOpen",
+      "color": "teal",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "duration": "開放討論",
+      "platforms": ["Windows", "MacOS"],
+      "objectives": [
+        "討論如何設計公平、可解釋的履歷評分準則",
+        "思考如何處理不同格式的履歷（PDF、Word、線上連結）",
+        "探討 AI 初篩結果如何輔助人資做最終決策"
+      ],
+      "tools": { "claudeCode": true, "geminiCLI": true },
+      "examplePrompts": [
+        {
+          "title": "討論起點",
+          "prompt": "我在招募一位行銷專員，有 30 份履歷。你能根據我的職缺需求，幫我快速篩選出最符合的前 5 位嗎？請說明你的評分邏輯。"
+        },
+        {
+          "title": "面試準備",
+          "prompt": "這位候選人的履歷我很感興趣，能幫我根據他的背景設計 5 個針對性的面試問題嗎？"
+        }
+      ],
+      "tips": [
+        "這是開放式挑戰題，AI 履歷篩選涉及公平性與偏見議題，請納入討論",
+        "提示：可以先手動定義評分維度（技能、年資、學歷等），再讓 AI 套用"
+      ]
     }
   ],
   "metadata": {
-    "version": "2.2.0",
-    "lastUpdated": "2026-02-05",
+    "version": "2.3.0",
+    "lastUpdated": "2026-03-04",
     "author": "詹嘉隆",
-    "totalCases": 8
+    "totalCases": 16
   }
 }
