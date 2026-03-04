@@ -75,7 +75,7 @@ import { Download, BookOpen, Sparkles, ArrowRight, Presentation } from 'lucide-v
 
       <!-- Agent Skills 簡報 -->
       <a
-        href="/slides.html"
+        href="/ai-course/slides.html"
         class="group text-left bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
       >
         <div class="h-2 bg-gradient-to-r from-orange-400 to-pink-500"></div>
