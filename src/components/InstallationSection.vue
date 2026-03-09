@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Download, Terminal, FileText, Globe, AlertTriangle, ChevronDown, ChevronUp, Clipboard, Check, ExternalLink } from 'lucide-vue-next'
+import { Download, Terminal, FileText, Globe, AlertTriangle, Clipboard, Check } from 'lucide-vue-next'
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import installationData from '@/data/installation.json'
 import CodeBlock from '@/components/CodeBlock.vue'
@@ -13,18 +13,10 @@ const iconMap: Record<string, any> = {
   FileText,
   Globe,
   AlertTriangle,
-  ExternalLink
 }
 
 // 資料
 const sections = ref(installationData.sections)
-
-// 整個區塊的顯示狀態
-const isInstallationVisible = ref(true)
-
-const toggleInstallationVisibility = () => {
-  isInstallationVisible.value = !isInstallationVisible.value
-}
 
 // 獲取圖標組件
 const getIcon = (iconName: string) => {
@@ -53,7 +45,10 @@ const toggleSection = (id: string) => {
 }
 
 const isExpanded = (id: string) => {
-  return expandedSections.value[id] !== false // 預設展開
+  if (expandedSections.value[id] === undefined) {
+    return !id.startsWith('one-click') // one-click 系列預設收起，其他預設展開
+  }
+  return expandedSections.value[id]
 }
 
 // scroll-animate 觸發
@@ -105,32 +100,9 @@ const copyToClipboard = async (text: string) => {
     <div class="text-center py-6">
       <h2 class="text-3xl font-bold text-gray-900 mb-2">環境安裝設定</h2>
       <p class="text-gray-600">在開始課程之前，請先完成以下軟體安裝</p>
-
-      <!-- 一鍵隱藏/顯示按鈕 -->
-      <button
-        @click="toggleInstallationVisibility"
-        class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-sm font-medium"
-      >
-        <component :is="isInstallationVisible ? ChevronUp : ChevronDown" class="h-4 w-4" />
-        {{ isInstallationVisible ? '隱藏安裝設定' : '顯示安裝設定' }}
-      </button>
-
-      <!-- 查看完整指南連結 -->
-      <a
-        href="/installation.html"
-        target="_blank"
-        class="mt-3 ml-3 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-sm font-medium"
-      >
-        <ExternalLink class="h-4 w-4" />
-        <span>查看完整安裝指南</span>
-      </a>
     </div>
 
-    <!-- 可收合的內容區塊 -->
-    <div
-      v-show="isInstallationVisible"
-      class="space-y-8 transition-all duration-500 ease-in-out"
-    >
+    <div class="space-y-8">
       <!-- 一鍵自動安裝（Windows / macOS / Linux 共用模板） -->
       <Card
         v-for="section in sections.filter(s => s.id.startsWith('one-click'))"
