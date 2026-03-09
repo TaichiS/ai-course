@@ -100,7 +100,7 @@ const copyToClipboard = async (text: string) => {
 </script>
 
 <template>
-  <div class="space-y-8">
+  <div class="max-w-6xl mx-auto px-8 py-8 space-y-8">
     <!-- 區塊標題 -->
     <div class="text-center py-6">
       <h2 class="text-3xl font-bold text-gray-900 mb-2">環境安裝設定</h2>
