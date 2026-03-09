@@ -73,7 +73,7 @@
 
         h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(3rem, 6vw, 5.5rem);
             font-weight: 700;
             color: var(--accent);
             text-shadow: 0 0 30px rgba(88, 166, 255, 0.5);
@@ -83,14 +83,14 @@
 
         h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
             font-weight: 600;
             color: var(--accent-2);
             margin-bottom: 32px;
         }
 
         p {
-            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
             line-height: 1.8;
             color: rgba(248, 250, 252, 0.9);
             max-width: 800px;
@@ -127,6 +127,7 @@
             padding: 20px 24px;
             text-align: left;
             border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            font-size: 1.3rem;
         }
 
         .comparison-table th {
@@ -193,8 +194,9 @@
             margin: 24px auto;
             text-align: left;
             font-family: monospace;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             color: var(--accent-2);
+            white-space: pre;
         }
 
         .styled-list {
@@ -208,7 +210,7 @@
             padding: 12px 0;
             padding-left: 32px;
             position: relative;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             color: rgba(248, 250, 252, 0.9);
         }
 
@@ -225,52 +227,57 @@
         }
 
         .nav-controls {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            z-index: 100;
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 16px 32px;
-            border-radius: 50px;
-            border: 1px solid rgba(51, 65, 85, 0.5);
+            display: contents;
         }
 
         .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
             width: 48px;
-            height: 48px;
-            border-radius: 50%;
+            height: 80px;
             border: none;
-            background: rgba(51, 65, 85, 0.5);
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
             color: var(--text);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        #prevBtn {
+            left: 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        #nextBtn {
+            right: 0;
+            border-radius: 12px 0 0 12px;
         }
 
         .nav-btn:hover {
             background: var(--accent);
-            transform: scale(1.1);
+            width: 56px;
         }
 
         .nav-btn:disabled {
-            opacity: 0.3;
+            opacity: 0.15;
             cursor: not-allowed;
         }
 
         .slide-counter {
+            position: fixed;
+            bottom: 16px;
+            right: 20px;
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
-            min-width: 60px;
-            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(248, 250, 252, 0.45);
+            z-index: 100;
+            letter-spacing: 0.05em;
         }
 
         .progress-bar {
@@ -323,12 +330,12 @@
         .slide.active .slide-content > *:nth-child(5) { animation-delay: 0.5s; }
 
         .slide-cover h1 {
-            font-size: clamp(3rem, 6vw, 5rem);
+            font-size: clamp(4rem, 8vw, 7rem);
             margin-bottom: 16px;
         }
 
         .slide-cover .subtitle {
-            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
             color: var(--accent-2);
             margin-bottom: 48px;
         }
@@ -710,11 +717,11 @@ weekly-report-skill/
         <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
             <i data-lucide="chevron-left"></i>
         </button>
-        <span class="slide-counter"><span id="currentSlide">1</span> / 17</span>
         <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
             <i data-lucide="chevron-right"></i>
         </button>
     </div>
+    <span class="slide-counter"><span id="currentSlide">1</span> / 17</span>
 
     <script>
         let currentSlide = 1;
