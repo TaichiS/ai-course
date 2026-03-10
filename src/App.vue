@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const isLoaded = ref(false)
 const typedText = ref('')
-const fullText = 'Claude Code 與 AI Agent 實作課程'
+const fullText = '打造你的數位分身，自動處理重複繁瑣工作'
 
 const navigateHome = () => {
   router.push('/')
@@ -82,7 +82,7 @@ onUnmounted(() => {
           :class="['text-4xl md:text-5xl font-bold tracking-tight transition-all duration-1000 transform',
                    isLoaded ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0']"
         >
-          詹嘉隆 AI Agent 實作工作坊
+          詹嘉隆的人工智慧代理人培訓課
         </h1>
         <p class="text-blue-100 mt-3 text-lg font-mono">
           <span class="text-cyan-300">&gt;</span> {{ typedText }}<span class="animate-blink">|</span>
@@ -105,7 +105,7 @@ onUnmounted(() => {
       <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 animate-gradient bg-[length:200%_200%]"></div>
       <div class="max-w-6xl mx-auto px-8 text-center">
         <p class="text-gray-600 hover:text-gray-900 transition-colors duration-300">
-          &copy; 2026 詹嘉隆 AI Agent 實作工作坊
+          &copy; 2026 詹嘉隆的人工智慧代理人培訓課
         </p>
       </div>
     </footer>
