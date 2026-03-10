@@ -77,8 +77,425 @@
   "cases": [
     {
       "id": "case-01",
+      "title": "官方 Skill 應用",
+      "fullTitle": "課程案例 1 - Claude 官方 Skill 應用 (Claude Code 專屬)",
+      "description": "安裝官方 Skill 進行 PDF、Word、Excel 讀寫與前端設計",
+      "icon": "FileText",
+      "color": "indigo",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 8,
+      "practicalScore": 9,
+      "duration": "30-40 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "掌握 Claude Code 官方 Skill 的安裝流程",
+        "學習處理多種辦公室文件格式 (PDF, Docx, Xlsx, Pptx)",
+        "體驗自動化前端 UI 設計與實作",
+        "學會使用 Skill Creator 創建自定義技能"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
+      "requiredMCP": {
+        "name": "Claude Official Skills",
+        "package": "anthropic-agent-skills",
+        "description": "包含 document-skills, example-skills 等官方技能包"
+      },
+      "installation": {
+        "claudeCode": {
+          "install": "方式 1 (互動式安裝)：\n/plugin marketplace add anthropics/skills\n接下來選擇：\n1. Browse and install plugins\n2. anthropic-agent-skills\n3. document-skills (或 example-skills)\n4. Install now\n\n方式 2 (直接安裝)：\n/plugin install document-skills@anthropic-agent-skills\n/plugin install example-skills@anthropic-agent-skills",
+          "verify": "claude skill list",
+          "expectedOutput": "Installed Skills:\n- document-skills\n- example-skills"
+        }
+      },
+      "steps": [
+        {
+          "title": "使用插件市場安裝",
+          "description": "輸入 `/plugin marketplace add anthropics/skills` 進入互動選單，這是最推薦的方式"
+        },
+        {
+          "title": "選擇並安裝技能",
+          "description": "依照選單指引，安裝 `document-skills` (處理文件) 或 `example-skills` (包含 Skill Creator)"
+        },
+        {
+          "title": "驗證安裝",
+          "description": "安裝完成後，這些技能集會提供 PDF 讀取、文件轉換等能力"
+        },
+        {
+          "title": "執行複雜任務",
+          "description": "嘗試讓 AI 讀取 PDF 並轉換為 Word，或使用 Skill Creator 創建新技能"
+        }
+      ],
+      "examplePrompts": [
+        {
+          "title": "PDF 轉 Word",
+          "prompt": "請使用 document-skills 中的能力，讀取 lecture.pdf，並將其轉換成 docx 格式的講義。"
+        },
+        {
+          "title": "Excel 數據處理",
+          "prompt": "讀取 students_grades.xlsx，分析各科平均分數，並生成一份新的成績摘要檔。"
+        },
+        {
+          "title": "前端設計實作",
+          "prompt": "使用 frontend-design (包含在 example-skills 中)，幫我設計一個現代化的教師登入介面。"
+        },
+        {
+          "title": "創建新技能",
+          "prompt": "啟動 skill-creator (包含在 example-skills 中)，我想建立一個專門幫我批改學生程式作業並給予建議的技能。"
+        }
+      ],
+      "troubleshooting": [
+        {
+          "problem": "指令無效",
+          "solution": "請確認使用的是 Claude Code，且版本支援 /plugin 指令"
+        },
+        {
+          "problem": "找不到特定技能",
+          "solution": "確認已安裝對應的技能包：document-skills 用於文件，example-skills 用於範例和創建器"
+        }
+      ],
+      "tips": [
+        "document-skills 是處理辦公室文件的核心，支援 PDF, DOCX, XLSX, PPTX",
+        "example-skills 包含 Skill Creator，這是擴充 Claude 能力的關鍵工具",
+        "官方 Skills 庫會持續更新，建議定期檢查是否有新功能"
+      ],
+      "referenceLinks": [
+        {
+          "label": "Claude Skills GitHub",
+          "url": "https://github.com/anthropics/skills",
+          "description": "官方技能庫源代碼與清單"
+        }
+      ]
+    },
+    {
+      "id": "case-t01",
+      "title": "成績分析師",
+      "fullTitle": "課程案例 2 - 成績分析師",
+      "description": "上傳 Excel 成績單，自動生成班級/個人成績分析報告，識別學習困難學生、繪製進步曲線",
+      "icon": "BarChart",
+      "color": "blue",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 7,
+      "practicalScore": 9,
+      "duration": "20-30 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "學習使用 document-skills 處理 Excel 檔案",
+        "自動生成成績分析報告",
+        "識別需要關注的學生"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
+      "examplePrompts": [
+        {
+          "title": "班級成績分析",
+          "prompt": "請讀取 class_grades.xlsx，分析這次段考各班級的平均分數、標準差，並列出需要輔導的學生名單。"
+        },
+        {
+          "title": "個人進步曲線",
+          "prompt": "請分析學生王小明的三次段考成績，繪製進步曲線並給予學習建議。"
+        }
+      ],
+      "tips": [
+        "使用 document-skills 讀取 Excel",
+        "可結合 Notion MCP 將報告存入 Notion"
+      ]
+    },
+    {
+      "id": "case-t02",
+      "title": "教案生成助手",
+      "fullTitle": "課程案例 3 - 教案生成助手",
+      "description": "輸入課程主題與年級，自動生成完整教案（含教學目標、活動設計、評量方式）",
+      "icon": "FileText",
+      "color": "green",
+      "difficulty": 2,
+      "difficultyLabel": "入門級",
+      "funScore": 8,
+      "practicalScore": 9,
+      "duration": "15-20 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "學習使用 Claude Code 生成結構化文件",
+        "自動產出符合 108 課綱的教案",
+        "儲存教案為 Word 或 PDF 格式"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "examplePrompts": [
+        {
+          "title": "生成數學教案",
+          "prompt": "請幫我設計一份國中二年級『一元二次方程式』的教案，包含教學目標、活動設計、評量方式，並儲存為 docx 格式。"
+        },
+        {
+          "title": "素養導向教案",
+          "prompt": "請設計一份素養導向的『永續發展』跨領域教案，適合高中一年級，包含探究活動和評量規準。"
+        }
+      ],
+      "tips": [
+        "使用 document-skills 儲存為 Word 格式",
+        "可建立教案模板 Skill 重複使用"
+      ]
+    },
+    {
+      "id": "case-t03",
+      "title": "評語量產機",
+      "fullTitle": "課程案例 4 - 評語量產機",
+      "description": "輸入學生名單與表現關鍵字，批量生成個人化評語",
+      "icon": "MessageCircle",
+      "color": "pink",
+      "difficulty": 2,
+      "difficultyLabel": "入門級",
+      "funScore": 9,
+      "practicalScore": 8,
+      "duration": "15-20 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "批量生成個人化學生評語",
+        "避免評語重複",
+        "自動潤飾與格式化"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "examplePrompts": [
+        {
+          "title": "批量生成評語",
+          "prompt": "請根據以下學生資料生成期末評語：王小明（數學進步、上課專心）、李小華（作業準時、需加強表達）、張小英（活潑好動、樂於助人）。"
+        },
+        {
+          "title": "特定風格評語",
+          "prompt": "請為這些學生生成鼓勵風格的評語，每則 50-80 字，並儲存為 Excel 檔。"
+        }
+      ],
+      "tips": [
+        "可建立評語模板 Skill",
+        "結合 Excel MCP 直接寫入成績單"
+      ]
+    },
+    {
+      "id": "case-t04",
+      "title": "會議記錄自動化",
+      "fullTitle": "課程案例 5 - 會議記錄自動化",
+      "description": "上傳會議錄音或逐字稿，自動整理成結構化記錄（決議事項、待辦、負責人）",
+      "icon": "Mic",
+      "color": "purple",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 7,
+      "practicalScore": 8,
+      "duration": "20-30 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "學習處理語音/文字檔案",
+        "自動提取會議重點與行動項目",
+        "生成結構化會議記錄"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "examplePrompts": [
+        {
+          "title": "整理會議記錄",
+          "prompt": "請讀取 meeting_notes.txt，整理成結構化會議記錄，包含：會議主題、出席人員、決議事項、待辦事項（含負責人與期限）。"
+        },
+        {
+          "title": "行動追蹤表",
+          "prompt": "請從這份會議記錄中提取所有待辦事項，生成一份追蹤表格，包含負責人、期限、目前狀態。"
+        }
+      ],
+      "tips": [
+        "可結合 Notion MCP 將記錄存入 Notion 資料庫",
+        "建立會議記錄模板 Skill"
+      ]
+    },
+    {
+      "id": "case-t05",
+      "title": "公文產生器",
+      "fullTitle": "課程案例 6 - 公文產生器",
+      "description": "輸入公文主旨與內容大綱，自動生成符合行政院公文格式的正式公文",
+      "icon": "FileText",
+      "color": "indigo",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 6,
+      "practicalScore": 9,
+      "duration": "15-20 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "學習生成符合格式的公文",
+        "支援各類公文（簽呈、函、公告）",
+        "自動儲存為 Word 或 PDF"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
+      "examplePrompts": [
+        {
+          "title": "生成會議通知函",
+          "prompt": "請幫我生成一份公文，主旨是『辦理 114 學年度教師專業成長研習活動』，收件單位是各處室，請使用行政院公文格式，儲存為 docx。"
+        },
+        {
+          "title": "活動公告",
+          "prompt": "請生成一份公告，內容是關於下週五的親師座談會，包含時間、地點、議程，使用公告格式。"
+        }
+      ],
+      "tips": [
+        "使用 document-skills 生成 Word 檔案",
+        "建立公文模板 Skill 重複使用"
+      ]
+    },
+    {
+      "id": "case-t06",
+      "title": "試卷命題助手",
+      "fullTitle": "課程案例 7 - 試卷命題助手",
+      "description": "輸入單元範圍與難易度，自動生成選擇題/填充題/問答題，並產出答案卷",
+      "icon": "Clipboard",
+      "color": "orange",
+      "difficulty": 3,
+      "difficultyLabel": "中級",
+      "funScore": 8,
+      "practicalScore": 9,
+      "duration": "20-30 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "自動生成各類型試題",
+        "自動產出答案與評分標準",
+        "儲存為可列印的 Word 格式"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "examplePrompts": [
+        {
+          "title": "生成段考試卷",
+          "prompt": "請幫我出一份國中二年級數學段考試卷，範圍是一元二次方程式，包含 15 題選擇題、5 題填充題、2 題計算題，難易度中等，並附上答案卷。儲存為 docx。"
+        },
+        {
+          "title": "隨堂測驗",
+          "prompt": "請生成一份 10 分鐘的隨堂測驗，主題是『因式分解』，5 題填充題，附上答案。"
+        }
+      ],
+      "tips": [
+        "可建立題庫 Skill 管理歷年試題",
+        "使用 document-skills 生成 Word 檔案"
+      ]
+    },
+    {
+      "id": "case-t07",
+      "title": "親師溝通優化師",
+      "fullTitle": "課程案例 8 - 親師溝通優化師",
+      "description": "協助撰寫給家長的信件、公告、緊急通知，語氣調整與自動排版",
+      "icon": "Mail",
+      "color": "cyan",
+      "difficulty": 2,
+      "difficultyLabel": "入門級",
+      "funScore": 7,
+      "practicalScore": 8,
+      "duration": "10-15 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "撰寫專業且溫馨的家長通知",
+        "語氣調整（正式/溫馨/嚴肅）",
+        "自動排版與格式化"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "examplePrompts": [
+        {
+          "title": "學生表現通知",
+          "prompt": "請幫我寫一封給家長的信，說明王小明這學期的學習表現有進步，特別是數學方面，語氣溫馨鼓勵。"
+        },
+        {
+          "title": "活動通知",
+          "prompt": "請寫一份家長會活動通知，包含時間、地點、議程，語氣正式但親切。"
+        }
+      ],
+      "tips": [
+        "可建立信件模板 Skill",
+        "結合 Gmail MCP 直接發送郵件"
+      ]
+    },
+    {
+      "id": "case-t08",
+      "title": "校務資料整理達人",
+      "fullTitle": "課程案例 9 - 校務資料整理達人",
+      "description": "自動整理雜亂的校務資料夾、命名規範化、建立索引，快速搜尋歷年資料",
+      "icon": "Folder",
+      "color": "amber",
+      "difficulty": 4,
+      "difficultyLabel": "進階級",
+      "funScore": 6,
+      "practicalScore": 8,
+      "duration": "30-40 分鐘",
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
+      "objectives": [
+        "自動整理雜亂的資料夾結構",
+        "批次重新命名檔案",
+        "建立資料索引與搜尋功能"
+      ],
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
+      "examplePrompts": [
+        {
+          "title": "整理教學資料",
+          "prompt": "請幫我整理 ~/Documents/Teaching 資料夾，將所有檔案按照『學年度_學期_科目_單元』的格式重新命名，並建立一份索引檔案。"
+        },
+        {
+          "title": "搜尋歷年試題",
+          "prompt": "請在我的教學資料夾中搜尋所有『一元二次方程式』相關的檔案，並列出檔案路徑。"
+        }
+      ],
+      "tips": [
+        "使用 Claude Code 的檔案操作能力",
+        "建立資料管理 Skill 自動化整理流程"
+      ]
+    },
+    {
+      "id": "case-10",
       "title": "新聞閱讀",
-      "fullTitle": "課程案例 1 - 新聞閱讀（RSS Reader MCP）",
+      "fullTitle": "課程案例 10 - 新聞閱讀（RSS Reader MCP）",
       "description": "使用 RSS Reader MCP 查看新聞重點",
       "icon": "FolderOpen",
       "color": "teal",
@@ -181,9 +598,9 @@
       ]
     },
     {
-      "id": "case-02",
+      "id": "case-11",
       "title": "購物比價",
-      "fullTitle": "課程案例 2 - 購物比價神器",
+      "fullTitle": "課程案例 11 - 購物比價神器",
       "description": "使用 Chrome DevTools MCP 比較商品價格",
       "icon": "Globe",
       "color": "cyan",
@@ -290,106 +707,9 @@
       ]
     },
     {
-      "id": "case-03",
-      "title": "官方 Skill 應用",
-      "fullTitle": "課程案例 3 - Claude 官方 Skill 應用 (Claude Code 專屬)",
-      "description": "安裝官方 Skill 進行 PDF、Word、Excel 讀寫與前端設計",
-      "icon": "FileText",
-      "color": "indigo",
-      "difficulty": 3,
-      "difficultyLabel": "中級",
-      "funScore": 8,
-      "practicalScore": 9,
-      "duration": "30-40 分鐘",
-      "platforms": [
-        "Windows",
-        "MacOS"
-      ],
-      "objectives": [
-        "掌握 Claude Code 官方 Skill 的安裝流程",
-        "學習處理多種辦公室文件格式 (PDF, Docx, Xlsx, Pptx)",
-        "體驗自動化前端 UI 設計與實作",
-        "學會使用 Skill Creator 創建自定義技能"
-      ],
-      "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
-      },
-      "requiredMCP": {
-        "name": "Claude Official Skills",
-        "package": "anthropic-agent-skills",
-        "description": "包含 document-skills, example-skills 等官方技能包"
-      },
-      "installation": {
-        "claudeCode": {
-          "install": "方式 1 (互動式安裝)：\n/plugin marketplace add anthropics/skills\n接下來選擇：\n1. Browse and install plugins\n2. anthropic-agent-skills\n3. document-skills (或 example-skills)\n4. Install now\n\n方式 2 (直接安裝)：\n/plugin install document-skills@anthropic-agent-skills\n/plugin install example-skills@anthropic-agent-skills",
-          "verify": "claude skill list",
-          "expectedOutput": "Installed Skills:\n- document-skills\n- example-skills"
-        }
-      },
-      "steps": [
-        {
-          "title": "使用插件市場安裝",
-          "description": "輸入 `/plugin marketplace add anthropics/skills` 進入互動選單，這是最推薦的方式"
-        },
-        {
-          "title": "選擇並安裝技能",
-          "description": "依照選單指引，安裝 `document-skills` (處理文件) 或 `example-skills` (包含 Skill Creator)"
-        },
-        {
-          "title": "驗證安裝",
-          "description": "安裝完成後，這些技能集會提供 PDF 讀取、文件轉換等能力"
-        },
-        {
-          "title": "執行複雜任務",
-          "description": "嘗試讓 AI 讀取 PDF 並轉換為 Word，或使用 Skill Creator 創建新技能"
-        }
-      ],
-      "examplePrompts": [
-        {
-          "title": "PDF 轉 Word",
-          "prompt": "請使用 document-skills 中的能力，讀取 lecture.pdf，並將其轉換成 docx 格式的講義。"
-        },
-        {
-          "title": "Excel 數據處理",
-          "prompt": "讀取 students_grades.xlsx，分析各科平均分數，並生成一份新的成績摘要檔。"
-        },
-        {
-          "title": "前端設計實作",
-          "prompt": "使用 frontend-design (包含在 example-skills 中)，幫我設計一個現代化的教師登入介面。"
-        },
-        {
-          "title": "創建新技能",
-          "prompt": "啟動 skill-creator (包含在 example-skills 中)，我想建立一個專門幫我批改學生程式作業並給予建議的技能。"
-        }
-      ],
-      "troubleshooting": [
-        {
-          "problem": "指令無效",
-          "solution": "請確認使用的是 Claude Code，且版本支援 /plugin 指令"
-        },
-        {
-          "problem": "找不到特定技能",
-          "solution": "確認已安裝對應的技能包：document-skills 用於文件，example-skills 用於範例和創建器"
-        }
-      ],
-      "tips": [
-        "document-skills 是處理辦公室文件的核心，支援 PDF, DOCX, XLSX, PPTX",
-        "example-skills 包含 Skill Creator，這是擴充 Claude 能力的關鍵工具",
-        "官方 Skills 庫會持續更新，建議定期檢查是否有新功能"
-      ],
-      "referenceLinks": [
-        {
-          "label": "Claude Skills GitHub",
-          "url": "https://github.com/anthropics/skills",
-          "description": "官方技能庫源代碼與清單"
-        }
-      ]
-    },
-    {
-      "id": "case-04",
+      "id": "case-12",
       "title": "自動填表單",
-      "fullTitle": "課程案例 4 - 自動填寫表單",
+      "fullTitle": "課程案例 12 - 自動填寫表單",
       "description": "使用 Chrome DevTools MCP 批次自動填寫表單",
       "icon": "FileEdit",
       "color": "orange",
@@ -487,9 +807,9 @@
       "sampleData": "詹小隆,第 1 次,金牛座,晴天,\"開心,興奮\"\n詹小明,第 2 次,雙魚座,雨天,平靜\n詹小華,第 3 次,獅子座,陰天,\"難過,生氣\"\n詹小美,第 4 次,天秤座,多雲,\"開心,平靜,興奮\"\n詹小英,第 5 次,天蠍座,晴天,興奮"
     },
     {
-      "id": "case-05",
+      "id": "case-13",
       "title": "股票分析",
-      "fullTitle": "課程案例 5 - 投資股票分析",
+      "fullTitle": "課程案例 13 - 投資股票分析",
       "description": "使用 Yahoo Finance MCP 進行股票基本面分析",
       "icon": "TrendingUp",
       "color": "green",
@@ -610,9 +930,9 @@
       ]
     },
     {
-      "id": "case-06",
+      "id": "case-14",
       "title": "智慧出題",
-      "fullTitle": "課程案例 6 - 智慧出題機器人",
+      "fullTitle": "課程案例 14 - 智慧出題機器人",
       "description": "使用 Skill 製作包含出題與審題 Sub Agents 的自動化系統",
       "icon": "Lightbulb",
       "color": "pink",
@@ -701,9 +1021,9 @@
       ]
     },
     {
-      "id": "case-07",
+      "id": "case-15",
       "title": "Notion 整合",
-      "fullTitle": "課程案例 7 - Notion 整合",
+      "fullTitle": "課程案例 15 - Notion 整合",
       "description": "整合 Notion 進行知識管理與教學資料整理",
       "icon": "BookOpen",
       "color": "amber",
@@ -814,9 +1134,9 @@
       ]
     },
     {
-      "id": "case-08",
+      "id": "case-16",
       "title": "影音下載",
-      "fullTitle": "課程案例 8 - 影音下載挑戰 (Claude Code 專屬)",
+      "fullTitle": "課程案例 16 - 影音下載挑戰 (Claude Code 專屬)",
       "description": "思考並實作 YouTube 轉 MP3 下載 Skill",
       "icon": "Download",
       "color": "red",
@@ -866,22 +1186,28 @@
       ]
     },
     {
-      "id": "case-09",
+      "id": "case-17",
       "title": "ERP 自動化小精靈",
-      "fullTitle": "商業挑戰 1 - ERP 自動化小精靈 📦",
+      "fullTitle": "課程案例 17 - ERP 自動化小精靈 📦",
       "description": "自動從郵件/Excel 抓取訂單並登入 ERP 建單，庫存不足自動發採購提醒",
       "icon": "FolderOpen",
       "color": "orange",
       "difficulty": 4,
       "difficultyLabel": "進階級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "思考如何讓 AI 解析非結構化的訂單資料（郵件、Excel）",
         "討論如何安全地操作 ERP 系統介面或 API",
         "設計庫存警示與自動通知的觸發邏輯"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": false },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -898,22 +1224,28 @@
       ]
     },
     {
-      "id": "case-10",
+      "id": "case-18",
       "title": "會計傳票自動化",
-      "fullTitle": "商業挑戰 2 - 會計傳票自動化 💰",
+      "fullTitle": "課程案例 18 - 會計傳票自動化 💰",
       "description": "讀取發票/收據圖片（OCR），自動分類會計科目並產生傳票分錄",
       "icon": "FileText",
       "color": "green",
       "difficulty": 4,
       "difficultyLabel": "進階級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "探討如何用 AI 視覺能力讀取發票與收據圖片",
         "思考會計科目分類的判斷邏輯與例外情況",
         "討論月底自動對帳的資料比對方式"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": false },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -930,22 +1262,28 @@
       ]
     },
     {
-      "id": "case-11",
+      "id": "case-19",
       "title": "蝦皮賣場小幫手",
-      "fullTitle": "商業挑戰 3 - 蝦皮賣場小幫手 🛒",
+      "fullTitle": "課程案例 19 - 蝦皮賣場小幫手 🛒",
       "description": "自動回覆買家問題、監控競品價格、自動調整商品價格並產生銷售報表",
       "icon": "Globe",
       "color": "pink",
       "difficulty": 3,
       "difficultyLabel": "中級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "思考如何建立常見問題的自動回覆知識庫",
         "討論競品監控與動態定價的策略設計",
         "探討銷售數據的自動彙整與視覺化呈現"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": true },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -962,22 +1300,28 @@
       ]
     },
     {
-      "id": "case-12",
+      "id": "case-20",
       "title": "銀行對帳機器人",
-      "fullTitle": "商業挑戰 4 - 銀行對帳機器人 🏦",
+      "fullTitle": "課程案例 20 - 銀行對帳機器人 🏦",
       "description": "下載銀行 CSV 交易明細，與公司帳務系統比對，標注異常並生成對帳差異報告",
       "icon": "TrendingUp",
       "color": "blue",
       "difficulty": 4,
       "difficultyLabel": "進階級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "思考如何解析不同銀行格式的 CSV/Excel 明細",
         "討論比對邏輯的設計：如何定義「相符」與「異常」",
         "探討自動化對帳報告的呈現格式"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": false },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -994,22 +1338,28 @@
       ]
     },
     {
-      "id": "case-13",
+      "id": "case-21",
       "title": "發票自動化管理",
-      "fullTitle": "商業挑戰 5 - 發票自動化管理 📄",
+      "fullTitle": "課程案例 21 - 發票自動化管理 📄",
       "description": "定期下載電子發票、自動驗證真偽、分類稅目，申報前自動檢查缺失",
       "icon": "FileEdit",
       "color": "indigo",
       "difficulty": 3,
       "difficultyLabel": "中級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "討論如何串接財政部電子發票 API 或雲端發票平台",
         "思考發票分類（進項/銷項/免稅）的判斷規則",
         "探討申報前自動查缺補漏的檢查清單設計"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": false },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -1026,22 +1376,28 @@
       ]
     },
     {
-      "id": "case-14",
+      "id": "case-22",
       "title": "供應商報價比較器",
-      "fullTitle": "商業挑戰 6 - 供應商報價比較器 📊",
+      "fullTitle": "課程案例 22 - 供應商報價比較器 📊",
       "description": "收集多家供應商 PDF/Excel 報價單，自動比較規格與價格並生成建議",
       "icon": "Star",
       "color": "amber",
       "difficulty": 3,
       "difficultyLabel": "中級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "探討如何從不同格式的報價單中抽取關鍵資訊",
         "思考規格比較的標準化邏輯（單位換算、條件差異）",
         "討論如何呈現比較結果並提供採購建議"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": true },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -1058,22 +1414,28 @@
       ]
     },
     {
-      "id": "case-15",
+      "id": "case-23",
       "title": "客戶帳款催收員",
-      "fullTitle": "商業挑戰 7 - 客戶帳款催收員 📞",
+      "fullTitle": "課程案例 23 - 客戶帳款催收員 📞",
       "description": "掃描應收帳款逾期名單，依逾期天數分級自動生成催款郵件並追蹤回覆",
       "icon": "AlertTriangle",
       "color": "red",
       "difficulty": 3,
       "difficultyLabel": "中級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "思考催款郵件的語氣分級策略（友善提醒 → 正式通知 → 法律警告）",
         "討論如何設計自動化排程與追蹤回覆狀態",
         "探討人工審核與自動發送之間的控制機制"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": false },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": false
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -1090,22 +1452,28 @@
       ]
     },
     {
-      "id": "case-16",
+      "id": "case-24",
       "title": "HR 履歷初篩助手",
-      "fullTitle": "商業挑戰 8 - HR 履歷初篩助手 👥",
+      "fullTitle": "課程案例 24 - HR 履歷初篩助手 👥",
       "description": "讀取履歷自動依職缺條件評分，標注符合項目並生成面試建議問題",
       "icon": "BookOpen",
       "color": "teal",
       "difficulty": 3,
       "difficultyLabel": "中級",
       "duration": "開放討論",
-      "platforms": ["Windows", "MacOS"],
+      "platforms": [
+        "Windows",
+        "MacOS"
+      ],
       "objectives": [
         "討論如何設計公平、可解釋的履歷評分準則",
         "思考如何處理不同格式的履歷（PDF、Word、線上連結）",
         "探討 AI 初篩結果如何輔助人資做最終決策"
       ],
-      "tools": { "claudeCode": true, "geminiCLI": true },
+      "tools": {
+        "claudeCode": true,
+        "geminiCLI": true
+      },
       "examplePrompts": [
         {
           "title": "討論起點",
@@ -1124,8 +1492,8 @@
   ],
   "metadata": {
     "version": "2.3.0",
-    "lastUpdated": "2026-03-04",
+    "lastUpdated": "2026-03-10",
     "author": "詹嘉隆",
-    "totalCases": 16
+    "totalCases": 24
   }
 }
