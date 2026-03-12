@@ -203,7 +203,13 @@ if (Get-Command uv -ErrorAction SilentlyContinue) {
 # --- 6. 安裝 Claude Code ---
 # 先檢查是否已安裝
 if (Get-Command claude -ErrorAction SilentlyContinue) {
-    Show-Success "Claude Code 已安裝。"
+    Show-Success "Claude Code 已安裝，正在更新至最新版本..."
+    try {
+        claude update 2>&1 | Out-Null
+        Show-Success "Claude Code 更新完成。"
+    } catch {
+        Show-Warning "自動更新失敗: $($_.Exception.Message)"
+    }
 } else {
     Show-Info "正在安裝 Claude Code..."
 
