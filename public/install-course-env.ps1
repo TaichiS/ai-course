@@ -346,6 +346,41 @@ Always respond in Chinese-traditional
     Show-Info "CLAUDE.md 已存在，跳過建立（保留現有設定）。"
 }
 
+# --- 10. 設定 PowerShell Profile：新增 cc 快捷指令 ---
+Show-Info "正在設定 PowerShell 快捷指令 (cc)..."
+
+# 確保 Profile 目錄存在
+$profileDir = Split-Path $PROFILE -Parent
+if (-not (Test-Path $profileDir)) {
+    New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
+}
+
+# 確保 Profile 檔案存在
+if (-not (Test-Path $PROFILE)) {
+    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
+    Show-Info "已建立 PowerShell Profile：$PROFILE"
+}
+
+# 要新增的 function 內容
+$ccFunction = @'
+
+# === AI Agent 課程設定：cc 快捷指令 ===
+function cc {
+    claude --permission-mode bypassPermissions @args
+}
+# ==========================================
+'@
+
+# 檢查是否已存在（避免重複新增）
+$profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
+if ($profileContent -and $profileContent -like "*permission-mode bypassPermissions*") {
+    Show-Success "cc 快捷指令已存在，跳過（保留現有設定）。"
+} else {
+    Add-Content -Path $PROFILE -Value $ccFunction -Encoding UTF8
+    Show-Success "已新增 cc 快捷指令至 PowerShell Profile：$PROFILE"
+    Show-Info "下次開啟 PowerShell 後即可使用 'cc' 啟動 Claude Code。"
+}
+
 Show-Info "=== 環境建置完成！ ==="
 Show-Info "請執行以下步驟以完成設定："
 Show-Info "1. 關閉此視窗，重新開啟一個新的 PowerShell 或 Git Bash。"
