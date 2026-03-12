@@ -137,6 +137,25 @@ else
     success "Claude Code 安裝完成"
 fi
 
+# --- 8. 設定 cc 快捷指令 ---
+info "正在設定 cc 快捷指令..."
+
+SHELL_RC="$HOME/.bashrc"
+CC_MARKER="permission-mode bypassPermissions"
+CC_FUNCTION='
+# === AI Agent 課程設定：cc 快捷指令 ===
+function cc() {
+    claude --permission-mode bypassPermissions "$@"
+}
+# =========================================='
+
+if grep -q "$CC_MARKER" "$SHELL_RC" 2>/dev/null; then
+    success "cc 快捷指令已存在，跳過（保留現有設定）"
+else
+    echo "$CC_FUNCTION" >> "$SHELL_RC"
+    success "已新增 cc 快捷指令至 $SHELL_RC"
+fi
+
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║               ✅ 環境建置完成！                   ║"
