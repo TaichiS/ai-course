@@ -108,27 +108,31 @@
       },
       "installation": {
         "claudeCode": {
-          "install": "方式 1 (互動式安裝)：\n/plugin marketplace add anthropics/skills\n接下來選擇：\n1. Browse and install plugins\n2. anthropic-agent-skills\n3. document-skills (或 example-skills)\n4. Install now\n\n方式 2 (直接安裝)：\n/plugin install document-skills@anthropic-agent-skills\n/plugin install example-skills@anthropic-agent-skills",
+          "install": "步驟 1：輸入以下指令加入官方技能來源\n/plugin marketplace add anthropics/skills\n\n步驟 2：再輸入以下指令開啟插件管理介面\n/plugin\n\n步驟 3：按左右鍵切換到「Discover」頁籤\n\n步驟 4：按上下鍵瀏覽清單，找到要安裝的技能後按空白鍵選取\n\n步驟 5：按 Enter 確認安裝\n\n建議至少安裝以下技能：\n- skill-creator\n- frontend-design\n- document-skills\n- example-skills",
           "verify": "claude skill list",
-          "expectedOutput": "Installed Skills:\n- document-skills\n- example-skills"
+          "expectedOutput": "Installed Skills:\n- skill-creator\n- frontend-design\n- document-skills\n- example-skills"
         }
       },
       "steps": [
         {
-          "title": "使用插件市場安裝",
-          "description": "輸入 `/plugin marketplace add anthropics/skills` 進入互動選單，這是最推薦的方式"
+          "title": "加入官方技能來源",
+          "description": "輸入 `/plugin marketplace add anthropics/skills`，將 Anthropic 官方技能來源加入"
         },
         {
-          "title": "選擇並安裝技能",
-          "description": "依照選單指引，安裝 `document-skills` (處理文件) 或 `example-skills` (包含 Skill Creator)"
+          "title": "開啟插件管理介面",
+          "description": "再輸入 `/plugin`，開啟插件管理介面"
         },
         {
-          "title": "驗證安裝",
-          "description": "安裝完成後，這些技能集會提供 PDF 讀取、文件轉換等能力"
+          "title": "切換到 Discover 頁籤",
+          "description": "按左右鍵切換到「Discover」頁籤，即可瀏覽可安裝的技能清單"
+        },
+        {
+          "title": "選取並安裝技能",
+          "description": "按上下鍵瀏覽，找到目標技能後按**空白鍵**選取，可多選，最後按 **Enter** 確認安裝。建議安裝：`skill-creator`、`frontend-design`、`document-skills`、`example-skills`"
         },
         {
           "title": "執行複雜任務",
-          "description": "嘗試讓 AI 讀取 PDF 並轉換為 Word，或使用 Skill Creator 創建新技能"
+          "description": "安裝完成後，嘗試讓 AI 讀取 PDF 並轉換為 Word，或使用 skill-creator 創建專屬技能"
         }
       ],
       "examplePrompts": [
