@@ -127,9 +127,10 @@ else
     success "UV 安裝完成"
 fi
 
-# --- 7. 安裝 Claude Code ---
+# --- 7. 安裝或更新 Claude Code ---
 if command -v claude &>/dev/null; then
-    success "Claude Code 已安裝"
+    success "Claude Code 已安裝，正在更新至最新版本..."
+    claude update && success "Claude Code 更新完成" || warn "claude update 失敗，請手動更新"
 else
     info "正在安裝 Claude Code..."
     npm install -g @anthropic-ai/claude-code

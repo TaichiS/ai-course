@@ -92,9 +92,17 @@ else
     success "UV 安裝完成"
 fi
 
-# --- 7. 安裝 Claude Code ---
+# --- 7. 安裝或更新 Claude Code ---
 if command -v claude &>/dev/null; then
-    success "Claude Code 已安裝"
+    success "Claude Code 已安裝，正在更新至最新版本..."
+    # 偵測安裝來源：Homebrew 優先
+    if brew list --cask claude-code &>/dev/null 2>&1; then
+        brew upgrade --cask claude-code && success "Claude Code 更新完成 (via Homebrew cask)" || warn "Homebrew 更新失敗，改用 claude update..."  && claude update
+    elif brew list claude-code &>/dev/null 2>&1; then
+        brew upgrade claude-code && success "Claude Code 更新完成 (via Homebrew formula)" || warn "Homebrew 更新失敗，改用 claude update..." && claude update
+    else
+        claude update && success "Claude Code 更新完成" || warn "claude update 失敗，請手動更新"
+    fi
 else
     info "正在安裝 Claude Code..."
     if brew install --cask claude-code 2>/dev/null; then
