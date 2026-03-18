@@ -339,6 +339,17 @@ onMounted(async () => {
         </CardContent>
       </Card>
 
+      <!-- 測試資料 -->
+      <Card v-if="(caseItem as any).sampleData" class="scroll-animate bg-white">
+        <CardHeader>
+          <CardTitle class="text-xl">📋 測試資料</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p class="text-gray-500 text-sm mb-3">可直接複製後貼入 CSV 檔案使用</p>
+          <CodeBlock :code="(caseItem as any).sampleData" color="cyan" />
+        </CardContent>
+      </Card>
+
       <!-- 底部導航 -->
       <div class="flex justify-between pt-8">
         <Button 
