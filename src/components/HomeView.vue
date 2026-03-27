@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Download, BookOpen, Sparkles, ArrowRight, Presentation } from 'lucide-vue-next'
+
+const instructorImg = `${import.meta.env.BASE_URL}instructor.png`
 </script>
 
 <template>
@@ -104,7 +106,7 @@ import { Download, BookOpen, Sparkles, ArrowRight, Presentation } from 'lucide-v
         <div class="md:flex gap-10 items-start mb-10">
           <div class="flex-shrink-0 mb-6 md:mb-0">
             <img
-              src="/ai-course/instructor.png"
+              :src="instructorImg"
               alt="詹嘉隆"
               class="w-36 rounded-2xl object-cover shadow-md"
             />
