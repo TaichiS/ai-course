@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted } from 'vue'
 import { Download, BookOpen, Sparkles, ArrowRight, Presentation, Mail } from 'lucide-vue-next'
 
-const instructorImg = `${import.meta.env.BASE_URL}instructor.png`
+const instructorImg = `${import.meta.env.BASE_URL}instructor.jpg`
 
 let observer: IntersectionObserver | null = null
 
@@ -187,7 +187,7 @@ onUnmounted(() => observer?.disconnect())
               <img
                 :src="instructorImg"
                 alt="詹嘉隆"
-                class="w-36 md:w-44 rounded-2xl object-cover shadow-md"
+                class="w-36 md:w-44 rounded-full object-cover shadow-md aspect-square"
               />
               <a
                 href="mailto:luuung@gmail.com"
