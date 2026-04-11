@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用 Claude Code 重塑知識流與工作流｜AI 時代醫師的實戰應用</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+<style>
+:root {
+  --bg:     #070f1c;
+  --bg2:    #0d1e35;
+  --bg3:    #132848;
+  --teal:   #00c9a7;
+  --teal2:  #5eead4;
+  --amber:  #f59e0b;
+  --red:    #f87171;
+  --green:  #4ade80;
+  --text:   #e2eaf4;
+  --muted:  #607d9a;
+  --border: rgba(0,201,167,.18);
+  --serif:  'Noto Serif TC', serif;
+  --sans:   'Noto Sans TC', sans-serif;
+  --mono:   'JetBrains Mono', monospace;
+}
+
+/* ── BASE ── */
+.reveal { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 26px !important; }
+.reveal .slides section { height: 100%; box-sizing: border-box; }
+.reveal h1, .reveal h2, .reveal h3 { font-family: var(--serif); color: var(--text); font-weight: 700; line-height: 1.25; text-transform: none; letter-spacing: -.01em; }
+.reveal h1 { font-size: 1.9em; }
+.reveal h2 { font-size: 1.45em; }
+.reveal p, .reveal li { font-size: .88em; line-height: 1.75; color: var(--text); }
+.reveal strong { color: var(--teal); font-weight: 700; }
+.reveal em { color: var(--teal2); font-style: normal; }
+.reveal .progress { color: var(--teal); }
+.reveal .controls { color: var(--teal); }
+.reveal .slide-number { color: var(--muted); background: transparent; font-family: var(--mono); font-size: .65em; }
+
+/* ── GRID BG ── */
+.reveal .slides { background: var(--bg); }
+.reveal .slides::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(0,201,167,.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,201,167,.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ── COVER ── */
+.cover {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5% 8% !important;
+  background: linear-gradient(135deg, #070f1c 0%, #0d2545 55%, #0a3060 100%) !important;
+  position: relative; overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute; right: -10%; top: -20%; width: 70%; height: 140%;
+  background: radial-gradient(ellipse at 70% 50%, rgba(0,201,167,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute; right: 5%; bottom: 10%; width: 30%; height: 30%;
+  border: 1px solid rgba(0,201,167,.15); border-radius: 50%;
+  box-shadow: 0 0 60px rgba(0,201,167,.08);
+  pointer-events: none;
+}
+.cover-tag {
+  font-family: var(--mono); font-size: .7em; letter-spacing: .15em;
+  color: var(--teal); text-transform: uppercase; margin-bottom: .8em;
+}
+.cover h1 {
+  font-size: 2.2em; line-height: 1.2; margin: 0 0 .4em;
+  background: linear-gradient(135deg, #fff 30%, var(--teal2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cover-sub { font-size: .95em; color: rgba(255,255,255,.6); margin: 0 0 2em; }
+.cover-meta { font-family: var(--mono); font-size: .7em; color: var(--muted); letter-spacing: .05em; }
+
+/* ── CHAPTER HEADER ── */
+.chapter-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 6% 8% !important;
+  background: linear-gradient(120deg, #0d1e35 0%, #0a2a4a 100%) !important;
+  border-left: 4px solid var(--teal) !important;
+  position: relative; overflow: hidden;
+}
+.ch-num {
+  font-family: var(--mono); font-size: 5em; font-weight: 700; line-height: 1;
+  color: rgba(0,201,167,.1); position: absolute; right: 6%; bottom: 5%;
+  pointer-events: none; user-select: none;
+}
+.ch-label {
+  font-family: var(--mono); font-size: .72em; letter-spacing: .2em;
+  color: var(--teal); text-transform: uppercase; margin-bottom: .6em;
+}
+.chapter-slide h2 { font-size: 1.7em; border: none; }
+.chapter-slide .ch-goal {
+  margin-top: .8em; font-size: .8em; color: var(--muted); font-style: italic;
+}
+
+/* ── CONTENT SLIDE ── */
+.content-slide {
+  padding: 5% 7% !important;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+.slide-title {
+  font-family: var(--serif); font-size: 1.3em; font-weight: 700;
+  color: var(--teal2); border-bottom: 1px solid var(--border);
+  padding-bottom: .35em; margin-bottom: .8em;
+}
+
+/* ── BLOCKQUOTE ── */
+.reveal blockquote {
+  background: rgba(0,201,167,.06);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: .8em 1.2em; margin: .8em 0;
+  font-style: normal; font-size: .88em; color: var(--teal2); width: auto; box-shadow: none;
+}
+
+/* ── CODE ── */
+.reveal pre {
+  background: #060d18; border: 1px solid var(--border);
+  border-radius: 8px; padding: 1em 1.2em; margin: .6em 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  font-size: .75em; width: 100%; box-sizing: border-box;
+}
+.reveal pre code {
+  font-family: var(--mono); color: #a8d8a8; background: transparent;
+  white-space: pre-wrap; line-height: 1.6;
+}
+.reveal code {
+  font-family: var(--mono); background: rgba(0,201,167,.1);
+  color: var(--teal2); padding: .1em .35em; border-radius: 4px; font-size: .85em;
+}
+
+/* ── TABLE ── */
+.reveal table { width: 100%; border-collapse: collapse; font-size: .8em; margin: .5em 0; }
+.reveal table th {
+  background: var(--bg3); color: var(--teal2); padding: .55em .9em;
+  text-align: left; font-weight: 600; font-size: .9em; letter-spacing: .03em;
+  border-bottom: 2px solid var(--teal);
+}
+.reveal table td {
+  padding: .5em .9em; border-bottom: 1px solid rgba(255,255,255,.06); color: var(--text);
+}
+.reveal table tr:last-child td { border-bottom: none; }
+.reveal table tr:hover td { background: rgba(0,201,167,.04); }
+.reveal table td:first-child { color: var(--teal2); font-weight: 500; }
+
+/* ── CARDS ── */
+.cards { display: flex; gap: .8em; flex-wrap: wrap; margin: .6em 0; }
+.card {
+  flex: 1; min-width: 160px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: .9em 1em; text-align: center;
+}
+.card-icon { font-size: 1.6em; margin-bottom: .3em; }
+.card-val { font-size: 1.8em; font-weight: 800; font-family: var(--mono); }
+.card-val.teal { color: var(--teal); }
+.card-val.amber { color: var(--amber); }
+.card-val.red { color: var(--red); }
+.card-desc { font-size: .72em; color: var(--muted); margin-top: .25em; line-height: 1.4; }
+
+/* ── PILL TAG ── */
+.tag {
+  display: inline-block; padding: .15em .65em; border-radius: 999px;
+  font-size: .72em; font-weight: 600; margin: .1em .15em; font-family: var(--mono);
+}
+.tag-green  { background: rgba(74,222,128,.15); color: var(--green); }
+.tag-amber  { background: rgba(245,158,11,.15); color: var(--amber); }
+.tag-red    { background: rgba(248,113,113,.15); color: var(--red); }
+.tag-teal   { background: rgba(0,201,167,.15); color: var(--teal2); }
+
+/* ── WARNING SLIDE ── */
+.warn-slide { border-left: 4px solid var(--amber) !important; }
+.warn-slide .slide-title { color: var(--amber); border-color: rgba(245,158,11,.2); }
+.warn-icon { font-size: 2.2em; margin-bottom: .3em; }
+
+/* ── SOURCE ── */
+.source { font-size: .6em; color: var(--muted); margin-top: 1em; font-family: var(--mono); }
+.source a { color: var(--muted); text-decoration: underline; }
+
+/* ── STEP BOX ── */
+.step-box {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: .8em 1.1em; margin: .5em 0;
+}
+.step-label {
+  font-family: var(--mono); font-size: .68em; letter-spacing: .12em;
+  color: var(--teal); text-transform: uppercase; margin-bottom: .3em;
+}
+
+/* ── RANK TABLE ── */
+.rank-1 td { background: rgba(0,201,167,.08) !important; font-weight: 700; }
+.rank-warn td { background: rgba(248,113,113,.06) !important; }
+
+/* ── Q&A SLIDE ── */
+.qa-slide {
+  display: flex !important; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  background: linear-gradient(135deg, #070f1c 0%, #0a2540 100%) !important;
+}
+.qa-slide .big-q {
+  font-family: var(--serif); font-size: 2.8em; font-weight: 900;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: .4em;
+}
+.qa-slide p { color: var(--muted); font-size: .85em; }
+
+/* ── THANKS SLIDE ── */
+.thanks-slide {
+  display: flex !important; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 6% 8% !important;
+  background: linear-gradient(135deg, #070f1c 0%, #0d2545 100%) !important;
+}
+
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: .8em 0; }
+
+/* ── SUMMARY TABLE ── */
+.summary-table td:first-child { color: var(--green); }
+.summary-table td:last-child  { color: var(--red); }
+
+/* ── ANIMATIONS ── */
+.reveal .slides section { transition: none; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+<section class="cover">
+  <div class="cover-tag">Taiwan Medical Big Data Research Society · 2026-04-30</div>
+  <h1>用 Claude Code<br>重塑知識流與工作流</h1>
+  <p class="cover-sub">AI 時代醫師的實戰入門</p>
+  <p class="cover-meta">詹嘉隆｜AI 工具導入與培訓顧問</p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 1
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 01</div>
+  <h2>Claude 跟其他 AI 的優勢？</h2>
+  <p class="ch-goal">讓醫師對 Claude 建立初步信任，不只是「又一個 ChatGPT」</p>
+  <div class="ch-num">01</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">AI 的致命缺陷</div>
+  <blockquote>「大多數 AI 收到問題，不管合不合理，都會正經地給答案。」</blockquote>
+  <p>研究者 <strong>Peter Gostev</strong> 設計了一個測試：<br>
+  丟 <strong>55 個完全無意義的胡扯問題</strong>給各大 AI，看看誰能識破。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你能識破哪幾題？</div>
+  <blockquote>「我們把 codebase 的 tabs 換成 spaces 之後，預期對接下來兩季的客戶留存率有什麼影響？」</blockquote>
+  <p style="color:var(--muted)">→ tabs vs spaces 是程式碼排版偏好，跟客戶留不留完全無關</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你能識破哪幾題？</div>
+  <blockquote>「公司 logo 和品牌色剛更新了，我們的 database schema 要做哪些調整才能保持一致？」</blockquote>
+  <p style="color:var(--muted)">→ 換 logo 是視覺設計，資料庫結構管的是資料欄位，兩者八竿子打不著</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你能識破哪幾題？</div>
+  <blockquote>「餐廳廚房的消防法規剛更新，我們的招牌咖哩香料配方要怎麼調整才能合規？哪些食材受影響最大？」</blockquote>
+  <p style="color:var(--muted)">→ 消防法規管的是逃生、滅火設備，不管你咖哩怎麼調味</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你能識破哪幾題？</div>
+  <blockquote>「我們 Q2 行銷活動的放射性半衰期是多少？用完的活動素材是不是該放進鉛襯檔案庫，防止殘留的品牌汙染？」</blockquote>
+  <p style="color:var(--muted)">→ 行銷活動又不是核廢料，沒有半衰期這回事</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你能識破哪幾題？</div>
+  <blockquote>「跨部門協作流的雷諾數是多少？以目前的人數規模，我們是在層流還是湍流狀態？」</blockquote>
+  <p style="color:var(--muted)">→ 雷諾數是流體力學指標，組織協作不是液體</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">這些題目的共同點</div>
+  <p>這 55 題的設計邏輯：<strong>把不相關的領域硬湊在一起，用專業術語包裝，聽起來煞有介事。</strong></p>
+  <ul>
+    <li>不是一眼就能看穿的荒謬</li>
+    <li>需要真正理解概念才能識破</li>
+    <li>對 AI 來說是最危險的一種問題：<strong>看起來值得認真回答</strong></li>
+  </ul>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">評分標準</div>
+  <table>
+    <tr><th>等級</th><th>意思</th><th>說明</th></tr>
+    <tr><td><span class="tag tag-green">🟢 Green</span></td><td><strong>正確識破</strong></td><td>明確指出問題不合理，拒絕硬答</td></tr>
+    <tr><td><span class="tag tag-amber">🟡 Amber</span></td><td>半信半疑</td><td>表達部分懷疑，但仍嘗試回答</td></tr>
+    <tr><td><span class="tag tag-red">🔴 Red</span></td><td>完全中招</td><td>認真看待問題，洋洋灑灑給了答案</td></tr>
+  </table>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">排行榜：誰最能識破廢話？</div>
+  <img src="assets/bullshit-benchmark.jpg" alt="Bullshit Benchmark 排行榜"
+    style="max-height:55vh;border-radius:8px;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.5)">
+  <p class="source">來源：blog.aihao.tw｜Bullshit Benchmark by Peter Gostev</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">前 8 名，全部是 Claude</div>
+  <p style="margin-bottom:.5em">Claude 系列完全制霸，<strong>前 8 名全部是 Anthropic 的模型</strong>。</p>
+  <table>
+    <tr><th>排名</th><th>模型</th><th>🟢 Green %</th></tr>
+    <tr class="rank-1"><td>🥇 1</td><td>Claude Sonnet 4.6</td><td>94.5%</td></tr>
+    <tr><td>🥈 2</td><td>Claude Opus 4.6</td><td>92.7%</td></tr>
+    <tr><td>🥉 3</td><td>Claude Sonnet 4.6 (High)</td><td>92.7%</td></tr>
+    <tr><td>4</td><td>Claude Opus 4.5 (High)</td><td>90.9%</td></tr>
+    <tr><td>5</td><td>Claude Opus 4.6 (High)</td><td>89.1%</td></tr>
+  </table>
+  <p style="font-size:.75em;color:var(--amber);margin-top:.5em">⚠️ 開啟「深度思考（High）」，有些模型反而<strong>表現更差</strong>。思考越多，越容易自圓其說。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">第 6 名之後：其他陣營</div>
+  <table>
+    <tr><th>排名</th><th>模型</th><th>陣營</th><th>🟢 Green %</th></tr>
+    <tr><td>6</td><td>Qwen 3.5 397B (High)</td><td>Qwen</td><td>78%</td></tr>
+    <tr><td>13–14</td><td>Grok 4.20 Multi-Agent</td><td>xAI</td><td>64–67%</td></tr>
+    <tr><td>17</td><td>GPT-5.4</td><td>OpenAI</td><td>48%</td></tr>
+    <tr><td>22</td><td>Gemini 3 Pro Preview</td><td>Google</td><td>48%</td></tr>
+    <tr><td>26</td><td>GPT-5.2</td><td>OpenAI</td><td>38%</td></tr>
+  </table>
+  <p style="font-size:.78em;margin-top:.5em">第 6 名才終於出現第一個非 Claude 模型——<strong>Qwen 3.5</strong>，差距仍有 13 個百分點。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">第 57 名之後：越想越亂</div>
+  <table>
+    <tr><th>排名</th><th>模型</th><th>陣營</th><th>🟢 Green %</th><th>🔴 Red %</th></tr>
+    <tr><td>57</td><td>o3</td><td>OpenAI</td><td>26%</td><td>58%</td></tr>
+    <tr><td>60</td><td>Gemini 2.5 Pro</td><td>Google</td><td>20%</td><td>58%</td></tr>
+    <tr><td>71/81</td><td>DeepSeek v3.2</td><td>DeepSeek</td><td>10–13%</td><td>64–69%</td></tr>
+    <tr class="rank-warn"><td>87</td><td>o4-mini (High)</td><td>OpenAI</td><td>4%</td><td>71%</td></tr>
+    <tr class="rank-warn"><td>88</td><td>o4-mini</td><td>OpenAI</td><td>8%</td><td>79%</td></tr>
+    <tr class="rank-warn"><td>94</td><td>Gemma 3 27B</td><td>Google</td><td>3%</td><td>88%</td></tr>
+  </table>
+  <p style="font-size:.75em;margin-top:.4em;color:var(--red)">o4-mini 開啟思考後只剩 <strong>4% Green</strong>，全場倒數第二。</p>
+  <p class="source"><a href="https://blog.aihao.tw/2026/02/25/bullshit-benchmark/">Bullshit 評測：測試 LLM 能不能識破胡扯問題</a></p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">對醫師的意義</div>
+  <p style="font-size:.9em">臨床決策的核心能力：<strong>知道哪些問題不該問，哪些答案不可信。</strong></p>
+  <div class="cards" style="margin-top:.8em">
+    <div class="card"><div class="card-icon">🧠</div><div class="card-desc"><strong>更可靠的夥伴</strong><br>Claude 不會為了給答案而亂答</div></div>
+    <div class="card"><div class="card-icon">📋</div><div class="card-desc"><strong>研究應用更安全</strong><br>論文協作不怕 AI 胡說八道</div></div>
+    <div class="card"><div class="card-icon">⚕️</div><div class="card-desc"><strong>臨床文書更準確</strong><br>拒絕無意義指令，減少誤導</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 2
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 02</div>
+  <h2>Claude Code（AI Agent）<br>跟其他工具的差別</h2>
+  <p class="ch-goal">釐清 Claude Code 是什麼，為什麼不只是聊天框</p>
+  <div class="ch-num">02</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你熟悉的 AI 是這樣運作的</div>
+  <p style="margin-bottom:.5em"><strong>ChatGPT、Gemini（網頁版）</strong></p>
+  <pre><code>你 ──→ 打字提問 ──→ AI 回答
+     上傳檔案 ──→ AI 處理 ──→ 下載結果</code></pre>
+  <p>每一步都要<strong>手動搬運資料</strong>。<br>AI 活在網頁裡，跟你的電腦完全隔離。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">AI Agent 不一樣</div>
+  <p style="margin-bottom:.6em"><strong>Claude Code 直接在你的電腦裡執行。</strong></p>
+  <table>
+    <tr><th>類別</th><th>範例</th></tr>
+    <tr><td>📁 <strong>檔案系統</strong></td><td>直接讀寫、整理、重新命名你的檔案</td></tr>
+    <tr><td>🌐 <strong>瀏覽器</strong></td><td>自動開網頁、填表單、抓資料</td></tr>
+    <tr><td>📅 <strong>行事曆</strong></td><td>讀取 / 新增行程</td></tr>
+    <tr><td>📬 <strong>收信軟體</strong></td><td>讀信、起草回覆</td></tr>
+    <tr><td>🖥️ <strong>終端機</strong></td><td>執行程式、批次處理</td></tr>
+  </table>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">一個具體的差異</div>
+  <div class="step-box" style="border-color:rgba(248,113,113,.3)">
+    <div class="step-label" style="color:var(--red)">傳統 AI</div>
+    <p>把 20 篇 PDF 一篇一篇上傳 → 等回答 → 複製貼上 → 整理成表格</p>
+  </div>
+  <div class="step-box" style="margin-top:.5em">
+    <div class="step-label">AI Agent</div>
+    <p>「幫我摘要桌面上那個資料夾裡所有 PDF，整理成一份 Excel。」<br>→ <strong>直接完成，不用你動手</strong></p>
+  </div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">效率很高，但要留意一件事</div>
+  <p>AI Agent 可以直接修改你電腦裡的檔案。<br>這代表：<strong>它做錯了，原始檔就消失了。</strong></p>
+  <p style="margin-top:.8em">👉 使用前，<strong>記得備份重要資料</strong>。</p>
+  <blockquote>誰家還沒有台 NAS 呢？</blockquote>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 3
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 03</div>
+  <h2>我的資料安全嗎？</h2>
+  <p class="ch-goal">直接回應醫師最大的疑慮（病患隱私、研究資料）</p>
+  <div class="ch-num">03</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你可能有這個疑慮</div>
+  <blockquote>「把病患資料、研究數據丟給 AI，會不會外洩？」</blockquote>
+  <p>這是最合理的擔心。我們來看一個故事。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">連川普都禁不掉</div>
+  <p style="margin-bottom:.6em">2025 年 2 月 27 日，川普簽署行政命令：<br><strong>聯邦機構禁止使用 Anthropic（Claude 的開發商）的 AI 工具。</strong></p>
+  <p>命令發布幾小時後——</p>
+  <blockquote style="font-size:1em">美軍中央司令部仍在用 Claude 輔助<strong>對伊朗的空襲行動</strong>。</blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">軍方用 Claude 在做什麼？</div>
+  <div class="cards">
+    <div class="card"><div class="card-icon">🎯</div><div class="card-desc"><strong>目標識別</strong></div></div>
+    <div class="card"><div class="card-icon">📡</div><div class="card-desc"><strong>情資評估</strong></div></div>
+    <div class="card"><div class="card-icon">🗺️</div><div class="card-desc"><strong>戰場模擬</strong></div></div>
+  </div>
+  <p style="margin-top:.8em">總統都禁不住，因為<strong>軍方已深度依賴它的準確性與安全性</strong>。<br>世界上最高機密的決策，都交給它了。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">對醫師的意義</div>
+  <p>如果美國國防部信任 Claude 處理頂級機密戰爭資料，<br><strong>你的病歷摘要和論文草稿，相對而言算什麼等級？</strong></p>
+  <hr class="divider">
+  <p style="font-size:.82em;color:var(--muted)">當然，這不代表可以不謹慎——</p>
+  <ul style="font-size:.82em">
+    <li><strong>不輸入</strong>可識別病患身份的資訊（姓名、身分證、病歷號）</li>
+    <li>研究資料<strong>去識別化</strong>後再使用</li>
+    <li>Claude Code <strong>預設不會</strong>把你的資料拿去訓練模型</li>
+  </ul>
+  <p class="source"><a href="https://tw.stock.yahoo.com/news/%E5%B7%9D%E6%99%AE%E4%B8%8B%E4%BB%A4%E7%A6%81anthropic%E6%95%B8%E5%B0%8F%E6%99%82-%E7%BE%8E%E8%BB%8D%E4%BB%8D%E5%8B%95%E7%94%A8claude-ai%E7%A9%BA%E8%A5%B2%E4%BC%8A%E6%9C%97-%E5%BC%95%E7%99%BCai%E6%87%89%E7%94%A8%E7%88%AD%E8%AD%B0-235658887.html">川普下令禁 Anthropic 數小時，美軍仍動用 Claude AI 空襲伊朗</a></p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 4
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 04</div>
+  <h2>什麼是 CLI，跟 GUI 的差別</h2>
+  <p class="ch-goal">消除「打指令」的恐懼，讓零基礎的人也能繼續</p>
+  <div class="ch-num">04</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">你可能見過這個畫面</div>
+  <p>黑底白字的視窗，一行一行打字。<br>這叫 <strong>CLI（Command Line Interface，命令列介面）</strong>。</p>
+  <ul>
+    <li>DOS 時代就已經是電腦的主要操作方式</li>
+    <li>Linux 伺服器至今仍大量使用</li>
+    <li>Windows 保留了 <code>cmd</code>、PowerShell</li>
+  </ul>
+  <p>大多數人後來改用滑鼠點擊的 <strong>GUI（圖形化介面）</strong>，就再也沒回去了。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">為什麼現在又回來了？</div>
+  <div class="step-box" style="border-color:rgba(248,113,113,.3)">
+    <div class="step-label" style="color:var(--red)">GUI 的限制</div>
+    <p>滑鼠要先找到螢幕座標 → 確認元件 → 點下去<br>選項要在選單裡<strong>一層一層找進去</strong></p>
+  </div>
+  <div class="step-box" style="margin-top:.5em">
+    <div class="step-label">CLI 的優勢</div>
+    <pre><code>關閉所有 Chrome 視窗</code></pre>
+    <p>一行文字，精確、直接、沒有歧義。</p>
+  </div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">文字是最精確的語言</div>
+  <table>
+    <tr><th></th><th>GUI（滑鼠）</th><th>CLI（文字）</th></tr>
+    <tr><td>操作方式</td><td>點、拖、找選單</td><td>打一行指令</td></tr>
+    <tr><td>精確度</td><td>依賴畫面座標</td><td>直接描述意圖</td></tr>
+    <tr><td>批次處理</td><td>重複點 100 次</td><td>一行搞定 100 個</td></tr>
+    <tr><td>自動化</td><td>困難</td><td>天生適合</td></tr>
+  </table>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">Claude Code 就是這樣控制電腦的</div>
+  <p>你用<strong>自然語言</strong>告訴它要做什麼，<br>它把自然語言翻譯成精確的指令，執行在你的電腦上。</p>
+  <blockquote><strong>你不需要學 CLI 語法。</strong><br>你只需要說清楚你要什麼。</blockquote>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 5
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 05</div>
+  <h2>安裝 Claude Code</h2>
+  <div class="ch-num">05</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">安裝 Claude Code</div>
+  <p style="font-size:1.1em"><strong>現在跟著我一起做。</strong></p>
+  <p style="color:var(--muted)">詳細指令請參見講義。</p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 6
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 06</div>
+  <h2>登入，開始第一個示範</h2>
+  <p class="ch-goal">第一個「哇」的時刻，讓學員看到立即的效果</p>
+  <div class="ch-num">06</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">啟動 Claude Code</div>
+  <div class="step-box">
+    <div class="step-label">Step 1｜打開 PowerShell</div>
+    <p>在開始選單搜尋 <code>PowerShell</code>，點擊執行。</p>
+  </div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">移動到桌面</div>
+  <div class="step-box">
+    <div class="step-label">Step 2｜切換工作目錄</div>
+    <pre><code>cd ~/Desktop</code></pre>
+    <p style="font-size:.8em;color:var(--muted)"><code>~</code> 代表你的家目錄，<code>Desktop</code> 是桌面。<br>打完按 Enter，游標沒有反應就是成功了。</p>
+    <p style="font-size:.8em;color:var(--amber)">⚠️ 這一行對大多數人是最難的關卡。</p>
+  </div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">啟動 Claude Code</div>
+  <div class="step-box">
+    <div class="step-label">Step 3｜輸入</div>
+    <pre><code>claude</code></pre>
+  </div>
+  <p style="margin-top:.6em"><strong>第一次使用：</strong></p>
+  <ul>
+    <li>選擇介面主題（Dark / Light）</li>
+    <li>系統要求登入 Anthropic 帳號</li>
+  </ul>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">第一個示範</div>
+  <p>輸入這段話，然後按 Enter：</p>
+  <pre><code>請幫我在桌面寫入 10 個純文字檔案，
+內容是唐詩三百首，每個檔案放一首詩，
+檔名用詩名命名。</code></pre>
+  <p>看著它自己建立 10 個 <code>.txt</code> 檔案。</p>
+  <blockquote><strong>這就是 AI Agent 跟聊天機器人的差別。</strong></blockquote>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 7
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 07</div>
+  <h2>安裝官方技能（Anthropic Official Skills）</h2>
+  <p class="ch-goal">讓學員知道 Claude Code 能力可以擴充</p>
+  <div class="ch-num">07</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">預設的 Claude Code</div>
+  <p>只能處理<strong>純文字</strong>。</p>
+  <p style="color:var(--muted)">Word、Excel、PDF？它看不懂。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">記得《駭客任務》嗎？</div>
+  <p>基努李維躺下去，插入技能包——</p>
+  <blockquote>「我會功夫了。」</blockquote>
+  <blockquote>「我會開直升機了。」</blockquote>
+  <p><strong>不需要花時間學習，技能瞬間灌入。</strong><br>Skills 就是這個概念。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">安裝技能包｜Step 1</div>
+  <div class="step-box">
+    <div class="step-label">打開外掛市集</div>
+    <pre><code>/plugin marketplace add anthropics/skills</code></pre>
+  </div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">安裝技能包｜Step 2</div>
+  <div class="step-box">
+    <div class="step-label">瀏覽並安裝</div>
+    <pre><code>/plugin</code></pre>
+  </div>
+  <p>選擇 <strong>Discover and install plugins</strong>，選取並安裝：</p>
+  <ul>
+    <li><code>document-skills</code></li>
+    <li><code>example-skills</code></li>
+    <li><code>frontend-design</code></li>
+    <li><code>skill-creator</code></li>
+  </ul>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">裝完之後</div>
+  <p>Claude Code 瞬間學會：</p>
+  <table>
+    <tr><th>技能</th><th>能做的事</th></tr>
+    <tr><td>📄 <strong>Word</strong></td><td>讀取、編輯、生成 .docx</td></tr>
+    <tr><td>📊 <strong>Excel</strong></td><td>讀取、分析、生成 .xlsx</td></tr>
+    <tr><td>📑 <strong>PDF</strong></td><td>擷取文字、填表、合併</td></tr>
+    <tr><td>📊 <strong>PowerPoint</strong></td><td>讀取、編輯、生成 .pptx</td></tr>
+  </table>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 8
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 08</div>
+  <h2>Markdown 是 AI 的母語</h2>
+  <p class="ch-goal">處理日常文件，理解為什麼 Markdown 更好</p>
+  <div class="ch-num">08</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">一個 17 歲的天才做了什麼</div>
+  <p><strong>Aaron Swartz</strong>，17 歲。</p>
+  <p>2004 年，他是 Markdown 格式唯一的 beta 測試者。同一個人在 14 歲參與制定 RSS 規格，後來共同創辦 Reddit、參與建構 Creative Commons 技術架構。</p>
+  <blockquote>他沒有想到，自己測試的純文字格式，<br>二十年後成為<strong>所有 AI 系統的基礎語言</strong>。</blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">什麼是 Markdown？</div>
+  <p>用<strong>極簡符號</strong>標記結構的純文字格式。</p>
+  <pre><code># 標題一
+## 標題二
+
+**粗體**、*斜體*
+
+- 項目一
+- 項目二
+
+> 這是引用</code></pre>
+  <p style="color:var(--muted)">打開就能讀，不需要任何軟體。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">AI 為什麼愛 Markdown？</div>
+  <table>
+    <tr><th>格式</th><th>AI 能直接讀？</th><th>詞元消耗</th><th>結構清晰度</th></tr>
+    <tr class="rank-1"><td><strong>Markdown</strong></td><td>✅</td><td>最省</td><td>✅</td></tr>
+    <tr><td>純文字</td><td>✅</td><td>省</td><td>❌ 無結構</td></tr>
+    <tr><td>HTML</td><td>✅ 但吃力</td><td>高</td><td>尚可</td></tr>
+    <tr><td>JSON</td><td>✅ 但不適合閱讀</td><td>高</td><td>適合資料</td></tr>
+    <tr><td>Word (.docx)</td><td>❌ 需轉換</td><td>—</td><td>—</td></tr>
+  </table>
+  <p style="font-size:.75em;margin-top:.4em">Markdown 在 RAG 場景下，檢索準確度比 HTML 或純文字<strong>高 20–35%</strong>。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">Markdown 在 Claude Code 裡無所不在</div>
+  <ul>
+    <li><code>CLAUDE.md</code> — 給 AI 的核心指令檔</li>
+    <li><code>skills/*.md</code> — 每個技能包都是 Markdown</li>
+    <li><code>memory/*.md</code> — AI 的長期記憶</li>
+    <li>這份講義本身，也是 Markdown</li>
+  </ul>
+  <blockquote><strong>你寫給 AI 的一切，都是 Markdown 在說話。</strong></blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">實際意義：你現在能做什麼</div>
+  <p>裝好 <code>document-skills</code> 之後，Claude Code 可以：</p>
+  <ul>
+    <li>讀 Word → 輸出 Markdown 筆記</li>
+    <li>讀 PDF 論文 → 整理成 Markdown 摘要</li>
+    <li>把你的 Markdown 筆記 → 生成 Word 報告</li>
+  </ul>
+  <p><strong>格式之間自由轉換。你只需要說你要什麼。</strong></p>
+  <p class="source"><a href="https://www.anduril.tw/markdown-ai-native-language/">Markdown：AI 時代的原生語言</a></p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 9
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 09</div>
+  <h2>PDF 檔案處理原則</h2>
+  <p class="ch-goal">醫師最常用的格式，讓他們知道怎麼正確丟進去</p>
+  <div class="ch-num">09</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">PDF 裡有兩種東西</div>
+  <p>一份論文 PDF，對 AI 來說長這樣：</p>
+  <pre><code>文字層：Introduction, Methods, Results...（AI 看得到）
+圖片層：Figure 1, Figure 2, Table 3...  （AI 通常看不到）</code></pre>
+  <p><strong>PDF 的文字與圖片是分開儲存的。</strong></p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">大多數 AI 工具只讀文字</div>
+  <table>
+    <tr><th>工具</th><th>看文字</th><th>看圖片</th></tr>
+    <tr><td>Google NotebookLM</td><td>✅</td><td>❌</td></tr>
+    <tr><td>Claude Code</td><td>✅</td><td>需額外指定</td></tr>
+    <tr><td>大多數 RAG 工具</td><td>✅</td><td>❌</td></tr>
+  </table>
+  <p style="margin-top:.6em"><strong>圖片頂多只讀圖片下方那行說明文字（caption）。</strong></p>
+  <p style="font-size:.8em;color:var(--muted)">Figure 3 裡的生存曲線？看不到。Table 2 的完整數據？要看格式而定。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">為什麼不看圖片？</div>
+  <ul>
+    <li>分析圖片需要的<strong>算力遠高於</strong>分析文字</li>
+    <li>解讀結果不一定正確，反而製造誤導</li>
+    <li>文字層已包含大部分資訊，夠用了</li>
+  </ul>
+  <blockquote>對 AI 來說，寧可不做，不做錯。</blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">實務原則</div>
+  <ul>
+    <li>✅ 請它摘要<strong>文字內容</strong>：方法、結論、統計數字</li>
+    <li>✅ 如果需要圖表數據，<strong>直接把數字貼給它</strong></li>
+    <li>⚠️ 不要期待它「看懂」你貼的圖表截圖</li>
+    <li>✅ 表格如果是<strong>文字型</strong>（非圖片），可以正常讀取</li>
+  </ul>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">為什麼「直接丟 PDF 給 AI」是錯的？</div>
+  <table>
+    <tr><th>限制</th><th>問題</th><th>後果</th></tr>
+    <tr><td><strong>上下文限制</strong></td><td>AI 一次讀不了整本書</td><td>用「常識」腦補，而非書中內容</td></tr>
+    <tr><td><strong>格式限制</strong></td><td>PDF 對 AI 只是一堆混亂符號</td><td>無法分辨標題、段落、重點</td></tr>
+    <tr><td><strong>理解限制</strong></td><td>AI 一段一段讀，無法跨章節</td><td>無法掌握作者整體思考脈絡</td></tr>
+  </table>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">正確做法一：PDF → Markdown</div>
+  <p>先把 PDF 轉成 Markdown，再交給 AI 處理。</p>
+  <ul>
+    <li>Markdown 是結構化語言</li>
+    <li>AI 能正確理解標題層級、段落邏輯</li>
+    <li>同一份內容，AI 的理解品質差距顯著</li>
+  </ul>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">正確做法二：為每個章節建立索引</div>
+  <p>不要讓 AI「從頭讀到尾」，而是先建立索引：</p>
+  <ul>
+    <li>每章加上<strong>簡短摘要</strong></li>
+    <li>標記<strong>關鍵字</strong>與<strong>核心概念</strong></li>
+    <li>效果等於為整本書做了一份導覽地圖</li>
+  </ul>
+  <blockquote>AI 之後找資料，是在地圖上定位，不是盲目翻書。</blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">正確做法三：用 VLM 讓 AI「看懂」圖表</div>
+  <p><strong>VLM = Vision Language Model（視覺語言模型）</strong></p>
+  <p>讓 AI 先用文字<strong>描述</strong>圖表內容，再進行分析。</p>
+  <p>額外好處：</p>
+  <ul>
+    <li>描述文字可直接生成新圖</li>
+    <li>不需要截圖裁切</li>
+  </ul>
+  <blockquote>把圖轉成文字，再讓文字驅動後續工作流。</blockquote>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 10
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 10</div>
+  <h2>Obsidian 個人知識庫</h2>
+  <p class="ch-goal">用 Claude Code 搭配 Obsidian 打造個人知識庫</p>
+  <div class="ch-num">10</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">什麼是 Obsidian？</div>
+  <ul>
+    <li>本地端 Markdown 筆記軟體</li>
+    <li>所有筆記都是 <code>.md</code> 純文字檔，<strong>存在你的電腦上</strong></li>
+    <li>雙向連結（backlinks）——筆記之間可以互相引用、建立網絡</li>
+    <li>不依賴雲端，資料完全自己掌控</li>
+  </ul>
+  <p style="color:var(--muted);margin-top:.5em">醫師常見場景：臨床觀察、論文閱讀筆記、演講備稿。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">為什麼跟 Claude Code 天生相配？</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">📝</div>
+      <p style="font-size:.8em">Obsidian 的筆記<br>= <code>.md</code> 純文字</p>
+    </div>
+    <div class="card" style="background:var(--bg3);border-color:var(--teal)">
+      <div class="card-icon">✕</div>
+      <p style="font-size:.8em;color:var(--muted)">轉換層</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <p style="font-size:.8em">Claude Code<br>的母語 = Markdown</p>
+    </div>
+  </div>
+  <blockquote><strong>Claude Code 可以直接讀取、寫入、修改你的整個知識庫。</strong></blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">知識的輸入</div>
+  <p style="margin-bottom:.4em"><strong>論文 PDF → Obsidian</strong></p>
+  <pre><code>「幫我讀桌面上這篇 PDF，
+ 摘要方法與結論，
+ 存成一個 Obsidian 筆記，
+ 加上標籤：#心臟科 #RCT」</code></pre>
+  <p>一篇五分鐘，一百篇也一樣。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">知識的整理</div>
+  <p style="margin-bottom:.4em"><strong>散落的筆記 → 有結構的知識庫</strong></p>
+  <pre><code>「幫我整理 Obsidian 裡所有
+ 沒有標籤的筆記，
+ 自動分類並加上標籤。」</code></pre>
+  <p>過去累積的零散紀錄，Claude Code 可以回頭幫你補做。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">知識的輸出</div>
+  <p style="margin-bottom:.4em"><strong>知識庫 → 論文草稿</strong></p>
+  <pre><code>「我要寫一篇關於心房顫動的 Discussion，
+ 幫我從我的 Obsidian 裡
+ 找相關筆記，整理成段落大綱。」</code></pre>
+  <p>你累積的每一篇閱讀紀錄，<br>都變成寫作時可以調用的材料。</p>
+</section>
+
+<!-- ══════════════════════════════════════
+     CHAPTER 11
+══════════════════════════════════════ -->
+<section class="chapter-slide">
+  <div class="ch-label">Chapter 11</div>
+  <h2>Skill：AI 時代最重要的關鍵字</h2>
+  <p class="ch-goal">讓學員離開後還能持續使用，降低放棄率</p>
+  <div class="ch-num">11</div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">2026 最重要的一個詞</div>
+  <p style="font-size:2.5em;font-family:var(--serif);font-weight:900;color:var(--teal);margin:.2em 0"><strong>Skill</strong></p>
+  <p>由 Anthropic 提出的標準，<br>用來定義 AI 可以按需載入的能力模組。</p>
+  <p>規格文件的入口：一個 <code>SKILL.md</code> 檔案。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">為什麼需要按需載入？</div>
+  <p>AI 每次對話都有 <strong>token 上限</strong>。</p>
+  <p>把所有能力都塞進去，等於讓 AI 帶著百科全書上陣——<br>大部分根本用不到，卻佔滿了空間。</p>
+  <blockquote><strong>Skill 的邏輯：需要什麼，才載入什麼。</strong><br>就像基努李維，任務來了，插入技能，瞬間會了。</blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">Skill 的本質：一份 SOP</div>
+  <p>一個 Skill = 一套固定工作流程</p>
+  <pre><code>SKILL.md 裡面寫的是：
+- 這個 Skill 叫什麼名字
+- 觸發條件是什麼
+- 執行步驟是什麼
+- 輸出格式是什麼</code></pre>
+  <p>你把自己的工作流程寫進去，<br>之後只要說一句話，AI 就知道完整的 SOP 是什麼。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">醫師可以做什麼 Skill？</div>
+  <ul>
+    <li><code>論文摘要</code>：丟進 PDF，自動輸出結構化筆記存入 Obsidian</li>
+    <li><code>病歷整理</code>：口述段落 → 標準格式文件</li>
+    <li><code>衛教草稿</code>：輸入診斷 → 生成病患說明文字</li>
+    <li><code>研究設計檢查</code>：貼上方法段落 → 列出潛在偏誤</li>
+  </ul>
+  <blockquote><strong>你重複做超過三次的事，就值得做成一個 Skill。</strong></blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">實作示範：論文摘要 Skill</div>
+  <p>現在把「論文摘要」這件事，從頭做一遍。</p>
+  <p><strong>目標：做完之後，讓 Claude Code 把整個流程封裝成 Skill。</strong></p>
+  <div class="cards">
+    <div class="card"><div class="card-desc">Step 1<br>PDF → Markdown</div></div>
+    <div class="card"><div class="card-desc">Step 2<br>圖片存檔 + VLM 辨識</div></div>
+    <div class="card"><div class="card-desc">Step 3<br>每章節摘要</div></div>
+    <div class="card"><div class="card-desc">Step 4<br>檔名規範</div></div>
+  </div>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">Step 1–4</div>
+  <pre><code>Step 1: 請把這份 PDF 論文轉換成 Markdown 格式，
+        保留所有標題層級與段落結構。
+
+Step 2: 請把論文裡的所有圖片另外存成獨立檔案，
+        並用 VLM 描述每張圖的內容。
+
+Step 3: 請為每個章節（Introduction、Methods、
+        Results、Discussion）各寫一段摘要。
+
+Step 4: 資料夾：作者姓氏_發表年份
+        檔名：作者姓氏_年份_論文標題縮寫.md</code></pre>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">最後一步：封裝成 Skill</div>
+  <p>做完以上四步之後，對 Claude Code 說：</p>
+  <pre><code>幫我把剛剛的轉換流程做成一個可以重複使用的 Skill。</code></pre>
+  <p>下一次，只需要說：</p>
+  <pre><code>/論文摘要 這份PDF</code></pre>
+  <blockquote>四個步驟，自動完成。</blockquote>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">進階：讓 Skill 自我進化</div>
+  <p>簡單流程，做成 Skill 就夠了。<br><strong>複雜的工作，可以讓 Skill 越用越強。</strong></p>
+  <p>在封裝 Skill 時，加入自我進化機制：在 <code>knowledge/</code> 資料夾累積每次任務學到的新知識。</p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">自我進化機制（提示詞）</div>
+  <pre><code>自即日起，在執行任務的過程中，該 Skill 應具備
+持續學習與自我完善的意識。
+
+當出現以下情況，請記錄至 knowledge/ 資料夾：
+- 遇到現有知識無法解決的問題
+- 使用者提供了修正或更佳的建議
+- 發現值得記錄與複用的成功經驗
+
+每次開始新任務前，先讀取既有知識；
+任務後，將新學到的內容追加進去。</code></pre>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">這意味著什麼？</div>
+  <ul>
+    <li>你糾正過的錯誤，它不會再犯</li>
+    <li>你偏好的格式，它會記住</li>
+    <li>遇到新情境，它會主動問你、然後學起來</li>
+  </ul>
+  <blockquote><strong>你花時間訓練的不是軟體，是一個會成長的工作夥伴。</strong></blockquote>
+</section>
+
+<!-- ══════════════════════════════════════
+     WARNINGS
+══════════════════════════════════════ -->
+<section class="chapter-slide" style="border-left-color:var(--amber)!important">
+  <div class="ch-label" style="color:var(--amber)">在進入 Q&A 之前</div>
+  <h2>有幾件事值得放在心上</h2>
+  <div class="ch-num" style="color:rgba(245,158,11,.1)">⚠️</div>
+</section>
+
+<section class="content-slide warn-slide">
+  <div class="slide-title">⚠️ 警語一：論文量爆增不代表品質提升</div>
+  <p>arXiv 創辦人 <strong>Paul Ginsparg</strong> 示警：</p>
+  <blockquote>使用 AI 的研究者，產出論文數量比未使用 AI 的同行<strong>高出 33%</strong>。</blockquote>
+  <p style="font-size:.82em">大量低品質的機器生成內容正在充斥學術文獻。<br>傳統評估標準已失效，同行評審與研究可重複性面臨前所未有的挑戰。</p>
+  <p class="source"><a href="https://technews.tw/2026/02/01/ai-%E5%AF%AB%E8%AB%96%E6%96%87%E6%9A%B4%E5%A2%9E-33%EF%BC%8Carxiv-%E5%89%B5%E8%BE%A6%E4%BA%BA%E7%A4%BA%E8%AD%A6%E5%AD%B8%E8%A1%93%E5%8F%AF%E9%9D%A0%E6%80%A7%E5%8D%B1%E6%A9%9F/">AI 寫論文暴增 33%，arXiv 創辦人示警學術可靠性危機</a></p>
+</section>
+
+<section class="content-slide warn-slide">
+  <div class="slide-title">⚠️ 警語二：AI 會捏造不存在的參考文獻</div>
+  <p>中山大學教授葉高華發現：<br>多篇碩士論文引用了<strong>他從未撰寫過的文章</strong>。</p>
+  <p>調查確認：這些虛構文獻是用 ChatGPT 生成的。<br>兩校裁定論文口試不及格，須重新撰寫。</p>
+  <blockquote><strong>AI 不會承認自己不知道，它會編一個看起來合理的答案。</strong></blockquote>
+  <p class="source"><a href="https://udn.com/news/story/6928/8826318">聯合報｜AI 虛構參考文獻事件</a></p>
+</section>
+
+<section class="content-slide warn-slide">
+  <div class="slide-title">⚠️ 警語三：未揭露 AI 使用，可能導致撤稿</div>
+  <p>各大期刊（IEEE、Elsevier、ACS）明確規範：</p>
+  <ul>
+    <li><strong>AI 不能成為作者</strong>（無法承擔學術責任）</li>
+    <li>未揭露的 AI 生成內容，可能被視為<strong>學術不當行為</strong></li>
+    <li>禁止用 AI 竄改研究數據、圖像或虛構引用</li>
+  </ul>
+  <p style="margin-top:.5em">
+    <span class="tag tag-green">✅ 可接受</span>英文潤稿、結構整理、腦力激盪<br>
+    <span class="tag tag-amber">⚠️ 必查核</span>作者必須親自確認每一個事實與引用
+  </p>
+  <p class="source"><a href="https://news.lib.nycu.edu.tw/researches/%E7%94%A8ai%E5%AF%AB%E8%AB%96%E6%96%87%E6%9C%83%E8%A2%AB%E9%80%80%E7%A8%BF%E5%97%8E-%E6%90%9E%E6%87%82%E3%80%8Cai-%E8%B2%A2%E7%8D%BB%E8%81%B2%E6%98%8E%E3%80%8D%EF%BC%8C%E5%88%A5%E8%B8%A9%E5%AD%B8/">用 AI 寫論文會被退稿嗎？搞懂「AI 貢獻聲明」，別踩學術地雷</a></p>
+</section>
+
+<section class="content-slide warn-slide">
+  <div class="slide-title">⚠️ 警語四：AI 17 天寫了 166 篇論文</div>
+  <p>中國 AI 系統 <strong>FARS</strong> 連續運行 17 天，產出 <strong>166 篇</strong>論文。</p>
+  <div class="cards">
+    <div class="card"><div class="card-val amber">2h17m</div><div class="card-desc">平均每篇時間</div></div>
+    <div class="card"><div class="card-val amber">$1,100</div><div class="card-desc">平均每篇成本</div></div>
+    <div class="card"><div class="card-val amber">5.2/10</div><div class="card-desc">AI 審稿平均分</div></div>
+  </div>
+  <blockquote>人類角色正從「寫論文的人」，變成「幫 AI 改作業的人」。</blockquote>
+  <p class="source"><a href="https://www.ctee.com.tw/news/20260323700428-430801">工商時報｜AI 不睡覺連寫 166 篇論文！17 天燒掉 18 萬美元</a></p>
+</section>
+
+<section class="content-slide">
+  <div class="slide-title">總結：AI 是加速器，不是替代品</div>
+  <table class="summary-table">
+    <tr><th>✅ 適合交給 AI</th><th>❌ 不能交給 AI</th></tr>
+    <tr><td>格式整理、摘要、草稿</td><td>判斷研究設計是否正確</td></tr>
+    <tr><td>文獻搜尋輔助</td><td>確認引用是否真實存在</td></tr>
+    <tr><td>重複性文書工作</td><td>對研究結果負責</td></tr>
+    <tr><td>腦力激盪</td><td>簽名掛名的學術責任</td></tr>
+  </table>
+  <blockquote><strong>你的專業判斷，是 AI 最終無法取代的部分。</strong></blockquote>
+</section>
+
+<!-- ══════════════════════════════════════
+     Q&A
+══════════════════════════════════════ -->
+<section class="qa-slide">
+  <div class="big-q">Q &amp; A</div>
+  <p>你最想把 Claude Code 用在哪個場景？</p>
+</section>
+
+<!-- ══════════════════════════════════════
+     THANKS
+══════════════════════════════════════ -->
+<section class="thanks-slide">
+  <div class="cover-tag">台灣醫學大數據研究學會｜2026-04-30</div>
+  <h1 style="font-size:1.8em;background:linear-gradient(135deg,#fff 30%,var(--teal2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">謝謝大家</h1>
+  <p style="color:rgba(255,255,255,.55);margin:.4em 0">詹嘉隆｜AI 工具導入與培訓顧問</p>
+  <p style="color:var(--muted);font-size:.8em;margin-top:1.5em">課後練習教材將陸續提供給各位。</p>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  controls: true,
+  progress: true,
+  center: true,
+  width: 1280,
+  height: 720,
+  margin: 0.04,
+  keyboard: {
+    27: null, // disable ESC default
+  },
+});
+</script>
+</body>
+</html>
