@@ -5,7 +5,7 @@
       "title": "Windows 一鍵自動安裝 (推薦)",
       "icon": "Download",
       "color": "indigo",
-      "description": "自動化檢查並安裝 Git, Node.js, Python, VS Code, UV 與 Claude Code，並設定 gsudo 與預設 CLAUDE.md",
+      "description": "自動化檢查並安裝 Git, Node.js, Python, VS Code, UV, Claude Code 與 Obsidian，並設定 gsudo 與預設 CLAUDE.md",
       "is_new": true,
       "steps": [
         {
@@ -31,7 +31,7 @@
       "title": "macOS 一鍵自動安裝",
       "icon": "Terminal",
       "color": "green",
-      "description": "自動安裝 Homebrew, Node.js, Python, VS Code, UV 與 Claude Code",
+      "description": "自動安裝 Homebrew, Node.js, Python, VS Code, UV, Claude Code 與 Obsidian",
       "steps": [
         {
           "title": "執行安裝指令",
@@ -52,7 +52,7 @@
       "title": "Linux 一鍵自動安裝",
       "icon": "Terminal",
       "color": "orange",
-      "description": "支援 Ubuntu 20.04+ / Debian 11+，自動安裝所有必要工具",
+      "description": "支援 Ubuntu 20.04+ / Debian 11+，自動安裝所有必要工具（含 Obsidian）",
       "steps": [
         {
           "title": "執行安裝指令",
