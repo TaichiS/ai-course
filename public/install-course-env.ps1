@@ -9,6 +9,7 @@
     4. VS Code
     5. UV (Python 工具管理器)
     6. Claude Code (含自動 PATH 修復)
+    7. Obsidian
 .NOTES
     需搭配 install.ps1 一起使用
     Author: 詹嘉隆 / AI Agent 實作工作坊
@@ -324,14 +325,21 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     Show-Warning "Claude Code 指令仍無法使用，請重新開啟 PowerShell 後再試。"
 }
 
-# --- 8. 安裝 gsudo (Windows 的 sudo 工具) ---
+# --- 8. 安裝 Obsidian ---
+if (Get-Command obsidian -ErrorAction SilentlyContinue) {
+    Show-Success "Obsidian 已安裝。"
+} else {
+    $null = Install-WithWinget -PackageId "Obsidian.Obsidian" -PackageName "Obsidian"
+}
+
+# --- 9. 安裝 gsudo (Windows 的 sudo 工具) ---
 if (Get-Command gsudo -ErrorAction SilentlyContinue) {
     Show-Success "gsudo 已安裝。"
 } else {
     $null = Install-WithWinget -PackageId "gerardog.gsudo" -PackageName "gsudo"
 }
 
-# --- 9. 建立預設 Claude Code 設定檔 (CLAUDE.md) ---
+# --- 10. 建立預設 Claude Code 設定檔 (CLAUDE.md) ---
 Show-Info "正在設定 Claude Code 預設指令..."
 $claudeConfigDir = "$env:USERPROFILE\.claude"
 $claudeMdPath = "$claudeConfigDir\CLAUDE.md"
@@ -352,7 +360,7 @@ Always respond in Chinese-traditional
     Show-Info "CLAUDE.md 已存在，跳過建立（保留現有設定）。"
 }
 
-# --- 10. 設定 PowerShell Profile：新增 cc 快捷指令 ---
+# --- 11. 設定 PowerShell Profile：新增 cc 快捷指令 ---
 Show-Info "正在設定 PowerShell 快捷指令 (cc)..."
 
 # 確保 Profile 目錄存在
@@ -386,6 +394,59 @@ if ($profileContent -and $profileContent -like "*permission-mode bypassPermissio
     Show-Success "已新增 cc 快捷指令至 PowerShell Profile：$PROFILE"
     Show-Info "下次開啟 PowerShell 後即可使用 'cc' 啟動 Claude Code。"
 }
+
+# --- 已安裝軟體版本清單 ---
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
+Write-Host ""
+Write-Host "╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host "║            📦 已安裝軟體版本清單                  ║" -ForegroundColor Cyan
+Write-Host "╠══════════════════════════════════════════════════╣" -ForegroundColor Cyan
+
+function Write-VersionRow {
+    param([string]$Name, [string]$Version)
+    $label = "  $Name".PadRight(20)
+    $ver = if ($Version) { $Version } else { "（無法取得版本）" }
+    Write-Host "║ $label $ver" -ForegroundColor White
+}
+
+# Git
+$gitVer = if (Get-Command git -ErrorAction SilentlyContinue) { git --version 2>$null } else { $null }
+Write-VersionRow "Git" $gitVer
+
+# Node.js
+$nodeVer = if (Get-Command node -ErrorAction SilentlyContinue) { node -v 2>$null } else { $null }
+Write-VersionRow "Node.js" $nodeVer
+
+# Python
+$pyVer = if (Get-Command python -ErrorAction SilentlyContinue) { python --version 2>$null } else { $null }
+Write-VersionRow "Python" $pyVer
+
+# VS Code
+$codeVer = if (Get-Command code -ErrorAction SilentlyContinue) { "code $(code --version 2>$null | Select-Object -First 1)" } else { $null }
+Write-VersionRow "VS Code" $codeVer
+
+# UV
+$uvVer = if (Get-Command uv -ErrorAction SilentlyContinue) { uv --version 2>$null } else { $null }
+Write-VersionRow "UV" $uvVer
+
+# Claude Code
+$claudeVer = if (Get-Command claude -ErrorAction SilentlyContinue) { claude --version 2>$null } else { $null }
+Write-VersionRow "Claude Code" $claudeVer
+
+# Obsidian（透過 winget 查詢）
+$obsidianVer = try {
+    $wgInfo = winget list --id Obsidian.Obsidian 2>$null | Select-String "Obsidian"
+    if ($wgInfo) { "已安裝" } else { $null }
+} catch { $null }
+Write-VersionRow "Obsidian" $obsidianVer
+
+# gsudo
+$gsudoVer = if (Get-Command gsudo -ErrorAction SilentlyContinue) { gsudo --version 2>$null | Select-Object -First 1 } else { $null }
+Write-VersionRow "gsudo" $gsudoVer
+
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host ""
 
 Show-Info "=== 環境建置完成！ ==="
 Show-Info "請執行以下步驟以完成設定："

@@ -113,7 +113,16 @@ else
     fi
 fi
 
-# --- 8. 設定 cc 快捷指令 ---
+# --- 8. 安裝 Obsidian ---
+if brew list --cask obsidian &>/dev/null 2>&1; then
+    success "Obsidian 已安裝"
+else
+    info "正在安裝 Obsidian..."
+    brew install --cask obsidian
+    success "Obsidian 安裝完成"
+fi
+
+# --- 9. 設定 cc 快捷指令 ---
 info "正在設定 cc 快捷指令..."
 
 # 決定 shell profile 路徑
@@ -138,6 +147,27 @@ else
     success "已新增 cc 快捷指令至 $SHELL_RC"
 fi
 
+echo ""
+echo "╔══════════════════════════════════════════════════╗"
+echo "║            📦 已安裝軟體版本清單                  ║"
+echo "╠══════════════════════════════════════════════════╣"
+
+print_version() {
+    local name="$1"
+    local version="$2"
+    printf "║  %-18s %s\n" "$name" "${version:-（無法取得版本）}"
+}
+
+print_version "Homebrew"    "$(brew --version 2>/dev/null | head -1)"
+print_version "Git"         "$(git --version 2>/dev/null)"
+print_version "Node.js"     "$(node -v 2>/dev/null)"
+print_version "Python"      "$(python3 --version 2>/dev/null)"
+print_version "VS Code"     "$(code --version 2>/dev/null | head -1)"
+print_version "UV"          "$(uv --version 2>/dev/null)"
+print_version "Claude Code" "$(claude --version 2>/dev/null)"
+print_version "Obsidian"    "$(brew info --cask obsidian 2>/dev/null | grep -m1 'obsidian:' | awk '{print $2}' || echo '已安裝')"
+
+echo "╚══════════════════════════════════════════════════╝"
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║               ✅ 環境建置完成！                   ║"

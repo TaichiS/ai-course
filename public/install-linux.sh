@@ -138,7 +138,38 @@ else
     success "Claude Code 安裝完成"
 fi
 
-# --- 8. 設定 cc 快捷指令 ---
+# --- 8. 安裝 Obsidian ---
+if command -v obsidian &>/dev/null; then
+    success "Obsidian 已安裝"
+else
+    info "正在安裝 Obsidian..."
+    OBSIDIAN_INSTALLED=false
+
+    # 優先嘗試 snap
+    if command -v snap &>/dev/null; then
+        sudo snap install obsidian --classic && OBSIDIAN_INSTALLED=true && success "Obsidian 安裝完成 (via snap)"
+    fi
+
+    # Debian/Ubuntu：下載最新 .deb
+    if [ "$OBSIDIAN_INSTALLED" = false ] && [ "$PKG_MANAGER" = "apt" ]; then
+        OBSIDIAN_DEB_URL=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest \
+            | grep "browser_download_url.*amd64.deb" | cut -d '"' -f 4 | head -1)
+        if [ -n "$OBSIDIAN_DEB_URL" ]; then
+            TMP_DEB=$(mktemp /tmp/obsidian-XXXXXX.deb)
+            curl -fsSL "$OBSIDIAN_DEB_URL" -o "$TMP_DEB"
+            sudo dpkg -i "$TMP_DEB" || sudo apt -f install -y
+            rm -f "$TMP_DEB"
+            OBSIDIAN_INSTALLED=true
+            success "Obsidian 安裝完成 (via .deb)"
+        fi
+    fi
+
+    if [ "$OBSIDIAN_INSTALLED" = false ]; then
+        warn "無法自動安裝 Obsidian，請前往 https://obsidian.md/download 手動下載"
+    fi
+fi
+
+# --- 9. 設定 cc 快捷指令 ---
 info "正在設定 cc 快捷指令..."
 
 SHELL_RC="$HOME/.bashrc"
@@ -157,6 +188,35 @@ else
     success "已新增 cc 快捷指令至 $SHELL_RC"
 fi
 
+echo ""
+echo "╔══════════════════════════════════════════════════╗"
+echo "║            📦 已安裝軟體版本清單                  ║"
+echo "╠══════════════════════════════════════════════════╣"
+
+print_version() {
+    local name="$1"
+    local version="$2"
+    printf "║  %-18s %s\n" "$name" "${version:-（無法取得版本）}"
+}
+
+print_version "Git"         "$(git --version 2>/dev/null)"
+print_version "Node.js"     "$(node -v 2>/dev/null)"
+print_version "Python"      "$(python3 --version 2>/dev/null)"
+print_version "VS Code"     "$(code --version 2>/dev/null | head -1)"
+print_version "UV"          "$(uv --version 2>/dev/null)"
+print_version "Claude Code" "$(claude --version 2>/dev/null)"
+
+# Obsidian 版本偵測
+if command -v obsidian &>/dev/null; then
+    OBSIDIAN_VER="$(obsidian --version 2>/dev/null || echo '已安裝')"
+elif command -v snap &>/dev/null && snap list obsidian &>/dev/null 2>&1; then
+    OBSIDIAN_VER="$(snap list obsidian 2>/dev/null | awk 'NR==2{print $2}')"
+else
+    OBSIDIAN_VER="（請確認安裝狀態）"
+fi
+print_version "Obsidian" "$OBSIDIAN_VER"
+
+echo "╚══════════════════════════════════════════════════╝"
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║               ✅ 環境建置完成！                   ║"
