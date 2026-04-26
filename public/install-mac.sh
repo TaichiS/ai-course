@@ -114,7 +114,7 @@ else
     SHELL_RC="$HOME/.bash_profile"
 fi
 
-CC_MARKER="permission-mode bypassPermissions"
+CC_MARKER="CLAUDE_CODE_NO_FLICKER"
 CC_FUNCTION='
 # === AI Agent 課程設定：cc 快捷指令 ===
 function cc() {

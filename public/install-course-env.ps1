@@ -373,9 +373,9 @@ function cc {
 # ==========================================
 '@
 
-# 檢查是否已存在（避免重複新增）
+# 檢查是否已存在最新版（含 NO_FLICKER）；舊版會重新寫入
 $profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
-if ($profileContent -and $profileContent -like "*permission-mode bypassPermissions*") {
+if ($profileContent -and $profileContent -like "*CLAUDE_CODE_NO_FLICKER*") {
     Show-Success "cc 快捷指令已存在，跳過（保留現有設定）。"
 } else {
     Add-Content -Path $PROFILE -Value $ccFunction -Encoding UTF8

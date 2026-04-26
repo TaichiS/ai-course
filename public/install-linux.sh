@@ -124,7 +124,7 @@ fi
 info "正在設定 cc 快捷指令..."
 
 SHELL_RC="$HOME/.bashrc"
-CC_MARKER="permission-mode bypassPermissions"
+CC_MARKER="CLAUDE_CODE_NO_FLICKER"
 CC_FUNCTION='
 # === AI Agent 課程設定：cc 快捷指令 ===
 function cc() {
