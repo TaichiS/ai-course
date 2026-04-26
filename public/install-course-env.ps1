@@ -444,8 +444,14 @@ Write-VersionRow "Git" $gitVer
 $nodeVer = if (Get-Command node -ErrorAction SilentlyContinue) { node -v 2>$null } else { $null }
 Write-VersionRow "Node.js" $nodeVer
 
-# Python
-$pyVer = if (Get-Command python -ErrorAction SilentlyContinue) { python --version 2>$null } else { $null }
+# Python（依序嘗試 python / python3 / py）
+$pyVer = $null
+foreach ($pyCmd in @("python", "python3", "py")) {
+    if (Get-Command $pyCmd -ErrorAction SilentlyContinue) {
+        $pyVer = & $pyCmd --version 2>$null
+        break
+    }
+}
 Write-VersionRow "Python" $pyVer
 
 # VS Code
