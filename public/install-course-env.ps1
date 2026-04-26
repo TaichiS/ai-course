@@ -404,8 +404,12 @@ if (Get-Command code -ErrorAction SilentlyContinue) {
     }
 }
 
-# Obsidian
-$obsidianAlready = try { winget list --id Obsidian.Obsidian 2>$null | Select-String "Obsidian" } catch { $null }
+# Obsidian（用登錄檔檢查，避免 winget list 卡住）
+$obsidianAlready = Get-ItemProperty "HKCU:\Software\Obsidian" -ErrorAction SilentlyContinue
+if (-not $obsidianAlready) {
+    $obsidianAlready = Get-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" -ErrorAction SilentlyContinue |
+        Where-Object { $_.DisplayName -like "*Obsidian*" }
+}
 if ($obsidianAlready) {
     Show-Success "Obsidian 已安裝，跳過。"
 } else {
@@ -456,11 +460,16 @@ Write-VersionRow "UV" $uvVer
 $claudeVer = if (Get-Command claude -ErrorAction SilentlyContinue) { claude --version 2>$null } else { $null }
 Write-VersionRow "Claude Code" $claudeVer
 
-# Obsidian（透過 winget 查詢）
-$obsidianVer = try {
-    $wgInfo = winget list --id Obsidian.Obsidian 2>$null | Select-String "Obsidian"
-    if ($wgInfo) { "已安裝" } else { $null }
-} catch { $null }
+# Obsidian（透過登錄檔查詢，避免 winget list 卡住）
+$obsidianVer = $null
+$obsidianReg = Get-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" -ErrorAction SilentlyContinue |
+    Where-Object { $_.DisplayName -like "*Obsidian*" } | Select-Object -First 1
+if ($obsidianReg) { $obsidianVer = $obsidianReg.DisplayVersion }
+if (-not $obsidianVer) {
+    $obsidianReg2 = Get-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" -ErrorAction SilentlyContinue |
+        Where-Object { $_.DisplayName -like "*Obsidian*" } | Select-Object -First 1
+    if ($obsidianReg2) { $obsidianVer = $obsidianReg2.DisplayVersion }
+}
 Write-VersionRow "Obsidian" $obsidianVer
 
 # gsudo
