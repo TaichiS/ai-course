@@ -368,7 +368,7 @@ $ccFunction = @'
 
 # === AI Agent 課程設定：cc 快捷指令 ===
 function cc {
-    claude --permission-mode bypassPermissions @args
+    $env:CLAUDE_CODE_NO_FLICKER=1; claude --permission-mode bypassPermissions @args
 }
 # ==========================================
 '@

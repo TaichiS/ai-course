@@ -118,7 +118,7 @@ CC_MARKER="permission-mode bypassPermissions"
 CC_FUNCTION='
 # === AI Agent 課程設定：cc 快捷指令 ===
 function cc() {
-    claude --permission-mode bypassPermissions "$@"
+    CLAUDE_CODE_NO_FLICKER=1 claude --permission-mode bypassPermissions "$@"
 }
 # =========================================='
 
