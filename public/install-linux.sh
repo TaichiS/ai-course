@@ -98,25 +98,7 @@ else
     success "Python 安裝完成"
 fi
 
-# --- 5. 安裝 VS Code ---
-if command -v code &>/dev/null; then
-    success "VS Code 已安裝"
-else
-    info "正在安裝 VS Code..."
-    if command -v snap &>/dev/null; then
-        sudo snap install --classic code
-        success "VS Code 安裝完成 (via snap)"
-    elif [ "$PKG_MANAGER" = "apt" ]; then
-        curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/packages.microsoft.gpg > /dev/null
-        echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
-        sudo apt update -q && sudo apt install -y code
-        success "VS Code 安裝完成"
-    else
-        warn "請手動安裝 VS Code：https://code.visualstudio.com/docs/setup/linux"
-    fi
-fi
-
-# --- 6. 安裝 UV ---
+# --- 5. 安裝 UV ---
 if command -v uv &>/dev/null; then
     success "UV 已安裝"
 else
@@ -127,7 +109,7 @@ else
     success "UV 安裝完成"
 fi
 
-# --- 7. 安裝或更新 Claude Code ---
+# --- 6. 安裝或更新 Claude Code ---
 if command -v claude &>/dev/null; then
     success "Claude Code 已安裝，正在更新至最新版本..."
     claude update && success "Claude Code 更新完成" || warn "claude update 失敗，請手動更新"
@@ -138,38 +120,7 @@ else
     success "Claude Code 安裝完成"
 fi
 
-# --- 8. 安裝 Obsidian ---
-if command -v obsidian &>/dev/null; then
-    success "Obsidian 已安裝"
-else
-    info "正在安裝 Obsidian..."
-    OBSIDIAN_INSTALLED=false
-
-    # 優先嘗試 snap
-    if command -v snap &>/dev/null; then
-        sudo snap install obsidian --classic && OBSIDIAN_INSTALLED=true && success "Obsidian 安裝完成 (via snap)"
-    fi
-
-    # Debian/Ubuntu：下載最新 .deb
-    if [ "$OBSIDIAN_INSTALLED" = false ] && [ "$PKG_MANAGER" = "apt" ]; then
-        OBSIDIAN_DEB_URL=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest \
-            | grep "browser_download_url.*amd64.deb" | cut -d '"' -f 4 | head -1)
-        if [ -n "$OBSIDIAN_DEB_URL" ]; then
-            TMP_DEB=$(mktemp /tmp/obsidian-XXXXXX.deb)
-            curl -fsSL "$OBSIDIAN_DEB_URL" -o "$TMP_DEB"
-            sudo dpkg -i "$TMP_DEB" || sudo apt -f install -y
-            rm -f "$TMP_DEB"
-            OBSIDIAN_INSTALLED=true
-            success "Obsidian 安裝完成 (via .deb)"
-        fi
-    fi
-
-    if [ "$OBSIDIAN_INSTALLED" = false ]; then
-        warn "無法自動安裝 Obsidian，請前往 https://obsidian.md/download 手動下載"
-    fi
-fi
-
-# --- 9. 設定 cc 快捷指令 ---
+# --- 7. 設定 cc 快捷指令 ---
 info "正在設定 cc 快捷指令..."
 
 SHELL_RC="$HOME/.bashrc"
@@ -186,6 +137,78 @@ if grep -q "$CC_MARKER" "$SHELL_RC" 2>/dev/null; then
 else
     echo "$CC_FUNCTION" >> "$SHELL_RC"
     success "已新增 cc 快捷指令至 $SHELL_RC"
+fi
+
+# --- 可選安裝：VS Code 與 Obsidian ---
+echo ""
+echo "╔══════════════════════════════════════════════════╗"
+echo "║       ⏳ 可選安裝（安裝時間較長，可跳過）         ║"
+echo "║  VS Code 與 Obsidian 安裝時間較長。               ║"
+echo "║  課程核心功能不依賴這兩項，有空再安裝即可。        ║"
+echo "╚══════════════════════════════════════════════════╝"
+echo ""
+
+install_vscode_linux() {
+    if command -v snap &>/dev/null; then
+        sudo snap install --classic code && success "VS Code 安裝完成 (via snap)"
+    elif [ "$PKG_MANAGER" = "apt" ]; then
+        curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/packages.microsoft.gpg > /dev/null
+        echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+        sudo apt update -q && sudo apt install -y code
+        success "VS Code 安裝完成"
+    else
+        warn "請手動安裝 VS Code：https://code.visualstudio.com/docs/setup/linux"
+    fi
+}
+
+install_obsidian_linux() {
+    local installed=false
+    if command -v snap &>/dev/null; then
+        sudo snap install obsidian --classic && installed=true && success "Obsidian 安裝完成 (via snap)"
+    fi
+    if [ "$installed" = false ] && [ "$PKG_MANAGER" = "apt" ]; then
+        local deb_url
+        deb_url=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest \
+            | grep "browser_download_url.*amd64.deb" | cut -d '"' -f 4 | head -1)
+        if [ -n "$deb_url" ]; then
+            local tmp_deb
+            tmp_deb=$(mktemp /tmp/obsidian-XXXXXX.deb)
+            curl -fsSL "$deb_url" -o "$tmp_deb"
+            sudo dpkg -i "$tmp_deb" || sudo apt -f install -y
+            rm -f "$tmp_deb"
+            installed=true
+            success "Obsidian 安裝完成 (via .deb)"
+        fi
+    fi
+    if [ "$installed" = false ]; then
+        warn "無法自動安裝 Obsidian，請前往 https://obsidian.md/download 手動下載"
+    fi
+}
+
+# VS Code
+if command -v code &>/dev/null; then
+    success "VS Code 已安裝，跳過。"
+else
+    printf "${YELLOW}是否現在安裝 VS Code？[Y = 安裝 / 直接按 Enter 跳過]：${NC} "
+    read vs_choice </dev/tty
+    if [[ "$vs_choice" =~ ^[Yy]$ ]]; then
+        install_vscode_linux
+    else
+        info "已跳過 VS Code。日後可至 https://code.visualstudio.com/ 下載安裝。"
+    fi
+fi
+
+# Obsidian
+if command -v obsidian &>/dev/null || (command -v snap &>/dev/null && snap list obsidian &>/dev/null 2>&1); then
+    success "Obsidian 已安裝，跳過。"
+else
+    printf "${YELLOW}是否現在安裝 Obsidian？[Y = 安裝 / 直接按 Enter 跳過]：${NC} "
+    read ob_choice </dev/tty
+    if [[ "$ob_choice" =~ ^[Yy]$ ]]; then
+        install_obsidian_linux
+    else
+        info "已跳過 Obsidian。日後可至 https://obsidian.md/download 下載安裝。"
+    fi
 fi
 
 echo ""

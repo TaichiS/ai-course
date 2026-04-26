@@ -21,7 +21,7 @@ yarn preview      # 預覽建置結果
 
 | 路徑 | 元件 | 說明 |
 |------|------|------|
-| `/` | `HomeView.vue` | 首頁，3 張主題選擇卡片 |
+| `/` | `HomeView.vue` | 首頁，主題與投影片入口卡片 |
 | `/courses` | `CoursesView.vue` | 課程列表 + 概念說明 |
 | `/courses/:caseId` | `CaseDetailView.vue` | 案例詳細頁（props: `caseId`） |
 | `/installation` | `InstallationSection.vue` | 5 種平台安裝說明 |
@@ -60,6 +60,28 @@ yarn preview      # 預覽建置結果
 - `install.ps1` — Windows bootstrap，下載並執行 `install-course-env.ps1`
 - `install-course-env.ps1` — Windows 完整安裝（Git、Node、Python、VS Code、UV、Claude Code、gsudo、CLAUDE.md）
 - `install-mac.sh` / `install-linux.sh` — macOS / Linux 安裝腳本
-- `slides.html` — 靜態投影片頁面
+- `slides.html` — Agent Skills 靜態投影片舊入口，需保留避免既有連結失效
 
 修改平台安裝流程時，需同步更新對應腳本與 `installation.json` 的 `description` / `steps`。
+
+### 投影片路徑規範（`public/slides/`）
+
+新增投影片統一放在 `public/slides/<slug>/`，每份簡報使用獨立資料夾，對外網址為 `/ai-course/slides/<slug>/index.html`。
+
+建議結構：
+
+```text
+public/slides/<slug>/
+  index.html      # 簡報入口，若是 HTML 簡報必備
+  slides.md       # 原始稿，若有 Markdown / Marp 來源則保留
+  assets/         # 該份簡報專用圖片、附件與媒體資源
+```
+
+命名規則：
+
+- `slug` 使用小寫英文、數字與連字號，不使用空白與中文。
+- 活動型簡報優先使用日期前綴：`YYYY-MM-DD-topic`，例如 `2026-04-30-tmbdrs-ai-workflow`。
+- 主題型簡報使用語意化名稱，例如 `agent-skills`。
+- 每份簡報的圖片與附件放在自己的 `assets/` 或同層必要資源內，不共用跨簡報相對路徑。
+- 首頁或站內入口連到 HTML 簡報時，明確使用 `index.html`，例如 `${import.meta.env.BASE_URL}slides/agent-skills/index.html`，避免目錄路徑被 Vue Router fallback 當成 SPA 路由。
+- 若整理舊簡報到新路徑，只新增標準化副本，不刪除舊路徑；舊入口如 `public/slides.html`、`public/tmbdrs-2026/` 必須保留，避免外部連結失效。

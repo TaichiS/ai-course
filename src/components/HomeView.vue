@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
-import { Download, BookOpen, Sparkles, ArrowRight, Presentation, Mail } from 'lucide-vue-next'
+import { Download, BookOpen, Sparkles, ArrowRight, Presentation, Mail, ClipboardList } from 'lucide-vue-next'
 
 const instructorImg = `${import.meta.env.BASE_URL}instructor.jpg`
+const slidesBase = `${import.meta.env.BASE_URL}slides/`
 
 let observer: IntersectionObserver | null = null
 
@@ -70,7 +71,7 @@ onUnmounted(() => observer?.disconnect())
     </section>
 
     <!-- ═══════════════════════════════════════
-         Navigation Cards (2 × 2)
+         Navigation Cards
     ════════════════════════════════════════════ -->
     <section class="px-6 pb-12 max-w-6xl mx-auto">
       <div class="grid sm:grid-cols-2 gap-5">
@@ -146,7 +147,7 @@ onUnmounted(() => observer?.disconnect())
 
         <!-- Agent Skills 簡報 -->
         <a
-          href="/ai-course/slides.html"
+          :href="`${slidesBase}agent-skills/index.html`"
           class="home-animate opacity-0 translate-y-4 transition-all duration-700 group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer block"
         >
           <div class="h-1.5 bg-gradient-to-r from-orange-400 to-rose-400"></div>
@@ -161,6 +162,54 @@ onUnmounted(() => observer?.disconnect())
               </p>
               <span class="inline-flex items-center gap-1.5 text-orange-500 font-semibold text-sm group-hover:gap-2.5 transition-all duration-200">
                 觀看簡報
+                <ArrowRight class="h-4 w-4" />
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 台灣醫學大數據研究學會簡報 -->
+        <a
+          :href="`${slidesBase}2026-04-30-tmbdrs-ai-workflow/index.html`"
+          class="home-animate opacity-0 translate-y-4 transition-all duration-700 group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer block"
+        >
+          <div class="h-1.5 bg-gradient-to-r from-teal-400 to-sky-500"></div>
+          <div class="p-7 flex gap-5 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center group-hover:bg-teal-100 transition-colors duration-200">
+              <Presentation class="h-6 w-6 text-teal-600" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-bold text-slate-900 mb-1.5">醫學大數據研究學會簡報</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                用 Claude Code 重塑知識流與工作流，聚焦 AI 時代醫師的實戰應用。
+              </p>
+              <span class="inline-flex items-center gap-1.5 text-teal-600 font-semibold text-sm group-hover:gap-2.5 transition-all duration-200">
+                觀看簡報
+                <ArrowRight class="h-4 w-4" />
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 作業管理系統 -->
+        <a
+          href="https://classroom-wheat-rho.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="home-animate opacity-0 translate-y-4 transition-all duration-700 group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer block"
+        >
+          <div class="h-1.5 bg-gradient-to-r from-lime-400 to-emerald-500"></div>
+          <div class="p-7 flex gap-5 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-lime-50 rounded-xl flex items-center justify-center group-hover:bg-lime-100 transition-colors duration-200">
+              <ClipboardList class="h-6 w-6 text-lime-600" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-bold text-slate-900 mb-1.5">作業管理系統</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                查看課程作業、繳交狀態與學習進度，集中管理課後練習與回饋。
+              </p>
+              <span class="inline-flex items-center gap-1.5 text-lime-600 font-semibold text-sm group-hover:gap-2.5 transition-all duration-200">
+                前往系統
                 <ArrowRight class="h-4 w-4" />
               </span>
             </div>

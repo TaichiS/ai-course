@@ -6,10 +6,12 @@
     1. Git (含 Git Bash)
     2. Node.js (LTS)
     3. Python 3
-    4. VS Code
-    5. UV (Python 工具管理器)
-    6. Claude Code (含自動 PATH 修復)
-    7. Obsidian
+    4. UV (Python 工具管理器)
+    5. Claude Code (含自動 PATH 修復)
+    6. gsudo / CLAUDE.md / cc 快捷指令
+    ── 可選（安裝時間較長）──
+    7. VS Code
+    8. Obsidian
 .NOTES
     需搭配 install.ps1 一起使用
     Author: 詹嘉隆 / AI Agent 實作工作坊
@@ -184,24 +186,17 @@ if (Get-Command python -ErrorAction SilentlyContinue) {
     $null = Install-WithWinget -PackageId "Python.Python.3.12" -PackageName "Python 3.12"
 }
 
-# --- 4. 檢查與安裝 VS Code ---
-if (Get-Command code -ErrorAction SilentlyContinue) {
-    Show-Success "VS Code 已安裝。"
-} else {
-    $null = Install-WithWinget -PackageId "Microsoft.VisualStudioCode" -PackageName "VS Code"
-}
-
 # --- 刷新環境變數 (讓剛安裝的工具在當前 Session 可見) ---
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
-# --- 5. 檢查與安裝 UV (Python 工具) ---
+# --- 4. 檢查與安裝 UV (Python 工具) ---
 if (Get-Command uv -ErrorAction SilentlyContinue) {
     Show-Success "UV 已安裝。"
 } else {
     $null = Invoke-RemoteScript -Url "https://astral.sh/uv/install.ps1" -ScriptName "UV (Python 工具管理器)"
 }
 
-# --- 6. 安裝 Claude Code ---
+# --- 5. 安裝 Claude Code ---
 # 先檢查是否已安裝
 if (Get-Command claude -ErrorAction SilentlyContinue) {
     Show-Success "Claude Code 已安裝，正在更新至最新版本..."
@@ -238,7 +233,7 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     }
 }
 
-# --- 7. 自動修復 Claude Code 的 PATH ---
+# --- 6. 自動修復 Claude Code 的 PATH ---
 # Claude Code 可能安裝在多個位置
 $npmGlobalPath = npm config get prefix 2>$null
 $possiblePaths = @(
@@ -325,21 +320,14 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     Show-Warning "Claude Code 指令仍無法使用，請重新開啟 PowerShell 後再試。"
 }
 
-# --- 8. 安裝 Obsidian ---
-if (Get-Command obsidian -ErrorAction SilentlyContinue) {
-    Show-Success "Obsidian 已安裝。"
-} else {
-    $null = Install-WithWinget -PackageId "Obsidian.Obsidian" -PackageName "Obsidian"
-}
-
-# --- 9. 安裝 gsudo (Windows 的 sudo 工具) ---
+# --- 7. 安裝 gsudo (Windows 的 sudo 工具) ---
 if (Get-Command gsudo -ErrorAction SilentlyContinue) {
     Show-Success "gsudo 已安裝。"
 } else {
     $null = Install-WithWinget -PackageId "gerardog.gsudo" -PackageName "gsudo"
 }
 
-# --- 10. 建立預設 Claude Code 設定檔 (CLAUDE.md) ---
+# --- 8. 建立預設 Claude Code 設定檔 (CLAUDE.md) ---
 Show-Info "正在設定 Claude Code 預設指令..."
 $claudeConfigDir = "$env:USERPROFILE\.claude"
 $claudeMdPath = "$claudeConfigDir\CLAUDE.md"
@@ -360,7 +348,7 @@ Always respond in Chinese-traditional
     Show-Info "CLAUDE.md 已存在，跳過建立（保留現有設定）。"
 }
 
-# --- 11. 設定 PowerShell Profile：新增 cc 快捷指令 ---
+# --- 9. 設定 PowerShell Profile：新增 cc 快捷指令 ---
 Show-Info "正在設定 PowerShell 快捷指令 (cc)..."
 
 # 確保 Profile 目錄存在
@@ -393,6 +381,40 @@ if ($profileContent -and $profileContent -like "*permission-mode bypassPermissio
     Add-Content -Path $PROFILE -Value $ccFunction -Encoding UTF8
     Show-Success "已新增 cc 快捷指令至 PowerShell Profile：$PROFILE"
     Show-Info "下次開啟 PowerShell 後即可使用 'cc' 啟動 Claude Code。"
+}
+
+# --- 可選安裝：VS Code 與 Obsidian ---
+Write-Host ""
+Write-Host "╔══════════════════════════════════════════════════╗" -ForegroundColor Yellow
+Write-Host "║       ⏳ 可選安裝（安裝時間較長，可跳過）         ║" -ForegroundColor Yellow
+Write-Host "║  VS Code 與 Obsidian 安裝時間較長。               ║" -ForegroundColor Yellow
+Write-Host "║  課程核心功能不依賴這兩項，有空再安裝即可。        ║" -ForegroundColor Yellow
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Yellow
+Write-Host ""
+
+# VS Code
+if (Get-Command code -ErrorAction SilentlyContinue) {
+    Show-Success "VS Code 已安裝，跳過。"
+} else {
+    $vsChoice = Read-Host "是否現在安裝 VS Code？[Y = 安裝 / 直接按 Enter 跳過]"
+    if ($vsChoice -match '^[Yy]') {
+        $null = Install-WithWinget -PackageId "Microsoft.VisualStudioCode" -PackageName "VS Code"
+    } else {
+        Show-Info "已跳過 VS Code。日後可至 https://code.visualstudio.com/ 下載安裝。"
+    }
+}
+
+# Obsidian
+$obsidianAlready = try { winget list --id Obsidian.Obsidian 2>$null | Select-String "Obsidian" } catch { $null }
+if ($obsidianAlready) {
+    Show-Success "Obsidian 已安裝，跳過。"
+} else {
+    $obChoice = Read-Host "是否現在安裝 Obsidian？[Y = 安裝 / 直接按 Enter 跳過]"
+    if ($obChoice -match '^[Yy]') {
+        $null = Install-WithWinget -PackageId "Obsidian.Obsidian" -PackageName "Obsidian"
+    } else {
+        Show-Info "已跳過 Obsidian。日後可至 https://obsidian.md/ 下載安裝。"
+    }
 }
 
 # --- 已安裝軟體版本清單 ---

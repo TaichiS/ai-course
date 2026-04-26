@@ -73,16 +73,7 @@ else
     success "Python 安裝完成"
 fi
 
-# --- 5. 安裝 VS Code ---
-if command -v code &>/dev/null; then
-    success "VS Code 已安裝"
-else
-    info "正在安裝 VS Code..."
-    brew install --cask visual-studio-code
-    success "VS Code 安裝完成"
-fi
-
-# --- 6. 安裝 UV ---
+# --- 5. 安裝 UV ---
 if command -v uv &>/dev/null; then
     success "UV 已安裝"
 else
@@ -92,7 +83,7 @@ else
     success "UV 安裝完成"
 fi
 
-# --- 7. 安裝或更新 Claude Code ---
+# --- 6. 安裝或更新 Claude Code ---
 if command -v claude &>/dev/null; then
     success "Claude Code 已安裝，正在更新至最新版本..."
     # 偵測安裝來源：Homebrew 優先
@@ -113,16 +104,7 @@ else
     fi
 fi
 
-# --- 8. 安裝 Obsidian ---
-if brew list --cask obsidian &>/dev/null 2>&1; then
-    success "Obsidian 已安裝"
-else
-    info "正在安裝 Obsidian..."
-    brew install --cask obsidian
-    success "Obsidian 安裝完成"
-fi
-
-# --- 9. 設定 cc 快捷指令 ---
+# --- 7. 設定 cc 快捷指令 ---
 info "正在設定 cc 快捷指令..."
 
 # 決定 shell profile 路徑
@@ -145,6 +127,45 @@ if grep -q "$CC_MARKER" "$SHELL_RC" 2>/dev/null; then
 else
     echo "$CC_FUNCTION" >> "$SHELL_RC"
     success "已新增 cc 快捷指令至 $SHELL_RC"
+fi
+
+# --- 可選安裝：VS Code 與 Obsidian ---
+echo ""
+echo "╔══════════════════════════════════════════════════╗"
+echo "║       ⏳ 可選安裝（安裝時間較長，可跳過）         ║"
+echo "║  VS Code 與 Obsidian 安裝時間較長。               ║"
+echo "║  課程核心功能不依賴這兩項，有空再安裝即可。        ║"
+echo "╚══════════════════════════════════════════════════╝"
+echo ""
+
+# VS Code（從 /dev/tty 讀取，相容 curl pipe 執行方式）
+if command -v code &>/dev/null; then
+    success "VS Code 已安裝，跳過。"
+else
+    printf "${YELLOW}是否現在安裝 VS Code？[Y = 安裝 / 直接按 Enter 跳過]：${NC} "
+    read vs_choice </dev/tty
+    if [[ "$vs_choice" =~ ^[Yy]$ ]]; then
+        info "正在安裝 VS Code..."
+        brew install --cask visual-studio-code
+        success "VS Code 安裝完成"
+    else
+        info "已跳過 VS Code。日後可至 https://code.visualstudio.com/ 下載安裝。"
+    fi
+fi
+
+# Obsidian
+if brew list --cask obsidian &>/dev/null 2>&1; then
+    success "Obsidian 已安裝，跳過。"
+else
+    printf "${YELLOW}是否現在安裝 Obsidian？[Y = 安裝 / 直接按 Enter 跳過]：${NC} "
+    read ob_choice </dev/tty
+    if [[ "$ob_choice" =~ ^[Yy]$ ]]; then
+        info "正在安裝 Obsidian..."
+        brew install --cask obsidian
+        success "Obsidian 安裝完成"
+    else
+        info "已跳過 Obsidian。日後可至 https://obsidian.md/ 下載安裝。"
+    fi
 fi
 
 echo ""
