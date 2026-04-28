@@ -165,6 +165,31 @@
     border-radius: 50%;
     border: 2px solid oklch(80% 0.10 200);
   }
+  .cover-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 28px;
+    color: oklch(42% 0.06 210);
+    padding-left: 15px;
+    white-space: nowrap;
+  }
+  .cover-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-meta-icon {
+    width: 28px;
+    height: 28px;
+    color: oklch(38% 0.11 195);
+    stroke-width: 1.8;
+  }
+  .cover-meta-divider {
+    width: 1px;
+    height: 26px;
+    background: oklch(74% 0.03 210);
+  }
 
   /* ── CHAPTER HEADER ── */
   .chapter-header {
@@ -646,6 +671,37 @@
   }
   section.dark .footnote,
   section.dark-mid .footnote { color: var(--text-muted); }
+
+  /* ── FLOW DIAGRAM ANIMATION (slide 11) ── */
+  .flow-diagram { display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+  .flow-row { display: flex; align-items: center; gap: 8px; }
+  .flow-node {
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 21px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: flow-appear 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--fd, 0ms);
+    animation-play-state: paused;
+  }
+  .flow-node-user  { background: oklch(87% 0.012 245); color: oklch(28% 0.025 245); }
+  .flow-node-act   { background: oklch(83% 0.020 245); color: oklch(26% 0.025 245); }
+  .flow-node-ai    { background: oklch(50% 0.08 200);  color: #fff; font-weight: 700; }
+  .flow-arrow-sym {
+    color: oklch(55% 0.015 245);
+    font-size: 17px;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: flow-appear 0.2s ease forwards;
+    animation-delay: var(--fd, 0ms);
+    animation-play-state: paused;
+  }
+  section[data-deck-active] .flow-node,
+  section[data-deck-active] .flow-arrow-sym { animation-play-state: running; }
+  @keyframes flow-appear { to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -674,10 +730,22 @@
         <div style="width:3px; height:52px; background:oklch(48% 0.14 195); border-radius:2px;"></div>
         <div style="font-size:28px; color:oklch(28% 0.06 210); line-height:1.7;">台灣醫學大數據研究學會</div>
       </div>
-      <div style="display:flex; align-items:center; gap:32px; font-size:28px; color:oklch(42% 0.06 210); padding-left:15px; white-space:nowrap;">
-        <span>📅 2026-04-30</span>
-        <span style="color:oklch(70% 0.04 210);">｜</span>
-        <span>👤 詹嘉隆</span>
+      <div class="cover-meta-row">
+        <span class="cover-meta-item">
+          <svg class="cover-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="5" width="16" height="15" rx="2"></rect>
+            <path d="M8 3v4M16 3v4M4 10h16"></path>
+          </svg>
+          <span>2026-04-30</span>
+        </span>
+        <span class="cover-meta-divider" aria-hidden="true"></span>
+        <span class="cover-meta-item">
+          <svg class="cover-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 20c1.4-3.4 3.7-5 7-5s5.6 1.6 7 5"></path>
+          </svg>
+          <span>詹嘉隆</span>
+        </span>
       </div>
     </div>
   </div>
@@ -1184,9 +1252,21 @@
   <div class="two-col" style="gap:60px;">
     <div class="card" style="background: oklch(97% 0.005 245);">
       <div style="font-size:28px; font-weight:700; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:28px;">傳統 AI（ChatGPT、Gemini 網頁版）</div>
-      <div class="code-block" style="font-size:26px; background: oklch(93% 0.01 245); color: oklch(35% 0.02 245); margin-bottom:32px;">
-你 ──→ 打字提問 ──→ AI 回答<br>
-      上傳檔案 ──→ AI 處理 ──→ 下載結果
+      <div class="flow-diagram" style="margin-bottom:32px;">
+        <div class="flow-row">
+          <div class="flow-node flow-node-user" style="--fd:50ms">你</div>
+          <div class="flow-arrow-sym" style="--fd:160ms">──→</div>
+          <div class="flow-node flow-node-act" style="--fd:270ms">打字提問</div>
+          <div class="flow-arrow-sym" style="--fd:380ms">──→</div>
+          <div class="flow-node flow-node-ai" style="--fd:490ms">AI 回答</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-node flow-node-act" style="--fd:650ms">上傳檔案</div>
+          <div class="flow-arrow-sym" style="--fd:760ms">──→</div>
+          <div class="flow-node flow-node-act" style="--fd:870ms">AI 處理</div>
+          <div class="flow-arrow-sym" style="--fd:980ms">──→</div>
+          <div class="flow-node flow-node-ai" style="--fd:1090ms">下載結果</div>
+        </div>
       </div>
       <ul class="bullet-list" style="font-size:28px;">
         <li><span class="dot" style="background:var(--text-muted);"></span><span>每一步都要<span class="fw-700">手動搬運資料</span></span></li>
@@ -1202,19 +1282,23 @@
       <table class="data-table" style="font-size:27px;">
         <tbody>
           <tr>
-            <td style="color:var(--teal); font-weight:700; padding-left:0;">📁 檔案系統</td>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>檔案系統</td>
             <td style="color:oklch(78% 0.03 245);">直接讀寫、整理你的檔案</td>
           </tr>
           <tr>
-            <td style="color:var(--teal); font-weight:700; padding-left:0;">🌐 瀏覽器</td>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>瀏覽器</td>
             <td style="color:oklch(78% 0.03 245);">自動開網頁、填表單、抓資料</td>
           </tr>
           <tr>
-            <td style="color:var(--teal); font-weight:700; padding-left:0;">📅 行事曆</td>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>行事曆</td>
             <td style="color:oklch(78% 0.03 245);">讀取 / 新增行程</td>
           </tr>
           <tr>
-            <td style="color:var(--teal); font-weight:700; padding-left:0;">🖥️ 終端機</td>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>終端機</td>
             <td style="color:oklch(78% 0.03 245);">執行程式、批次處理</td>
           </tr>
         </tbody>
@@ -1528,22 +1612,45 @@
       <table class="data-table" style="font-size:30px;">
         <tbody>
           <tr>
-            <td style="font-size:36px; padding-right:8px;">📄</td>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="56" height="56" rx="9" fill="#2B579A"/>
+                <path fill="white" d="M6,10 L13,10 L20,38 L24,20 L32,20 L36,38 L43,10 L50,10 L43,46 L35,46 L28,26 L21,46 L13,46 Z"/>
+              </svg>
+            </td>
             <td class="fw-700">Word</td>
             <td style="color:var(--text-mid);">讀取、編輯、生成 .docx</td>
           </tr>
           <tr>
-            <td style="font-size:36px;">📊</td>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="56" height="56" rx="9" fill="#217346"/>
+                <g transform="translate(28,28)" fill="white">
+                  <rect x="-23" y="-7.5" width="46" height="15" rx="3" transform="rotate(45)"/>
+                  <rect x="-23" y="-7.5" width="46" height="15" rx="3" transform="rotate(-45)"/>
+                </g>
+              </svg>
+            </td>
             <td class="fw-700">Excel</td>
             <td style="color:var(--text-mid);">讀取、分析、生成 .xlsx</td>
           </tr>
           <tr>
-            <td style="font-size:36px;">📑</td>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="56" height="56" rx="9" fill="#C11B17"/>
+                <text x="28" y="36" text-anchor="middle" fill="white" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="18" letter-spacing="1.5">PDF</text>
+              </svg>
+            </td>
             <td class="fw-700">PDF</td>
             <td style="color:var(--text-mid);">擷取文字、填表、合併</td>
           </tr>
           <tr>
-            <td style="font-size:36px;">📊</td>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="56" height="56" rx="9" fill="#C43E1C"/>
+                <path fill="white" fill-rule="evenodd" d="M13,11 L13,45 L21,45 L21,31 L29,31 C39,31 44,26 44,21 C44,14 38,11 29,11 Z M21,17 L28,17 C32,17 36,18.5 36,21 C36,23.5 32,25 28,25 L21,25 Z"/>
+              </svg>
+            </td>
             <td class="fw-700">PowerPoint</td>
             <td style="color:var(--text-mid);">讀取、編輯、生成 .pptx</td>
           </tr>
@@ -1743,6 +1850,9 @@
       </ul>
     </div>
     <div style="display:flex; flex-direction:column; gap:28px;">
+      <div class="obsidian-logo-wrap" aria-hidden="true">
+        <img class="obsidian-logo" src="icons/960px-2023_Obsidian_logo.svg.png" alt="">
+      </div>
       <div class="highlight-box" style="font-size:32px; text-align:center;">
         Obsidian 的筆記 = <span class="fw-700">.md 純文字</span><br>
         Claude Code 的母語 = <span class="fw-700">Markdown</span><br><br>
@@ -1750,11 +1860,87 @@
       </div>
       <div class="card">
         <div class="card-title" style="font-size:30px;">醫師的使用場景</div>
-        <div class="card-body" style="font-size:27px;">臨床觀察　·　論文閱讀筆記　·　演講備稿</div>
+        <div class="obsidian-use-cases card-body" style="font-size:27px;">
+          <span>臨床觀察</span>
+          <span>論文閱讀筆記</span>
+          <span>研究資料</span>
+          <span>演講備稿</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes obsidianGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 18px oklch(72% 0.22 285 / 0.62)) drop-shadow(0 0 42px oklch(62% 0.18 255 / 0.38));
+      transform: translateY(0) scale(1) rotate(-1deg);
+    }
+    50% {
+      filter: drop-shadow(0 0 34px oklch(78% 0.24 285 / 0.9)) drop-shadow(0 0 78px oklch(66% 0.20 250 / 0.58));
+      transform: translateY(-8px) scale(1.06) rotate(1deg);
+    }
+  }
+  @keyframes obsidianAuraSpin {
+    to { transform: rotate(360deg); }
+  }
+  .obsidian-logo-wrap {
+    align-self: center;
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 68px;
+    background:
+      radial-gradient(circle at 34% 24%, oklch(100% 0 0 / 0.94), transparent 24%),
+      radial-gradient(circle at 50% 50%, oklch(84% 0.18 292 / 0.48), oklch(66% 0.20 270 / 0.30) 46%, oklch(48% 0.15 245 / 0.12) 70%, transparent 72%);
+    box-shadow: 0 34px 86px oklch(34% 0.15 275 / 0.34), inset 0 2px 0 oklch(100% 0 0 / 0.82);
+    overflow: visible;
+  }
+  .obsidian-logo-wrap::before,
+  .obsidian-logo-wrap::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .obsidian-logo-wrap::before {
+    inset: -18px;
+    background: conic-gradient(from 0deg, transparent, oklch(78% 0.22 292 / 0.72), transparent 34%, oklch(68% 0.18 235 / 0.52), transparent 72%);
+    filter: blur(10px);
+    animation: obsidianAuraSpin 7s linear infinite;
+    z-index: 0;
+  }
+  .obsidian-logo-wrap::after {
+    inset: 24px;
+    border: 2px solid oklch(94% 0.06 285 / 0.62);
+    box-shadow: inset 0 0 34px oklch(74% 0.20 285 / 0.42), 0 0 42px oklch(68% 0.18 255 / 0.34);
+    z-index: 1;
+  }
+  .obsidian-logo {
+    position: relative;
+    z-index: 2;
+    width: 218px;
+    height: 218px;
+    object-fit: contain;
+    animation: obsidianGlow 3.2s ease-in-out infinite;
+  }
+  .obsidian-use-cases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    white-space: nowrap;
+  }
+  .obsidian-use-cases span:nth-child(1) { text-align: left; }
+  .obsidian-use-cases span:nth-child(2),
+  .obsidian-use-cases span:nth-child(3) { text-align: center; }
+  .obsidian-use-cases span:nth-child(4) { text-align: right; }
+</style>
 
 <!-- ═══════════════════════════════════════════
   SLIDE 32 · Karpathy 哲學
@@ -1772,15 +1958,25 @@
     </div>
     <div style="display:flex; flex-direction:column; gap:28px; justify-content:center;">
       <div class="card-dark" style="border-left:4px solid var(--teal); display:flex; align-items:center; gap:28px; padding:32px 40px;">
-        <div style="font-size:48px;">🔍</div>
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
         <div style="font-size:40px; font-weight:700; color:var(--text);">找素材</div>
       </div>
       <div class="card-dark" style="border-left:4px solid var(--teal); display:flex; align-items:center; gap:28px; padding:32px 40px;">
-        <div style="font-size:48px;">🧭</div>
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+        </svg>
         <div style="font-size:40px; font-weight:700; color:var(--text);">定方向</div>
       </div>
       <div class="card-dark" style="border-left:4px solid var(--gold); display:flex; align-items:center; gap:28px; padding:32px 40px;">
-        <div style="font-size:48px;">❓</div>
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
         <div style="font-size:40px; font-weight:700; color:var(--text);">問好問題</div>
       </div>
       <div style="font-size:26px; color:oklch(52% 0.03 245); line-height:1.5; padding-top:8px;">摘要、分類、交叉連結、一致性維護——全部交給 AI</div>
@@ -1894,19 +2090,51 @@
   <div class="accent-line"></div>
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; flex:1;">
     <div class="card-dark" style="border-left:4px solid var(--teal);">
-      <div style="font-size:28px; font-weight:700; color:var(--teal); margin-bottom:12px;">📄 論文摘要</div>
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <line x1="10" y1="9" x2="8" y2="9"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--teal); margin-top:10px;">論文摘要</div>
+      </div>
       <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">丟進 PDF，自動輸出結構化筆記存入 Obsidian</div>
     </div>
     <div class="card-dark" style="border-left:4px solid var(--teal);">
-      <div style="font-size:28px; font-weight:700; color:var(--teal); margin-bottom:12px;">📋 病歷整理</div>
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+          <line x1="9" y1="12" x2="15" y2="12"/>
+          <line x1="9" y1="16" x2="15" y2="16"/>
+          <line x1="9" y1="8" x2="11" y2="8"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--teal); margin-top:10px;">病歷整理</div>
+      </div>
       <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">口述段落 → 標準格式文件</div>
     </div>
     <div class="card-dark" style="border-left:4px solid var(--teal);">
-      <div style="font-size:28px; font-weight:700; color:var(--teal); margin-bottom:12px;">🩺 衛教草稿</div>
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--teal); margin-top:10px;">衛教草稿</div>
+      </div>
       <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">輸入診斷 → 生成病患說明文字</div>
     </div>
     <div class="card-dark" style="border-left:4px solid var(--gold);">
-      <div style="font-size:28px; font-weight:700; color:var(--gold); margin-bottom:12px;">🔬 研究設計檢查</div>
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/>
+          <path d="M8.5 2h7"/>
+          <path d="M7 16h10"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--gold); margin-top:10px;">研究設計檢查</div>
+      </div>
       <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">貼上方法段落 → 列出潛在偏誤</div>
     </div>
   </div>
