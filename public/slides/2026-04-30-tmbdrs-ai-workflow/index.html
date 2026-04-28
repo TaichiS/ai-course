@@ -13,6 +13,7 @@
     --teal:       oklch(64% 0.14 200);
     --teal-light: oklch(82% 0.10 200);
     --gold:       oklch(72% 0.13 72);
+    --purple:     oklch(58% 0.18 300);
     --red-warn:   oklch(60% 0.18 25);
     --green-ok:   oklch(60% 0.18 155);
     --amber:      oklch(72% 0.16 65);
@@ -867,7 +868,7 @@
 ════════════════════════════════════════════ -->
 <section class="dark-mid" data-screen-label="02 Agenda">
   <div class="slide-tag">今日課程大綱</div>
-  <div class="content-title" style="font-size:60px; color:var(--text); margin-bottom: 52px;">11 個章節，從信任到落地</div>
+  <div class="content-title" style="font-size:60px; color:var(--text); margin-bottom: 52px;">12 個章節，從信任到落地</div>
   <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px 60px; flex:1; align-content: start;">
     <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
       <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">01</span>
@@ -909,11 +910,14 @@
       <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">10</span>
       <span style="font-size:30px; color:var(--text);">Obsidian 個人知識庫</span>
     </div>
-    <div style="display:flex; gap:20px; align-items:center; padding:16px 0;">
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
       <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">11</span>
       <span style="font-size:30px; color:var(--text);">Skill：封裝你的工作流</span>
     </div>
-    <div></div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0;">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">12</span>
+      <span style="font-size:30px; color:var(--text);">Claude Code 的替代工具</span>
+    </div>
   </div>
 </section>
 
@@ -1613,46 +1617,31 @@
         <tbody>
           <tr>
             <td style="padding-right:12px; vertical-align:middle;">
-              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="56" height="56" rx="9" fill="#2B579A"/>
-                <path fill="white" d="M6,10 L13,10 L20,38 L24,20 L32,20 L36,38 L43,10 L50,10 L43,46 L35,46 L28,26 L21,46 L13,46 Z"/>
-              </svg>
+              <img src="icons/word.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
             </td>
             <td class="fw-700">Word</td>
             <td style="color:var(--text-mid);">讀取、編輯、生成 .docx</td>
           </tr>
           <tr>
             <td style="padding-right:12px; vertical-align:middle;">
-              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="56" height="56" rx="9" fill="#217346"/>
-                <g transform="translate(28,28)" fill="white">
-                  <rect x="-23" y="-7.5" width="46" height="15" rx="3" transform="rotate(45)"/>
-                  <rect x="-23" y="-7.5" width="46" height="15" rx="3" transform="rotate(-45)"/>
-                </g>
-              </svg>
+              <img src="icons/excel.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
             </td>
             <td class="fw-700">Excel</td>
             <td style="color:var(--text-mid);">讀取、分析、生成 .xlsx</td>
           </tr>
           <tr>
             <td style="padding-right:12px; vertical-align:middle;">
-              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="56" height="56" rx="9" fill="#C11B17"/>
-                <text x="28" y="36" text-anchor="middle" fill="white" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="18" letter-spacing="1.5">PDF</text>
-              </svg>
-            </td>
-            <td class="fw-700">PDF</td>
-            <td style="color:var(--text-mid);">擷取文字、填表、合併</td>
-          </tr>
-          <tr>
-            <td style="padding-right:12px; vertical-align:middle;">
-              <svg width="52" height="52" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="56" height="56" rx="9" fill="#C43E1C"/>
-                <path fill="white" fill-rule="evenodd" d="M13,11 L13,45 L21,45 L21,31 L29,31 C39,31 44,26 44,21 C44,14 38,11 29,11 Z M21,17 L28,17 C32,17 36,18.5 36,21 C36,23.5 32,25 28,25 L21,25 Z"/>
-              </svg>
+              <img src="icons/powerpint.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
             </td>
             <td class="fw-700">PowerPoint</td>
             <td style="color:var(--text-mid);">讀取、編輯、生成 .pptx</td>
+          </tr>
+          <tr>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <img src="icons/pdf.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
+            </td>
+            <td class="fw-700">PDF</td>
+            <td style="color:var(--text-mid);">擷取文字、填表、合併</td>
           </tr>
         </tbody>
       </table>
@@ -2177,9 +2166,108 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 38 · 四大警語（1/2）
+  SLIDE 38 · Chapter 12 Header
 ════════════════════════════════════════════ -->
-<section data-screen-label="38 警語 1-2">
+<section class="dark" data-screen-label="38 Ch12 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 12</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Claude Code<br>的替代工具</div>
+    <div class="chapter-desc">CLI、IDE、桌面 Agent 都在快速演化；選工具時看模型、工作流與資料邊界</div>
+    <div class="chapter-number">12</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 39 · Claude Code 替代工具
+════════════════════════════════════════════ -->
+<section data-screen-label="39 Claude Code 替代工具">
+  <div class="slide-tag">替代工具與下載入口</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="font-size:54px; margin-bottom:30px;">除了 Claude Code，還有哪些選擇？</div>
+  <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px 24px; flex:1; align-content:start;">
+    <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Claude Desktop</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">Anthropic</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">桌面版整合 Chat、Cowork、Code 三種模式</div>
+      </div>
+    </a>
+    <a href="https://developers.openai.com/codex/cli" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Codex</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">OpenAI</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">ChatGPT CLI / 終端機 coding agent</div>
+      </div>
+    </a>
+    <a href="https://google-gemini.github.io/gemini-cli/docs/get-started/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Gemini CLI</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">Google</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">Google 官方 CLI，適合 Gemini 生態系</div>
+      </div>
+    </a>
+    <a href="https://github.com/ComposioHQ/grok-cli" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--gold);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Grok CLI</div>
+          <div style="font-size:18px; font-weight:800; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase;">Community</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">xAI Grok API 的社群 CLI；先確認維護狀態</div>
+      </div>
+    </a>
+    <a href="https://opencode.ai/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">OpenCode</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">Open Source</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">可接多種供應商，也適合搭配中國語言模型</div>
+      </div>
+    </a>
+    <a href="https://antigravity.google/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--purple);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Antigravity</div>
+          <div style="font-size:18px; font-weight:800; color:var(--purple); letter-spacing:0.08em; text-transform:uppercase;">Google</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">Agent-first IDE，支援 macOS / Windows / Linux</div>
+      </div>
+    </a>
+    <a href="https://manus.im/docs/zh-tw/introduction/welcome" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--purple);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Manus</div>
+          <div style="font-size:18px; font-weight:800; color:var(--purple); letter-spacing:0.08em; text-transform:uppercase;">AI Agent</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">通用 AI Agent，可自主規劃並執行多步驟任務</div>
+      </div>
+    </a>
+    <a href="https://cursor.com/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Cursor</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">IDE</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">AI-first code editor，適合偏 GUI / VS Code 工作流</div>
+      </div>
+    </a>
+  </div>
+  <div style="font-size:22px; color:var(--text-muted); margin-top:20px; line-height:1.45;">
+    提醒：非官方 CLI 或第三方封裝工具，安裝前先檢查維護狀態、權限要求與 API key 儲存方式。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 40 · 四大警語（1/2）
+════════════════════════════════════════════ -->
+<section data-screen-label="40 警語 1-2">
   <div class="slide-tag" style="color:var(--red-warn);">使用 AI 前，請記住這些</div>
   <div class="accent-line" style="background:var(--red-warn);"></div>
   <div class="content-title" style="font-size:60px; margin-bottom:44px;">四大警語</div>
@@ -2206,9 +2294,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 39 · 四大警語（2/2）
-════════════════════════════════════════════ -->
-<section data-screen-label="39 警語 3-4">
+  SLIDE 41 · 四大警語（2/2）
+ ════════════════════════════════════════════ -->
+<section data-screen-label="41 警語 3-4">
   <div class="slide-tag" style="color:var(--red-warn);">使用 AI 前，請記住這些</div>
   <div class="accent-line" style="background:var(--red-warn);"></div>
   <div class="two-col" style="gap:40px; flex:1;">
@@ -2234,9 +2322,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 40 · 總結
-════════════════════════════════════════════ -->
-<section data-screen-label="40 總結">
+  SLIDE 42 · 總結
+ ════════════════════════════════════════════ -->
+<section data-screen-label="42 總結">
   <div class="slide-tag">課程總結</div>
   <div class="accent-line"></div>
   <div class="content-title" style="margin-bottom:44px;">AI 是加速器，不是替代品</div>
@@ -2262,9 +2350,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 41 · Q&A
-════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="41 QA">
+  SLIDE 43 · Q&A
+ ════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="43 QA">
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
     <div style="font-size:36px; font-weight:500; color:var(--teal); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:32px;">Q &amp; A</div>
     <div class="accent-line" style="width:120px;"></div>
@@ -2278,9 +2366,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 42 · 謝謝
-════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="42 Thank You">
+  SLIDE 44 · 謝謝
+ ════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="44 Thank You">
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
     <div class="cover-chapter">台灣醫學大數據研究學會 · 2026-04-30</div>
     <div style="font-size:110px; font-weight:900; color:var(--text); line-height:1.05; margin-bottom:48px;">謝謝大家</div>
