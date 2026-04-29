@@ -99,7 +99,7 @@ const copyToClipboard = async (text: string) => {
     <!-- 區塊標題 -->
     <div class="text-center py-6">
       <h2 class="text-3xl font-bold text-gray-900 mb-2">環境安裝設定</h2>
-      <p class="text-gray-600">在開始課程之前，請先完成以下軟體安裝</p>
+      <p class="text-gray-600">選擇您的作業系統，跟著步驟快速完成安裝</p>
     </div>
 
     <div class="space-y-8">
