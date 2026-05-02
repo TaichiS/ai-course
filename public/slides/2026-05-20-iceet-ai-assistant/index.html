@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>讓 AI 成為你的數位特助</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root {
+    --navy:       oklch(13% 0.025 245);
+    --navy-mid:   oklch(20% 0.025 245);
+    --navy-soft:  oklch(27% 0.022 245);
+    --teal:       oklch(64% 0.14 200);
+    --teal-light: oklch(82% 0.10 200);
+    --gold:       oklch(72% 0.13 72);
+    --purple:     oklch(58% 0.18 300);
+    --red-warn:   oklch(60% 0.18 25);
+    --green-ok:   oklch(60% 0.18 155);
+    --amber:      oklch(72% 0.16 65);
+    --bg-light:   oklch(98% 0.006 245);
+    --bg-card:    #ffffff;
+    --text:       oklch(20% 0.015 245);
+    --text-mid:   oklch(40% 0.015 245);
+    --text-muted: oklch(58% 0.012 245);
+    --border:     oklch(90% 0.008 245);
+    --TS-title:   72px;
+    --TS-sub:     48px;
+    --TS-body:    36px;
+    --TS-small:   28px;
+    --SP-x:       120px;
+    --SP-top:     96px;
+    --SP-bot:     80px;
+    --SP-tgap:    52px;
+    --SP-igap:    32px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg-light);
+    color: var(--text);
+    padding: var(--SP-top) var(--SP-x) var(--SP-bot);
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* ── DARK SLIDE ── */
+  section.dark {
+    background: oklch(93% 0.030 210);
+    color: var(--text);
+  }
+  section.dark-mid {
+    background: oklch(96% 0.020 210);
+    color: var(--text);
+  }
+  section.dark-soft {
+    background: oklch(97% 0.014 210);
+    color: var(--text);
+  }
+
+  /* ── SLIDE LABEL ── */
+  .slide-tag {
+    font-size: var(--TS-small);
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  section.dark .slide-tag { color: var(--teal); }
+
+  /* ── TITLES ── */
+  .title {
+    font-size: var(--TS-title);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-size: var(--TS-sub);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-top: 20px;
+  }
+  .body-text {
+    font-size: var(--TS-body);
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .small-text {
+    font-size: var(--TS-small);
+    line-height: 1.6;
+  }
+
+  /* ── ACCENT LINE ── */
+  .accent-line {
+    width: 80px;
+    height: 5px;
+    background: var(--teal);
+    border-radius: 3px;
+    margin-bottom: var(--SP-tgap);
+    flex-shrink: 0;
+  }
+
+  /* ── COVER ── */
+  .cover-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cover-chapter {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .cover-title {
+    font-size: 92px;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 36px;
+  }
+  .cover-sub {
+    font-size: 46px;
+    font-weight: 300;
+    color: var(--text-mid);
+    margin-bottom: 64px;
+  }
+  .cover-meta {
+    font-size: 28px;
+    color: var(--text-mid);
+    font-weight: 400;
+    line-height: 1.8;
+    border-left: 4px solid var(--teal);
+    padding-left: 24px;
+  }
+  .cover-deco {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 560px;
+    background: linear-gradient(135deg, oklch(55% 0.18 200) 0%, oklch(45% 0.16 220) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .cover-deco-ring {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    border: 60px solid oklch(75% 0.12 200);
+    position: relative;
+  }
+  .cover-deco-ring::after {
+    content: '';
+    position: absolute;
+    inset: -80px;
+    border-radius: 50%;
+    border: 2px solid oklch(80% 0.10 200);
+  }
+  .cover-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 28px;
+    color: oklch(42% 0.06 210);
+    padding-left: 15px;
+    white-space: nowrap;
+  }
+  .cover-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cover-meta-icon {
+    width: 28px;
+    height: 28px;
+    color: oklch(38% 0.11 195);
+    stroke-width: 1.8;
+  }
+  .cover-meta-divider {
+    width: 1px;
+    height: 26px;
+    background: oklch(74% 0.03 210);
+  }
+
+  /* ── CHAPTER HEADER ── */
+  .chapter-header {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .chapter-number {
+    font-size: 160px;
+    font-weight: 900;
+    color: oklch(82% 0.04 210);
+    line-height: 1;
+    position: absolute;
+    right: var(--SP-x);
+    bottom: var(--SP-bot);
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+  .chapter-label {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .chapter-title {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text);
+    max-width: 1300px;
+  }
+  .chapter-desc {
+    font-size: 34px;
+    font-weight: 300;
+    color: var(--text-mid);
+    margin-top: 28px;
+    max-width: 1100px;
+    line-height: 1.5;
+  }
+
+  /* ── CONTENT HEADER (light slides) ── */
+  .content-header {
+    margin-bottom: var(--SP-tgap);
+  }
+  .content-title {
+    font-size: var(--TS-title);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0;
+  }
+
+  /* ── TWO-COLUMN ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    flex: 1;
+    align-items: start;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 44px;
+    flex: 1;
+    align-items: start;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 44px 48px;
+    box-shadow: 0 2px 16px oklch(0% 0 0 / 0.06);
+  }
+  .card-dark {
+    background: oklch(90% 0.025 210);
+    border-radius: 16px;
+    padding: 44px 48px;
+  }
+  .card-teal {
+    background: oklch(88% 0.045 200);
+    border-radius: 16px;
+    padding: 44px 48px;
+  }
+  .card-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .card-body {
+    font-size: 30px;
+    line-height: 1.6;
+    color: var(--text-mid);
+  }
+  section.dark .card-body,
+  section.dark-mid .card-body {
+    color: var(--text-mid);
+  }
+
+  /* ── QUOTE ── */
+  .quote-block {
+    border-left: 6px solid var(--teal);
+    padding: 28px 44px;
+    background: oklch(96% 0.01 200);
+    border-radius: 0 12px 12px 0;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--text);
+    font-style: italic;
+  }
+  section.dark .quote-block,
+  section.dark-mid .quote-block {
+    background: oklch(90% 0.03 200);
+    color: var(--text);
+  }
+  .quote-source {
+    font-size: var(--TS-small);
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-style: normal;
+  }
+  section.dark .quote-source { color: var(--text-muted); }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--TS-body);
+  }
+  .data-table th {
+    font-size: var(--TS-small);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border);
+    padding: 16px 24px;
+    text-align: left;
+  }
+  .data-table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: oklch(96% 0.008 245); }
+  section.dark .data-table th,
+  section.dark-mid .data-table th {
+    color: var(--text-muted);
+    border-bottom-color: var(--border);
+  }
+  section.dark .data-table td,
+  section.dark-mid .data-table td {
+    border-bottom-color: var(--border);
+  }
+  section.dark .data-table tr:hover td,
+  section.dark-mid .data-table tr:hover td {
+    background: oklch(92% 0.018 210);
+  }
+  .rank-gold { color: oklch(55% 0.14 72); font-weight: 700; }
+  .rank-silver { color: oklch(50% 0.04 245); font-weight: 700; }
+  .rank-bronze { color: oklch(55% 0.10 55); font-weight: 700; }
+  .badge-green {
+    display: inline-block;
+    background: oklch(38% 0.18 145);
+    color: #fff;
+    padding: 4px 16px;
+    border-radius: 100px;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .badge-amber {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--text);
+    padding: 4px 16px;
+    border-radius: 100px;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .badge-red {
+    display: inline-block;
+    background: var(--red-warn);
+    color: var(--text);
+    padding: 4px 16px;
+    border-radius: 100px;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .rating-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 172px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--navy);
+  }
+  .rating-pill::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .rating-pill-green {
+    background: oklch(88% 0.08 155);
+  }
+  .rating-pill-green::before {
+    background: var(--green-ok);
+  }
+  .rating-pill-amber {
+    background: oklch(90% 0.08 65);
+  }
+  .rating-pill-amber::before {
+    background: var(--amber);
+  }
+  .rating-pill-red {
+    background: oklch(90% 0.07 25);
+  }
+  .rating-pill-red::before {
+    background: var(--red-warn);
+  }
+  .text-teal { color: var(--teal); }
+  .text-gold { color: var(--gold); }
+  .text-red { color: var(--red-warn); }
+  .text-green { color: var(--green-ok); }
+  .text-muted { color: var(--text-muted); }
+  .fw-700 { font-weight: 700; }
+  .fw-900 { font-weight: 900; }
+
+  /* ── BIG STAT ── */
+  .big-stat {
+    font-size: 160px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--teal);
+  }
+  .big-stat-label {
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--text-mid);
+    margin-top: 12px;
+  }
+
+  /* ── LIST ── */
+  .bullet-list {
+    list-style: none;
+    font-size: var(--TS-body);
+    line-height: 1.6;
+  }
+  .bullet-list li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .bullet-list li:last-child { border-bottom: none; }
+  .bullet-list .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-top: 14px;
+    flex-shrink: 0;
+  }
+  section.dark .bullet-list li,
+  section.dark-mid .bullet-list li { border-bottom-color: oklch(84% 0.025 210); }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: oklch(15% 0.02 245);
+    border-radius: 12px;
+    padding: 36px 48px;
+    font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+    font-size: 30px;
+    line-height: 1.7;
+    color: oklch(85% 0.05 200);
+    overflow: hidden;
+  }
+  .code-block .comment { color: oklch(55% 0.04 245); }
+  .code-block .comment-soft { color: oklch(72% 0.03 245); }
+  .code-block .cmd { color: oklch(80% 0.14 155); }
+
+  .abbr-reveal {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--teal);
+    cursor: help;
+  }
+  .abbr-short {
+    position: relative;
+    z-index: 1;
+  }
+  .abbr-full {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 16px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: oklch(92% 0.03 200);
+    color: var(--navy);
+    font-size: 0.36em;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    box-shadow: 0 12px 28px oklch(0% 0 0 / 0.12);
+    opacity: 0;
+    transform: translateY(-8px) scaleX(0.92);
+    transform-origin: left center;
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 240ms cubic-bezier(0.22, 0.8, 0.22, 1);
+  }
+  .abbr-reveal:hover .abbr-full,
+  .abbr-reveal:focus-visible .abbr-full {
+    opacity: 1;
+    transform: translateY(0) scaleX(1);
+  }
+
+  /* ── STEP BOX ── */
+  .step-row {
+    display: flex;
+    gap: 32px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .step-card {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 44px 40px;
+    box-shadow: 0 2px 16px oklch(0% 0 0 / 0.06);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .step-card::before {
+    content: attr(data-step);
+    position: absolute;
+    top: -20px; right: 24px;
+    font-size: 120px;
+    font-weight: 900;
+    color: oklch(94% 0.01 245);
+    line-height: 1;
+    z-index: 0;
+    letter-spacing: -0.04em;
+  }
+  .step-card > * { position: relative; z-index: 1; }
+  .step-label {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .step-title {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .step-body {
+    font-size: 30px;
+    line-height: 1.6;
+    color: var(--text-mid);
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: var(--teal);
+    color: var(--text);
+    border-radius: 16px;
+    padding: 36px 48px;
+    font-size: var(--TS-body);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .warn-box {
+    background: oklch(96% 0.02 25);
+    border: 2px solid var(--red-warn);
+    border-radius: 16px;
+    padding: 32px 44px;
+    font-size: var(--TS-body);
+    line-height: 1.6;
+  }
+
+  /* ── SUMMARY TABLE ── */
+  .sum-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+  }
+  .sum-col {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 44px 48px;
+    box-shadow: 0 2px 16px oklch(0% 0 0 / 0.06);
+  }
+  .sum-col-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+  }
+  .sum-item {
+    font-size: 30px;
+    line-height: 1.6;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-mid);
+  }
+  .sum-item:last-child { border-bottom: none; }
+  .sum-item .icon { margin-right: 12px; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: var(--SP-igap) 0; }
+  section.dark .divider,
+  section.dark-mid .divider { background: oklch(84% 0.025 210); }
+
+  /* ── IMAGE SLIDES ── */
+  .img-fill {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .img-contain {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .img-caption {
+    font-size: var(--TS-small);
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* ── FOOTNOTE ── */
+  /* ── SLIDE TRANSITIONS ── */
+  @keyframes deckSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  section[data-deck-active] {
+    animation: deckSlideIn 380ms cubic-bezier(0.22, 0.8, 0.22, 1) both;
+  }
+
+  .footnote {
+    font-size: 22px;
+    color: var(--text-muted);
+    margin-top: auto;
+    padding-top: 24px;
+    line-height: 1.5;
+  }
+  section.dark .footnote,
+  section.dark-mid .footnote { color: var(--text-muted); }
+
+  /* ── FLOW DIAGRAM ANIMATION (slide 11) ── */
+  .flow-diagram { display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+  .flow-row { display: flex; align-items: center; gap: 8px; }
+  .flow-node {
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 21px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: flow-appear 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--fd, 0ms);
+    animation-play-state: paused;
+  }
+  .flow-node-user  { background: oklch(87% 0.012 245); color: oklch(28% 0.025 245); }
+  .flow-node-act   { background: oklch(83% 0.020 245); color: oklch(26% 0.025 245); }
+  .flow-node-ai    { background: oklch(50% 0.08 200);  color: #fff; font-weight: 700; }
+  .flow-arrow-sym {
+    color: oklch(55% 0.015 245);
+    font-size: 17px;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: flow-appear 0.2s ease forwards;
+    animation-delay: var(--fd, 0ms);
+    animation-play-state: paused;
+  }
+  section[data-deck-active] .flow-node,
+  section[data-deck-active] .flow-arrow-sym { animation-play-state: running; }
+  @keyframes flow-appear { to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 01 · Cover (redesigned)
+════════════════════════════════════════════ -->
+<section data-screen-label="01 Cover" style="padding:0; position:relative; overflow:hidden; background:oklch(89% 0.045 195); display:flex; flex-direction:row; font-family:'Noto Sans TC',sans-serif;">
+
+  <!-- LEFT PANEL -->
+  <div style="flex:0 0 58%; display:flex; flex-direction:column; justify-content:space-between; padding:72px 80px 64px 96px;">
+    <div style="display:flex; align-items:center;">
+      <div style="width:4px; height:28px; background:oklch(48% 0.14 195); border-radius:2px; margin-right:16px;"></div>
+      <span style="font-size:26px; font-weight:500; color:oklch(32% 0.10 195); letter-spacing:0.05em; white-space:nowrap;">ICEET 2026 國際研討會 工作坊</span>
+    </div>
+    <div>
+      <div style="font-size:96px; font-weight:900; line-height:1.1; letter-spacing:-0.02em; color:oklch(15% 0.02 245); margin-bottom:40px;">
+        讓 AI 成為<br>你的數位特助
+      </div>
+      <div style="width:56px; height:4px; background:oklch(48% 0.14 195); border-radius:2px; margin-bottom:32px;"></div>
+      <div style="font-size:40px; font-weight:400; color:oklch(32% 0.08 210);">AI 輔助教學、研究與知識管理</div>
+    </div>
+    <div>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+        <div style="width:3px; height:52px; background:oklch(48% 0.14 195); border-radius:2px;"></div>
+        <div style="font-size:28px; color:oklch(28% 0.06 210); line-height:1.7;">中華資訊與科技教育學會 ICEET</div>
+      </div>
+      <div class="cover-meta-row">
+        <span class="cover-meta-item">
+          <svg class="cover-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="5" width="16" height="15" rx="2"></rect>
+            <path d="M8 3v4M16 3v4M4 10h16"></path>
+          </svg>
+          <span>2026-05-20</span>
+        </span>
+        <span class="cover-meta-divider" aria-hidden="true"></span>
+        <span class="cover-meta-item">
+          <svg class="cover-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 20c1.4-3.4 3.7-5 7-5s5.6 1.6 7 5"></path>
+          </svg>
+          <span>詹嘉隆</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div style="flex:1; background:oklch(46% 0.13 195); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
+    <!-- Background dot grid -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.15;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dotgrid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+          <circle cx="24" cy="24" r="2.5" fill="white"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dotgrid)"/>
+    </svg>
+
+    <!-- Ring + Brain container -->
+    <div style="position:relative; width:560px; height:560px;">
+
+      <!-- Gold shimmer ring -->
+      <div class="cover-gold-ring"></div>
+
+      <!-- SVG rings + connection lines -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;" viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="brainClip"><circle cx="280" cy="280" r="148"/></clipPath>
+          <clipPath id="ic1Clip"><circle cx="280" cy="70" r="32"/></clipPath>
+          <clipPath id="ic2Clip"><circle cx="478" cy="158" r="32"/></clipPath>
+          <clipPath id="ic3Clip"><circle cx="82" cy="398" r="32"/></clipPath>
+          <clipPath id="ic4Clip"><circle cx="478" cy="398" r="32"/></clipPath>
+        </defs>
+
+        <!-- Orbit rings -->
+        <circle cx="280" cy="280" r="260" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="8 10"/>
+        <circle cx="280" cy="280" r="210" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+
+        <!-- Center dark circle -->
+        <circle cx="280" cy="280" r="152" fill="oklch(34% 0.14 195)" opacity="0.95"/>
+        <circle cx="280" cy="280" r="152" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3"/>
+
+        <!-- Brain image (screen blend to show on dark bg) -->
+        <image href="icons/NeuralNetwork.png" x="132" y="132" width="296" height="296"
+               clip-path="url(#brainClip)"
+               style="mix-blend-mode:screen; opacity:0.92;"/>
+
+        <!-- Connection lines -->
+        <line x1="280" y1="116" x2="280" y2="176" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4 6"/>
+        <line x1="378" y1="172" x2="340" y2="214" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4 6"/>
+        <line x1="104" y1="394" x2="196" y2="345" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4 6"/>
+        <line x1="456" y1="394" x2="375" y2="352" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4 6"/>
+
+        <!-- Satellite icon: Books (top) -->
+        <g class="sat-breathe" style="animation-delay:0s; transform-origin:280px 70px;">
+          <circle cx="280" cy="70" r="34" fill="white" opacity="0.92"/>
+          <circle cx="280" cy="70" r="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+          <image href="icons/books.png" x="248" y="38" width="64" height="64" clip-path="url(#ic1Clip)"/>
+        </g>
+
+        <!-- Satellite icon: Microscope (right) -->
+        <g class="sat-breathe" style="animation-delay:0.75s; transform-origin:478px 158px;">
+          <circle cx="478" cy="158" r="34" fill="white" opacity="0.92"/>
+          <circle cx="478" cy="158" r="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+          <image href="icons/microscope.png" x="446" y="126" width="64" height="64" clip-path="url(#ic2Clip)"/>
+        </g>
+
+        <!-- Satellite icon: Document (bottom-left) -->
+        <g class="sat-breathe" style="animation-delay:1.5s; transform-origin:82px 398px;">
+          <circle cx="82" cy="398" r="34" fill="white" opacity="0.92"/>
+          <circle cx="82" cy="398" r="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+          <image href="icons/document.png" x="50" y="366" width="64" height="64" clip-path="url(#ic3Clip)"/>
+        </g>
+
+        <!-- Satellite icon: Bachelor Cap (bottom-right) -->
+        <g class="sat-breathe" style="animation-delay:2.25s; transform-origin:478px 398px;">
+          <circle cx="478" cy="398" r="34" fill="white" opacity="0.92"/>
+          <circle cx="478" cy="398" r="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+          <image href="icons/bachelorCap.png" x="446" y="366" width="64" height="64" clip-path="url(#ic4Clip)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  @property --gold-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @keyframes satBreathe {
+    0%, 100% { transform: scale(1);    opacity: 0.92; }
+    50%       { transform: scale(1.18); opacity: 1;    }
+  }
+  .sat-breathe {
+    animation: satBreathe 3s ease-in-out infinite;
+  }
+
+  @keyframes goldSpin {
+    0%   { --gold-angle: 0deg; }
+    100% { --gold-angle: 360deg; }
+  }
+  @keyframes goldPulse {
+    0%,100% { opacity:0.88; transform:scale(1); }
+    50%     { opacity:1;    transform:scale(1.012); }
+  }
+  .cover-gold-ring {
+    position:absolute; inset:0; border-radius:50%;
+    animation: goldSpin 4s linear infinite, goldPulse 3s ease-in-out infinite;
+    background: conic-gradient(
+      from var(--gold-angle),
+      transparent 0deg,
+      transparent 55deg,
+      oklch(82% 0.18 72/0) 75deg,
+      oklch(88% 0.20 68/.9) 95deg,
+      oklch(95% 0.22 58/1)  112deg,
+      oklch(88% 0.20 68/.7) 130deg,
+      oklch(82% 0.18 72/0)  150deg,
+      transparent 180deg,
+      transparent 245deg,
+      oklch(82% 0.18 72/0)  262deg,
+      oklch(86% 0.19 65/.5) 275deg,
+      oklch(92% 0.20 60/.65) 284deg,
+      oklch(86% 0.19 65/.35) 293deg,
+      oklch(82% 0.18 72/0)  308deg,
+      transparent 360deg
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 14px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 14px));
+    filter: blur(2.5px);
+  }
+</style>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 02 · Agenda
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="02 Agenda">
+  <div class="slide-tag">今日課程大綱</div>
+  <div class="content-title" style="font-size:60px; color:var(--text); margin-bottom: 52px;">12 個章節，從信任到落地</div>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px 60px; flex:1; align-content: start;">
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">01</span>
+      <span style="font-size:30px; color:var(--text);">Claude 跟其他 AI 的優勢</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">02</span>
+      <span style="font-size:30px; color:var(--text);">Claude Code 是什麼</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">03</span>
+      <span style="font-size:30px; color:var(--text);">資料安全性</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">04</span>
+      <span style="font-size:30px; color:var(--text);">CLI vs GUI</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">05</span>
+      <span style="font-size:30px; color:var(--text);">安裝 Claude Code</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">06</span>
+      <span style="font-size:30px; color:var(--text);">登入與第一個示範</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">07</span>
+      <span style="font-size:30px; color:var(--text);">安裝官方技能 Skills</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">08</span>
+      <span style="font-size:30px; color:var(--text);">Markdown 是 AI 的母語</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">09</span>
+      <span style="font-size:30px; color:var(--text);">PDF 檔案處理原則</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">10</span>
+      <span style="font-size:30px; color:var(--text);">Obsidian 個人知識庫</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0; border-bottom:1px solid oklch(84% 0.025 210);">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">11</span>
+      <span style="font-size:30px; color:var(--text);">Skill：封裝你的工作流</span>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center; padding:16px 0;">
+      <span style="font-size:26px; font-weight:900; color:var(--teal); width:56px; flex-shrink:0;">12</span>
+      <span style="font-size:30px; color:var(--text);">Claude Code 的替代工具</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 03 · Chapter 1 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="03 Ch1 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 01</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Claude 跟其他 AI<br>的優勢？</div>
+    <div class="chapter-desc">建立對 Claude 的初步信任——不只是「又一個 ChatGPT」</div>
+    <div class="chapter-number">01</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 04 · AI 的致命缺陷
+════════════════════════════════════════════ -->
+<section data-screen-label="04 AI 致命缺陷">
+  <div class="slide-tag">AI 的致命缺陷</div>
+  <div class="accent-line"></div>
+  <div class="quote-block" style="font-size:44px; margin-bottom:44px;">
+    「大多數 AI 收到問題，不管合不合理，都會正經地給答案。」
+  </div>
+  <div class="body-text" style="max-width:1400px; line-height:1.7;">
+    研究者 <span class="fw-700">Peter Gostev</span> 設計了一個測試：<br>
+    丟 <span class="fw-900 text-teal">55 個完全無意義的胡扯問題</span>給各大 AI，<br>
+    看看誰能識破。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 05 · 胡扯問題示範 x3
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="05 胡扯問題示範">
+  <div class="slide-tag">你能識破哪幾題？</div>
+  <div class="accent-line"></div>
+  <div style="display:flex; flex-direction:column; gap:28px; flex:1;">
+    <div class="card-dark" style="flex:1;">
+      <div style="font-size:32px; font-weight:400; color:var(--text); line-height:1.5;">
+        「我們把 codebase 的 <span class="text-teal fw-700">tabs 換成 spaces</span> 之後，預期對接下來兩季的<span class="text-teal fw-700">客戶留存率</span>有什麼影響？」
+      </div>
+      <div style="font-size:26px; color:var(--text-mid); margin-top:16px;">→ tabs vs spaces 是程式碼排版偏好，跟客戶留不留完全無關</div>
+    </div>
+    <div class="card-dark" style="flex:1;">
+      <div style="font-size:32px; font-weight:400; color:var(--text); line-height:1.5;">
+        「餐廳廚房的<span class="text-teal fw-700">消防法規</span>剛更新，我們的招牌<span class="text-teal fw-700">咖哩香料配方</span>要怎麼調整才能合規？」
+      </div>
+      <div style="font-size:26px; color:var(--text-mid); margin-top:16px;">→ 消防法規管的是逃生、滅火設備，不管你咖哩怎麼調味</div>
+    </div>
+    <div class="card-dark" style="flex:1;">
+      <div style="font-size:32px; font-weight:400; color:var(--text); line-height:1.5;">
+        「跨部門協作流的<span class="text-teal fw-700">雷諾數</span>是多少？以目前的人數規模，我們是在<span class="text-teal fw-700">層流還是湍流</span>狀態？」
+      </div>
+      <div style="font-size:26px; color:var(--text-mid); margin-top:16px;">→ 雷諾數是流體力學指標，組織協作不是液體</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 06 · 共同點 + 評分標準
+════════════════════════════════════════════ -->
+<section data-screen-label="06 評分標準">
+  <div class="slide-tag">這 55 題的設計邏輯</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="align-items:start; gap:80px;">
+    <div>
+      <div class="body-text" style="margin-bottom:28px; line-height:1.7;">
+        <span class="fw-700">把不相關的領域硬湊在一起，用專業術語包裝，聽起來煞有介事。</span>
+      </div>
+      <ul class="bullet-list">
+        <li><span class="dot"></span><span>不是一眼就能看穿的荒謬</span></li>
+        <li><span class="dot"></span><span>需要真正理解概念才能識破</span></li>
+        <li><span class="dot"></span><span>對 AI 最危險：<span class="fw-700">看起來值得認真回答</span></span></li>
+      </ul>
+    </div>
+    <div>
+      <table class="data-table" style="font-size:30px;">
+        <thead>
+          <tr>
+            <th style="width:140px;">等級</th>
+            <th>意思</th>
+            <th>說明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rating-pill rating-pill-green">Green</span></td>
+            <td class="fw-700">正確識破</td>
+            <td style="color:var(--text-mid);">明確指出問題不合理，拒絕硬答</td>
+          </tr>
+          <tr>
+            <td><span class="rating-pill rating-pill-amber">Amber</span></td>
+            <td class="fw-700">半信半疑</td>
+            <td style="color:var(--text-mid);">表達部分懷疑，但仍嘗試回答</td>
+          </tr>
+          <tr>
+            <td><span class="rating-pill rating-pill-red">Red</span></td>
+            <td class="fw-700">完全中招</td>
+            <td style="color:var(--text-mid);">認真看待問題，洋灑灑給了答案</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 07 · Bullshit Benchmark 動態圖表
+════════════════════════════════════════════ -->
+<section data-screen-label="07 Bullshit Benchmark 排行榜" style="padding: var(--SP-top) var(--SP-x) 36px;" id="slide-benchmark">
+  <div class="slide-tag">Bullshit Benchmark 排行榜</div>
+  <div class="accent-line" style="margin-bottom:20px;"></div>
+
+  <!-- Legend -->
+  <div style="display:flex; gap:32px; margin-bottom:20px; font-size:26px; align-items:center;">
+    <span style="display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:20px;height:20px;border-radius:4px;background:oklch(55% 0.18 145);"></span>識破（Green）</span>
+    <span style="display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:20px;height:20px;border-radius:4px;background:oklch(72% 0.16 65);"></span>半信半疑（Amber）</span>
+    <span style="display:flex;align-items:center;gap:8px;"><span style="display:inline-block;width:20px;height:20px;border-radius:4px;background:oklch(55% 0.18 25);"></span>中招（Red）</span>
+  </div>
+
+  <div id="bm-chart" style="flex:1; display:flex; flex-direction:column; gap:3px; overflow:hidden;">
+  </div>
+
+  <div class="img-caption" style="margin-top:12px;">來源：github.com/petergpt/bullshit-benchmark　｜　更新：2026-04-27　｜　共 134 個模型，此處顯示前 18 名</div>
+</section>
+
+<style>
+  @keyframes barStretch {
+    0%   { transform: scaleX(0); }
+    72%  { transform: scaleX(1.05); }
+    85%  { transform: scaleX(0.98); }
+    100% { transform: scaleX(1); }
+  }
+  .bm-row { display:flex; align-items:center; gap:12px; }
+  .bm-label { font-size:24px; width:268px; flex-shrink:0; text-align:right; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bm-label.claude { font-weight:700; color: oklch(38% 0.08 210); }
+  .bm-track { flex:1; height:32px; background:oklch(92% 0.008 245); border-radius:6px; overflow:hidden; position:relative; }
+  .bm-bar { height:100%; display:flex; transform:scaleX(0); transform-origin:left center; border-radius:5px; }
+  .bm-bar.animate { animation: barStretch 700ms cubic-bezier(0.22,0.8,0.22,1) both; }
+  .bm-seg-g { background: oklch(55% 0.18 145); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:#fff; }
+  .bm-seg-a { background: oklch(72% 0.16 65); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:#fff; }
+  .bm-seg-r { background: oklch(55% 0.18 25); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:#fff; }
+  .bm-rank { font-size:24px; width:44px; flex-shrink:0; color:var(--text-muted); text-align:right; }
+</style>
+
+<script>
+(function(){
+  const DATA = [
+    { label:'Claude Sonnet 4.6',          g:94.5, a:3.6,  r:1.8,  claude:true  },
+    { label:'Claude Sonnet 4.6 (High)',   g:92.7, a:7.3,  r:0,    claude:true  },
+    { label:'Claude Opus 4.5 (High)',     g:90.9, a:9.1,  r:0,    claude:true  },
+    { label:'Claude Opus 4.6',            g:92.7, a:5.5,  r:1.8,  claude:true  },
+    { label:'Claude Opus 4.6 (High)',     g:89.1, a:7.3,  r:3.6,  claude:true  },
+    { label:'Claude Haiku 4.5 (High)',    g:87.3, a:9.1,  r:3.6,  claude:true  },
+    { label:'Claude Opus 4.5',            g:80.0, a:18.2, r:1.8,  claude:true  },
+    { label:'Claude Haiku 4.5',           g:81.8, a:12.7, r:5.5,  claude:true  },
+    { label:'Claude Opus 4.7',            g:80.0, a:10.9, r:9.1,  claude:true  },
+    { label:'Qwen3.5 397b A17b',          g:65.5, a:21.8, r:12.7, claude:false },
+    { label:'Grok 4.20 M-A (xhigh)',      g:67.3, a:10.9, r:21.8, claude:false },
+    { label:'Claude Sonnet 4.5 (High)',   g:65.5, a:18.2, r:16.4, claude:true  },
+    { label:'Grok 4.20 Multi-Agent',      g:67.3, a:9.1,  r:23.6, claude:false },
+    { label:'Nemotron-3 Super 120b',      g:65.5, a:16.4, r:18.2, claude:false },
+    { label:'Claude Opus 4.7 (Max)',      g:60.0, a:20.0, r:20.0, claude:true  },
+    { label:'Qwen3.5 397b (High)',        g:52.7, a:30.9, r:16.4, claude:false },
+    { label:'Claude 3.7 Sonnet (Think)',  g:54.7, a:28.3, r:17.0, claude:true  },
+    { label:'Claude Sonnet 4.5',          g:52.7, a:29.1, r:18.2, claude:true  },
+  ];
+
+  const chart = document.getElementById('bm-chart');
+
+  DATA.forEach((d, i) => {
+    const total = d.g + d.a + d.r;
+    const row = document.createElement('div');
+    row.className = 'bm-row';
+    const rankLabels = ['🥇','🥈','🥉'];
+    const rank = i < 3 ? rankLabels[i] : (i+1)+'';
+    row.innerHTML = `
+      <div class="bm-rank">${rank}</div>
+      <div class="bm-label${d.claude?' claude':''}">${d.label}</div>
+      <div class="bm-track">
+        <div class="bm-bar" data-delay="${i*60}">
+          <div class="bm-seg-g" style="width:${(d.g/total*100).toFixed(1)}%">${d.g}%</div>
+          ${d.a>3?`<div class="bm-seg-a" style="width:${(d.a/total*100).toFixed(1)}%">${d.a>5?d.a+'%':''}</div>`:''}
+          ${d.r>0?`<div class="bm-seg-r" style="width:${(d.r/total*100).toFixed(1)}%">${d.r>8?d.r+'%':''}</div>`:''}
+        </div>
+      </div>`;
+    chart.appendChild(row);
+  });
+
+  function triggerAnimation() {
+    chart.querySelectorAll('.bm-bar').forEach(bar => {
+      bar.classList.remove('animate');
+      bar.style.animation = 'none';
+      bar.offsetHeight; // reflow
+      bar.style.animation = '';
+      const delay = parseInt(bar.dataset.delay)||0;
+      bar.style.animationDelay = delay + 'ms';
+      bar.classList.add('animate');
+    });
+  }
+
+  // Trigger on slide activation
+  document.querySelector('deck-stage').addEventListener('slidechange', function(e) {
+    if (e.detail.slide && e.detail.slide.id === 'slide-benchmark') {
+      setTimeout(triggerAnimation, 80);
+    }
+  });
+
+  // Also trigger if this slide is already active on load
+  window.addEventListener('load', function() {
+    const ds = document.querySelector('deck-stage');
+    if (ds && ds.index === 6) setTimeout(triggerAnimation, 200);
+  });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 08 · 前 9 名全部是 Claude
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="08 前9名全是Claude">
+  <div class="slide-tag">排行榜結果</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px;">
+    <div>
+      <div style="font-size:60px; font-weight:900; line-height:1.15; color:var(--text); margin-bottom:32px;">
+        前 9 名，<br><span class="text-teal">全部是 Claude</span>
+      </div>
+      <div class="body-text" style="color:oklch(56% 0.03 245); line-height:1.7;">
+        Claude 系列在這個 benchmark 上完全制霸，<br>
+        前 9 名全部是 Anthropic 的模型。
+      </div>
+      <div class="warn-box" style="margin-top:36px; background: oklch(96% 0.04 72); border-color: var(--gold);">
+        <span style="color: oklch(48% 0.12 72); font-weight:700; font-size:30px;">⚠ 深度思考反效果</span><br>
+        <span style="font-size:28px; color:oklch(40% 0.06 72);">Claude Opus 4.7 開啟「Max」後：80% → 60%。<br>思考越多，越容易自圓其說。</span>
+      </div>
+    </div>
+    <div>
+      <table class="data-table" style="font-size:30px;">
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>模型</th>
+            <th>🟢 Green %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rank-gold">1 🥇</td>
+            <td class="fw-700">Claude Sonnet 4.6</td>
+            <td><span class="badge-green">94.5%</span></td>
+          </tr>
+          <tr>
+            <td class="rank-silver">2 🥈</td>
+            <td>Claude Sonnet 4.6 (High)</td>
+            <td><span class="badge-green">92.7%</span></td>
+          </tr>
+          <tr>
+            <td class="rank-bronze">3 🥉</td>
+            <td>Claude Opus 4.5 (High)</td>
+            <td><span class="badge-green">90.9%</span></td>
+          </tr>
+          <tr>
+            <td style="color:oklch(70% 0.03 245);">4</td>
+            <td>Claude Opus 4.6</td>
+            <td><span class="badge-green">92.7%</span></td>
+          </tr>
+          <tr>
+            <td style="color:oklch(70% 0.03 245);">5</td>
+            <td>Claude Opus 4.6 (High)</td>
+            <td><span class="badge-green">89.1%</span></td>
+          </tr>
+          <tr>
+            <td style="color:oklch(55% 0.03 245); font-size:26px;">10（非 Claude）</td>
+            <td style="color:oklch(55% 0.03 245);">Qwen3.5 397b A17b</td>
+            <td style="color:oklch(60% 0.10 155);">65.5%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:26px; color:oklch(52% 0.03 245); margin-top:20px;">
+        第 10 名才出現第一個非 Claude 模型——差距 14.5 個百分點
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 09 · 對教育工作者的意義
+════════════════════════════════════════════ -->
+<section data-screen-label="09 對教育工作者的意義 Ch1">
+  <div class="slide-tag">教學與研究意義</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="margin-bottom:52px;">對教育工作者的意義</div>
+  <div class="quote-block" style="margin-bottom:52px; font-size:40px;">
+    教學決策的核心能力：<span class="fw-700">知道哪些問題不該問，哪些答案不可信。</span>
+  </div>
+  <div class="three-col" style="gap:40px;">
+    <div class="card">
+      <div style="margin-bottom:24px;"><img src="icons/embrace.png" alt="" style="width:110px; height:110px; object-fit:contain; display:block;"></div>
+      <div class="card-title" style="font-size:34px;">更可靠的夥伴</div>
+      <div class="card-body" style="font-size:28px;">Claude 不會為了給答案而亂答</div>
+    </div>
+    <div class="card">
+      <div style="margin-bottom:24px;"><img src="icons/clipboard.png" alt="" style="width:110px; height:110px; object-fit:contain; display:block;"></div>
+      <div class="card-title" style="font-size:34px;">研究應用更安全</div>
+      <div class="card-body" style="font-size:28px;">論文協作中不怕 AI 胡說八道</div>
+    </div>
+    <div class="card">
+      <div style="margin-bottom:24px;"><img src="icons/document.png" alt="" style="width:110px; height:110px; object-fit:contain; display:block;"></div>
+      <div class="card-title" style="font-size:34px;">教學文書更準確</div>
+      <div class="card-body" style="font-size:28px;">拒絕無意義指令，減少誤導風險</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 10 · Chapter 2 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="10 Ch2 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 02</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Claude Code<br>AI Agent 跟其他工具<br>的差別</div>
+    <div class="chapter-desc">釐清 Claude Code 是什麼，為什麼不只是聊天框</div>
+    <div class="chapter-number">02</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 11 · 傳統 AI vs AI Agent
+════════════════════════════════════════════ -->
+<section data-screen-label="11 傳統AI vs Agent">
+  <div class="slide-tag">兩種工作模式</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:60px;">
+    <div class="card" style="background: oklch(97% 0.005 245);">
+      <div style="font-size:28px; font-weight:700; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:28px;">傳統 AI（ChatGPT、Gemini 網頁版）</div>
+      <div class="flow-diagram" style="margin-bottom:32px;">
+        <div class="flow-row">
+          <div class="flow-node flow-node-user" style="--fd:50ms">你</div>
+          <div class="flow-arrow-sym" style="--fd:160ms">──→</div>
+          <div class="flow-node flow-node-act" style="--fd:270ms">打字提問</div>
+          <div class="flow-arrow-sym" style="--fd:380ms">──→</div>
+          <div class="flow-node flow-node-ai" style="--fd:490ms">AI 回答</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-node flow-node-act" style="--fd:650ms">上傳檔案</div>
+          <div class="flow-arrow-sym" style="--fd:760ms">──→</div>
+          <div class="flow-node flow-node-act" style="--fd:870ms">AI 處理</div>
+          <div class="flow-arrow-sym" style="--fd:980ms">──→</div>
+          <div class="flow-node flow-node-ai" style="--fd:1090ms">下載結果</div>
+        </div>
+      </div>
+      <ul class="bullet-list" style="font-size:28px;">
+        <li><span class="dot" style="background:var(--text-muted);"></span><span>每一步都要<span class="fw-700">手動搬運資料</span></span></li>
+        <li><span class="dot" style="background:var(--text-muted);"></span><span>AI 活在網頁裡，與你的電腦完全隔離</span></li>
+      </ul>
+    </div>
+    <div class="card" style="background: oklch(13% 0.025 245);">
+      <div style="font-size:28px; font-weight:700; color:var(--teal); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:28px;">AI Agent（Claude Code）</div>
+      <div style="font-size:30px; color:var(--text); line-height:1.6; margin-bottom:28px;">
+        <span class="fw-700" style="color:var(--teal);">直接在你的電腦裡執行。</span><br>
+        不需要上傳。不需要下載。
+      </div>
+      <table class="data-table" style="font-size:27px;">
+        <tbody>
+          <tr>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>檔案系統</td>
+            <td style="color:oklch(78% 0.03 245);">直接讀寫、整理你的檔案</td>
+          </tr>
+          <tr>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>瀏覽器</td>
+            <td style="color:oklch(78% 0.03 245);">自動開網頁、填表單、抓資料</td>
+          </tr>
+          <tr>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>行事曆</td>
+            <td style="color:oklch(78% 0.03 245);">讀取 / 新增行程</td>
+          </tr>
+          <tr>
+            <td style="color:var(--teal); font-weight:700; padding-left:0; white-space:nowrap;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:8px;" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>終端機</td>
+            <td style="color:oklch(78% 0.03 245);">執行程式、批次處理</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 12 · 具體差異
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="12 具體差異">
+  <div class="slide-tag">一個具體的差異</div>
+  <div class="accent-line"></div>
+  <div style="display:flex; flex-direction:column; gap:40px; flex:1;">
+    <div class="card-dark">
+      <div style="font-size:24px; font-weight:700; color:var(--text-mid); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px;">傳統 AI</div>
+      <div style="font-size:32px; color:oklch(52% 0.03 245); line-height:1.6;">
+        把 20 篇 PDF 一篇一篇上傳 → 等回答 → 複製貼上 → 整理成表格
+      </div>
+    </div>
+    <div class="card-teal">
+      <div style="font-size:24px; font-weight:700; color:oklch(34% 0.09 200); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px;">AI Agent</div>
+      <div class="code-block" style="font-size:32px;">
+「幫我摘要桌面上那個資料夾裡所有 PDF，整理成一份 Excel。」<br>
+<span class="cmd">→ 直接完成，不用你動手</span>
+      </div>
+    </div>
+    <div class="highlight-box" style="font-size:32px;">
+      ⚠ AI Agent 可以直接修改你電腦裡的檔案。使用前，<span class="fw-700">記得備份重要資料</span>。
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 13 · Chapter 3 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="13 Ch3 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 03</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">我的資料安全嗎？</div>
+    <div class="chapter-desc">直接回應教育工作者最大的疑慮——學生資料、研究資料</div>
+    <div class="chapter-number">03</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 14 · 連川普都禁不掉
+════════════════════════════════════════════ -->
+<section data-screen-label="14 連川普都禁不掉">
+  <div class="slide-tag">信任的最強證明</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1;">
+    <div style="display:flex; flex-direction:column; justify-content:center;">
+      <div style="font-size:64px; font-weight:900; line-height:1.1; margin-bottom:36px;">
+        連<span class="text-teal">川普</span>都<br>禁不掉
+      </div>
+      <div class="body-text" style="color:var(--text-mid); line-height:1.7;">
+        2026 年 2 月 27 日，川普簽署行政命令：<br>
+        <span class="fw-700">聯邦機構禁止使用 Anthropic 的 AI 工具。</span>
+      </div>
+      <div style="margin-top:32px; font-size:32px; font-weight:400; color:var(--text-mid); line-height:1.7;">
+        命令發布幾小時後——<br>
+        <span class="fw-700" style="color:var(--text);">美軍中央司令部仍在用 Claude<br>輔助對伊朗的空襲行動。</span>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:28px; justify-content:center;">
+      <div class="card" style="background: oklch(97% 0.005 245);">
+        <div style="font-size:28px; font-weight:700; color:var(--text-muted); margin-bottom:16px;">軍方用 Claude 在做什麼？</div>
+        <ul class="bullet-list" style="font-size:30px;">
+          <li><span class="dot"></span><span>目標識別</span></li>
+          <li><span class="dot"></span><span>情資評估</span></li>
+          <li><span class="dot"></span><span>戰場模擬</span></li>
+        </ul>
+      </div>
+      <div class="highlight-box" style="font-size:30px;">
+        世界上最高機密的決策，都交給它了。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 15 · 情報單位的選擇
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="15 情報單位的選擇">
+  <div class="slide-tag">最高等級的信任</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1;">
+    <div style="display:flex; flex-direction:column; justify-content:center;">
+      <div style="font-size:56px; font-weight:900; color:var(--text); line-height:1.15; margin-bottom:36px;">
+        美英情報單位<br>的選擇
+      </div>
+      <div style="font-size:30px; color:oklch(54% 0.03 245); line-height:1.7;">
+        Anthropic 將 Mythos 的使用權限<br>
+        「限制在約 <span class="fw-700 text-teal">40 個組織</span>」，<br>
+        理由是：攻擊性網路能力過於危險。
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:28px; justify-content:center;">
+      <div class="card-dark" style="border-left: 4px solid var(--teal); padding: 36px 40px;">
+        <div style="font-size:32px; font-weight:700; color:var(--teal); margin-bottom:12px;">🇺🇸 美國國家安全局（NSA）</div>
+        <div style="font-size:28px; color:oklch(50% 0.03 245);">使用 Anthropic 最強模型 Mythos Preview</div>
+      </div>
+      <div class="card-dark" style="border-left: 4px solid var(--teal); padding: 36px 40px;">
+        <div style="font-size:32px; font-weight:700; color:var(--teal); margin-bottom:12px;">🇬🇧 英國情報部門</div>
+        <div style="font-size:28px; color:oklch(50% 0.03 245);">透過英國 AI 安全研究所取得存取資格</div>
+      </div>
+      <div style="font-size:32px; font-style:italic; color:oklch(46% 0.06 200); line-height:1.6;">
+        世界上保密等級最高的情報機構，都選了它。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 16 · 對教育工作者的實務原則
+════════════════════════════════════════════ -->
+<section data-screen-label="16 資安實務原則">
+  <div class="slide-tag">對教育工作者的實務原則</div>
+  <div class="accent-line"></div>
+  <div class="quote-block" style="margin-bottom:44px; font-size:38px;">
+    如果美英情報單位信任 Claude 處理頂級機密資料，<br>
+    你的學生資料和研究筆記，相對而言算什麼等級？
+  </div>
+  <div class="three-col" style="gap:36px;">
+    <div class="card">
+      <div style="font-size:40px; margin-bottom:16px; color: var(--red-warn);">✕</div>
+      <div class="card-title" style="font-size:32px; color:var(--red-warn);">禁止輸入</div>
+      <div class="card-body" style="font-size:28px;">可識別學生身份的資訊<br>（姓名、身分證、學號）</div>
+    </div>
+    <div class="card">
+      <div style="font-size:40px; margin-bottom:16px; color: var(--teal);">✓</div>
+      <div class="card-title" style="font-size:32px; color:var(--teal);">去識別化後使用</div>
+      <div class="card-body" style="font-size:28px;">研究資料去識別化後<br>再交給 AI 處理</div>
+    </div>
+    <div class="card">
+      <div style="font-size:40px; margin-bottom:16px; color: var(--green-ok);">✓</div>
+      <div class="card-title" style="font-size:32px; color:var(--green-ok);">訓練不外洩</div>
+      <div class="card-body" style="font-size:28px;">Claude Code 預設不會<br>拿你的資料去訓練模型</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 17 · Chapter 4 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="17 Ch4 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 04</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">什麼是 <span class="abbr-reveal" tabindex="0"><span class="abbr-short">CLI</span><span class="abbr-full">Command Line Interface</span></span><br>跟 <span class="abbr-reveal" tabindex="0"><span class="abbr-short">GUI</span><span class="abbr-full">Graphical User Interface</span></span> 的差別</div>
+    <div class="chapter-desc">消除「打指令」的恐懼，讓零基礎的人也能繼續</div>
+    <div class="chapter-number">04</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 18 · CLI vs GUI 比較
+════════════════════════════════════════════ -->
+<section data-screen-label="18 CLI vs GUI">
+  <div class="slide-tag">兩種操作介面</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div>
+      <table class="data-table" style="font-size:30px;">
+        <thead>
+          <tr>
+            <th></th>
+            <th>GUI（滑鼠）</th>
+            <th>CLI（文字）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fw-700">操作方式</td>
+            <td>點、拖、找選單</td>
+            <td class="text-teal fw-700">打一行指令</td>
+          </tr>
+          <tr>
+            <td class="fw-700">精確度</td>
+            <td>依賴畫面座標</td>
+            <td class="text-teal fw-700">直接描述意圖</td>
+          </tr>
+          <tr>
+            <td class="fw-700">批次處理</td>
+            <td>重複點 100 次</td>
+            <td class="text-teal fw-700">一行搞定 100 個</td>
+          </tr>
+          <tr>
+            <td class="fw-700">自動化</td>
+            <td style="color:var(--red-warn);">困難</td>
+            <td class="text-teal fw-700">天生適合</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:32px;">
+      <div class="quote-block" style="font-size:36px;">
+        <span class="fw-700">文字是最精確的語言。</span><br>
+        <span style="color:var(--text-mid); font-style:normal; font-size:30px;">
+        你用<span class="fw-700">自然語言</span>告訴 Claude Code 要做什麼，<br>
+        它把自然語言翻譯成精確的指令，<br>執行在你的電腦上。
+        </span>
+      </div>
+      <div class="highlight-box" style="font-size:32px; text-align:center;">
+        你不需要學 CLI 語法。<br>
+        你只需要說清楚你要什麼。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 19 · Chapter 5+6 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="19 Ch5+6 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 05 + 06</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">安裝 Claude Code<br>與第一個示範</div>
+    <div class="chapter-desc">實際走一遍安裝流程，然後看第一個「哇」的時刻</div>
+    <a href="https://taichis.github.io/ai-course/installation" target="_blank" rel="noopener" style="display:inline-block; align-self:flex-start; margin-top:32px; padding:16px 48px; background:#166534; color:#fff; font-size:28px; font-family:'Noto Sans TC',sans-serif; font-weight:600; border:none; border-radius:12px; text-decoration:none; letter-spacing:0.05em; transition:background 0.2s;" onmouseover="this.style.background='#14532d'" onmouseout="this.style.background='#166534'">安裝指令</a>
+    <div class="chapter-number">05</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 20 · 三個步驟
+════════════════════════════════════════════ -->
+<section data-screen-label="20 安裝步驟">
+  <div class="slide-tag">啟動 Claude Code</div>
+  <div class="accent-line"></div>
+  <div class="step-row">
+    <div class="step-card" data-step="1">
+      <div class="step-label">Step 1</div>
+      <div class="step-title">打開 PowerShell</div>
+      <div class="step-body" style="margin-bottom:24px;">在開始選單搜尋 PowerShell，點擊執行。</div>
+    </div>
+    <div class="step-card" data-step="2">
+      <div class="step-label">Step 2</div>
+      <div class="step-title">切換到桌面</div>
+      <div class="code-block" style="font-size:28px; margin-top:8px;">cd ~/Desktop</div>
+      <div class="step-body" style="margin-top:20px; font-size:26px; color:var(--text-muted);">~ 代表家目錄，打完按 Enter，游標沒有反應就是成功了。</div>
+    </div>
+    <div class="step-card" data-step="3">
+      <div class="step-label">Step 3</div>
+      <div class="step-title">輸入並啟動</div>
+      <div class="code-block" style="font-size:36px; margin-top:8px;">claude</div>
+      <div class="step-body" style="margin-top:20px; font-size:26px; color:var(--text-muted);">第一次使用：選主題（Dark/Light）→ 登入 Anthropic 帳號</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 21 · 第一個示範
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="21 第一個示範">
+  <div class="slide-tag">第一個示範</div>
+  <div class="accent-line"></div>
+  <div style="flex:1; display:flex; flex-direction:column; gap:40px;">
+    <div style="font-size:38px; color:var(--text-mid); line-height:1.6;">輸入這段話，然後按 Enter：</div>
+    <div class="code-block" style="font-size:34px; flex:1; display:flex; align-items:center;">
+      請幫我在桌面寫入 10 個純文字檔案，<br>
+      內容是唐詩三百首，每個檔案放一首詩，<br>
+      <span class="cmd">檔名用詩名命名。</span>
+    </div>
+    <div class="highlight-box" style="font-size:36px; text-align:center;">
+      看著它自己建立 10 個 .txt 檔案。<br>
+      <span style="font-size:30px; opacity:0.85;">這就是 AI Agent 跟聊天機器人的差別。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 22 · Chapter 7 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="22 Ch7 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 07</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">安裝官方技能<br>Anthropic Official Skills</div>
+    <div class="chapter-desc">讓學員知道 Claude Code 的能力可以擴充</div>
+    <div class="chapter-number">07</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 23 · Skills 概念
+════════════════════════════════════════════ -->
+<section data-screen-label="23 Skills 概念">
+  <div class="slide-tag">技能的概念</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div>
+      <div style="font-size:60px; font-weight:900; line-height:1.15; margin-bottom:32px;">
+        預設的 Claude Code<br>只能處理<span class="text-teal">純文字</span>
+      </div>
+      <div class="body-text" style="color:var(--text-mid); margin-bottom:32px;">
+        Word、Excel、PDF？它看不懂。
+      </div>
+      <div class="quote-block" style="font-size:34px;">
+        記得《駭客任務》嗎？<br>
+        基努李維躺下去，插入技能包——<br>
+        <span class="fw-700">「我會功夫了。」</span><br>
+        <span style="font-style:normal; color:var(--text-mid); font-size:30px;">不需要花時間學習，技能瞬間灌入。</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:30px; font-weight:700; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:24px;">裝完之後，瞬間學會：</div>
+      <table class="data-table" style="font-size:30px;">
+        <tbody>
+          <tr>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <img src="icons/word.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
+            </td>
+            <td class="fw-700">Word</td>
+            <td style="color:var(--text-mid);">讀取、編輯、生成 .docx</td>
+          </tr>
+          <tr>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <img src="icons/excel.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
+            </td>
+            <td class="fw-700">Excel</td>
+            <td style="color:var(--text-mid);">讀取、分析、生成 .xlsx</td>
+          </tr>
+          <tr>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <img src="icons/powerpint.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
+            </td>
+            <td class="fw-700">PowerPoint</td>
+            <td style="color:var(--text-mid);">讀取、編輯、生成 .pptx</td>
+          </tr>
+          <tr>
+            <td style="padding-right:12px; vertical-align:middle;">
+              <img src="icons/pdf.png" alt="" aria-hidden="true" style="width:52px; height:52px; object-fit:contain;">
+            </td>
+            <td class="fw-700">PDF</td>
+            <td style="color:var(--text-mid);">擷取文字、填表、合併</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 24 · Skills 安裝步驟
+═════════════════════════════════════════════ -->
+<section data-screen-label="24 Skills 安裝步驟">
+  <div class="slide-tag">安裝官方技能</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:60px; flex:1; align-items:start;">
+    <div style="display:flex; flex-direction:column; gap:24px; flex:1;">
+      <div class="card" style="padding:28px 36px;">
+        <div style="font-size:26px; font-weight:700; color:var(--teal); margin-bottom:8px;">步驟 1</div>
+        <div style="font-size:26px; color:var(--text-mid); margin-bottom:12px;">輸入以下指令加入官方技能來源</div>
+        <div class="code-block" style="font-size:26px; padding:20px 28px;">/plugin marketplace add anthropics/skills</div>
+      </div>
+      <div class="card" style="padding:28px 36px;">
+        <div style="font-size:26px; font-weight:700; color:var(--teal); margin-bottom:8px;">步驟 2</div>
+        <div style="font-size:26px; color:var(--text-mid); margin-bottom:12px;">再輸入以下指令開啟插件管理介面</div>
+        <div class="code-block" style="font-size:26px; padding:20px 28px;">/plugin</div>
+      </div>
+      <div class="card" style="padding:28px 36px;">
+        <div style="font-size:26px; font-weight:700; color:var(--teal); margin-bottom:8px;">步驟 3</div>
+        <div style="font-size:26px; color:var(--text-mid);">按左右鍵切換到「Discover」頁籤</div>
+      </div>
+      <div class="card" style="padding:28px 36px;">
+        <div style="font-size:26px; font-weight:700; color:var(--teal); margin-bottom:8px;">步驟 4</div>
+        <div style="font-size:26px; color:var(--text-mid);">按上下鍵瀏覽清單，找到要安裝的技能後按空白鍵選取</div>
+      </div>
+      <div class="card" style="padding:28px 36px;">
+        <div style="font-size:26px; font-weight:700; color:var(--teal); margin-bottom:8px;">步驟 5</div>
+        <div style="font-size:26px; color:var(--text-mid);">按 Enter 確認安裝</div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:28px; flex:1;">
+      <div class="highlight-box" style="font-size:30px;">
+        建議至少安裝以下技能：
+      </div>
+      <div class="card" style="border-left:4px solid var(--teal);">
+        <ul class="bullet-list" style="font-size:30px;">
+          <li><span class="dot"></span><span><span class="fw-700">skill-creator</span>　建立自己的 Skill</span></li>
+          <li><span class="dot"></span><span><span class="fw-700">frontend-design</span>　網頁設計能力</span></li>
+          <li><span class="dot"></span><span><span class="fw-700">document-skills</span>　Word / Excel / PPT / PDF</span></li>
+          <li><span class="dot"></span><span><span class="fw-700">example-skills</span>　範例參考</span></li>
+        </ul>
+      </div>
+      <div class="quote-block" style="font-size:30px;">
+        裝完之後，Claude Code 瞬間學會處理這些格式——不需要重開。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 25 · Chapter 8 Header
+═════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="25 Ch8 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 08</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Markdown 是<br>AI 的母語</div>
+    <div class="chapter-desc">處理日常文件，同時理解為什麼 Markdown 更好</div>
+    <div class="chapter-number">08</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 26 · Aaron Swartz
+════════════════════════════════════════════ -->
+<section data-screen-label="26 Aaron Swartz">
+  <div class="slide-tag">Markdown 的起源</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div>
+      <div style="font-size:100px; font-weight:900; color:var(--teal); line-height:1; margin-bottom:16px;">17</div>
+      <div style="font-size:36px; color:var(--text-muted); margin-bottom:32px;">歲的 Aaron Swartz</div>
+      <div class="body-text" style="line-height:1.7; color:var(--text-mid);">
+        2004 年，他是 Markdown 格式唯一的 beta 測試者。<br><br>
+        同一個人在 14 歲參與制定 RSS 規格，<br>後來共同創辦 Reddit。
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:32px;">
+      <div class="code-block" style="font-size:28px;">
+<span class="comment comment-soft"># 標題一</span><br>
+<span class="comment comment-soft">## 標題二</span><br>
+<br>
+<span class="cmd">**粗體**、*斜體*</span><br>
+<br>
+- 項目一<br>
+- 項目二<br>
+<br>
+<span class="cmd">&gt; 這是引用</span>
+      </div>
+      <div class="highlight-box" style="font-size:30px; text-align:center;">
+        他沒有想到，自己測試的純文字格式，<br>
+        二十年後成為<span class="fw-700">所有 AI 系統的基礎語言</span>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 27 · AI 為什麼愛 Markdown
+════════════════════════════════════════════ -->
+<section data-screen-label="27 AI 為什麼愛 Markdown">
+  <div class="slide-tag">格式比較</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="margin-bottom:44px;">AI 為什麼偏愛 Markdown？</div>
+  <table class="data-table" style="font-size:32px;">
+    <thead>
+      <tr>
+        <th>格式</th>
+        <th>AI 能直接讀？</th>
+        <th>詞元消耗</th>
+        <th>結構清晰度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background: oklch(96% 0.01 200);">
+        <td class="fw-700 text-teal">Markdown</td>
+        <td class="text-green fw-700">✅ 是</td>
+        <td class="text-green fw-700">最省</td>
+        <td class="text-green fw-700">✅ 清晰</td>
+      </tr>
+      <tr>
+        <td>純文字</td>
+        <td class="text-green">✅ 是</td>
+        <td style="color:var(--text-mid);">省</td>
+        <td style="color:var(--red-warn);">❌ 無結構</td>
+      </tr>
+      <tr>
+        <td>HTML</td>
+        <td style="color:var(--amber);">✅ 但吃力</td>
+        <td style="color:var(--red-warn);">高</td>
+        <td style="color:var(--text-mid);">尚可</td>
+      </tr>
+      <tr>
+        <td>Word (.docx)</td>
+        <td style="color:var(--red-warn);">❌ 需轉換</td>
+        <td style="color:var(--text-muted);">—</td>
+        <td style="color:var(--text-muted);">—</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:36px; font-size:30px; color:var(--text-mid); line-height:1.6; padding: 24px 36px; background: oklch(97% 0.008 200); border-radius:12px; border-left: 4px solid var(--teal);">
+    Markdown 在 RAG 場景下，檢索準確度比 HTML 或純文字 <span class="fw-700 text-teal">高 20–35%</span>。<br>
+    你寫給 AI 的一切，<span class="fw-700">都是 Markdown 在說話</span>。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 28 · Chapter 9 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="28 Ch9 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 09</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">PDF 檔案<br>處理原則</div>
+    <div class="chapter-desc">研究者最常用的格式，怎麼正確處理</div>
+    <div class="chapter-number">09</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 29 · PDF 三大限制
+════════════════════════════════════════════ -->
+<section data-screen-label="29 PDF 三大限制">
+  <div class="slide-tag">為什麼「直接丟 PDF 給 AI」是錯的</div>
+  <div class="accent-line"></div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:36px; flex:1;">
+    <div class="card" style="border-top: 4px solid var(--red-warn);">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">01 上下文限制</div>
+      <div class="card-title" style="font-size:32px;">AI 一次讀不了整本書</div>
+      <div class="card-body" style="font-size:27px; margin-top:16px;">用「常識」腦補答案，<br>而非書中內容</div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--red-warn);">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">02 格式限制</div>
+      <div class="card-title" style="font-size:32px;">PDF 對 AI 是混亂符號</div>
+      <div class="card-body" style="font-size:27px; margin-top:16px;">無法分辨標題、<br>段落、重點</div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--red-warn);">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">03 理解限制</div>
+      <div class="card-title" style="font-size:32px;">無法跨章節串聯</div>
+      <div class="card-body" style="font-size:27px; margin-top:16px;">無法掌握作者<br>的整體思考脈絡</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 30 · PDF 正確做法
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="30 PDF 正確做法">
+  <div class="slide-tag">三種正確做法</div>
+  <div class="accent-line"></div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:36px; flex:1;">
+    <div class="card-dark" style="border-top: 4px solid var(--teal);">
+      <div style="font-size:26px; font-weight:700; color:var(--teal); letter-spacing:0.15em; margin-bottom:16px;">做法 1</div>
+      <div style="font-size:36px; font-weight:700; color:var(--text); margin-bottom:20px; line-height:1.2;">PDF → Markdown</div>
+      <div style="font-size:28px; color:var(--text-mid); line-height:1.6;">先把 PDF 轉成 Markdown，再交給 AI 處理。結構清晰，理解品質差距顯著。</div>
+    </div>
+    <div class="card-dark" style="border-top: 4px solid var(--teal);">
+      <div style="font-size:26px; font-weight:700; color:var(--teal); letter-spacing:0.15em; margin-bottom:16px;">做法 2</div>
+      <div style="font-size:36px; font-weight:700; color:var(--text); margin-bottom:20px; line-height:1.2;">建立章節索引</div>
+      <div style="font-size:28px; color:var(--text-mid); line-height:1.6;">為每個章節加摘要與關鍵字。<br>AI 在地圖上定位，<br>不是盲目翻書。</div>
+    </div>
+    <div class="card-dark" style="border-top: 4px solid var(--gold);">
+      <div style="font-size:26px; font-weight:700; color:var(--gold); letter-spacing:0.15em; margin-bottom:16px;">做法 3</div>
+      <div style="font-size:36px; font-weight:700; color:var(--text); margin-bottom:20px; line-height:1.2;">VLM 讀懂圖表</div>
+      <div style="font-size:28px; color:var(--text-mid); line-height:1.6;"><span style="color:var(--gold);">視覺語言模型</span>先用文字描述圖表，再進行分析。<br>把圖轉成文字，驅動後續工作流。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 31 · Chapter 10 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="31 Ch10 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 10</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Obsidian<br>個人知識庫</div>
+    <div class="chapter-desc">用 Claude Code 搭配 Obsidian 打造個人知識庫</div>
+    <div class="chapter-number">10</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 32 · Obsidian 是什麼 + 天作之合
+════════════════════════════════════════════ -->
+<section data-screen-label="32 Obsidian 天作之合">
+  <div class="slide-tag">知識管理的新正規</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div>
+      <div class="content-title" style="font-size:60px; margin-bottom:32px;">什麼是 Obsidian？</div>
+      <ul class="bullet-list" style="font-size:30px;">
+        <li><span class="dot"></span><span>本地端 Markdown 筆記軟體</span></li>
+        <li><span class="dot"></span><span>所有筆記都是 <span class="fw-700">.md 純文字檔</span>，存在你的電腦上</span></li>
+        <li><span class="dot"></span><span>雙向連結——筆記之間可以互相引用、建立網絡</span></li>
+        <li><span class="dot"></span><span>不依賴雲端，<span class="fw-700">資料完全自己掌控</span></span></li>
+      </ul>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:28px;">
+      <div class="obsidian-logo-wrap" aria-hidden="true">
+        <img class="obsidian-logo" src="icons/960px-2023_Obsidian_logo.svg.png" alt="">
+      </div>
+      <div class="highlight-box" style="font-size:32px; text-align:center;">
+        Obsidian 的筆記 = <span class="fw-700">.md 純文字</span><br>
+        Claude Code 的母語 = <span class="fw-700">Markdown</span><br><br>
+        沒有轉換層，沒有格式障礙。
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:30px;">教師的使用場景</div>
+        <div class="obsidian-use-cases card-body" style="font-size:27px;">
+          <span>備課筆記</span>
+          <span>學術論文</span>
+          <span>研究資料</span>
+          <span>教案設計</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes obsidianGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 18px oklch(72% 0.22 285 / 0.62)) drop-shadow(0 0 42px oklch(62% 0.18 255 / 0.38));
+      transform: translateY(0) scale(1) rotate(-1deg);
+    }
+    50% {
+      filter: drop-shadow(0 0 34px oklch(78% 0.24 285 / 0.9)) drop-shadow(0 0 78px oklch(66% 0.20 250 / 0.58));
+      transform: translateY(-8px) scale(1.06) rotate(1deg);
+    }
+  }
+  @keyframes obsidianAuraSpin {
+    to { transform: rotate(360deg); }
+  }
+  .obsidian-logo-wrap {
+    align-self: center;
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 68px;
+    background:
+      radial-gradient(circle at 34% 24%, oklch(100% 0 0 / 0.94), transparent 24%),
+      radial-gradient(circle at 50% 50%, oklch(84% 0.18 292 / 0.48), oklch(66% 0.20 270 / 0.30) 46%, oklch(48% 0.15 245 / 0.12) 70%, transparent 72%);
+    box-shadow: 0 34px 86px oklch(34% 0.15 275 / 0.34), inset 0 2px 0 oklch(100% 0 0 / 0.82);
+    overflow: visible;
+  }
+  .obsidian-logo-wrap::before,
+  .obsidian-logo-wrap::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .obsidian-logo-wrap::before {
+    inset: -18px;
+    background: conic-gradient(from 0deg, transparent, oklch(78% 0.22 292 / 0.72), transparent 34%, oklch(68% 0.18 235 / 0.52), transparent 72%);
+    filter: blur(10px);
+    animation: obsidianAuraSpin 7s linear infinite;
+    z-index: 0;
+  }
+  .obsidian-logo-wrap::after {
+    inset: 24px;
+    border: 2px solid oklch(94% 0.06 285 / 0.62);
+    box-shadow: inset 0 0 34px oklch(74% 0.20 285 / 0.42), 0 0 42px oklch(68% 0.18 255 / 0.34);
+    z-index: 1;
+  }
+  .obsidian-logo {
+    position: relative;
+    z-index: 2;
+    width: 218px;
+    height: 218px;
+    object-fit: contain;
+    animation: obsidianGlow 3.2s ease-in-out infinite;
+  }
+  .obsidian-use-cases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    white-space: nowrap;
+  }
+  .obsidian-use-cases span:nth-child(1) { text-align: left; }
+  .obsidian-use-cases span:nth-child(2),
+  .obsidian-use-cases span:nth-child(3) { text-align: center; }
+  .obsidian-use-cases span:nth-child(4) { text-align: right; }
+</style>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 33 · Karpathy 哲學
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="33 Karpathy 哲學">
+  <div class="slide-tag">Karpathy 的知識管理哲學</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div>
+      <div style="font-size:34px; color:var(--text-muted); margin-bottom:16px;">OpenAI 共同創辦人 Andrej Karpathy</div>
+      <div class="quote-block" style="font-size:44px; margin-bottom:36px;">
+        讓 AI 代替你做整理工作。
+      </div>
+      <div style="font-size:32px; color:var(--text-mid);">人類只負責三件事：</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:28px; justify-content:center;">
+      <div class="card-dark" style="border-left:4px solid var(--teal); display:flex; align-items:center; gap:28px; padding:32px 40px;">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <div style="font-size:40px; font-weight:700; color:var(--text);">找素材</div>
+      </div>
+      <div class="card-dark" style="border-left:4px solid var(--teal); display:flex; align-items:center; gap:28px; padding:32px 40px;">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+        </svg>
+        <div style="font-size:40px; font-weight:700; color:var(--text);">定方向</div>
+      </div>
+      <div class="card-dark" style="border-left:4px solid var(--gold); display:flex; align-items:center; gap:28px; padding:32px 40px;">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div style="font-size:40px; font-weight:700; color:var(--text);">問好問題</div>
+      </div>
+      <div style="font-size:26px; color:oklch(52% 0.03 245); line-height:1.5; padding-top:8px;">摘要、分類、交叉連結、一致性維護——全部交給 AI</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 34 · 四階段循環
+════════════════════════════════════════════ -->
+<section data-screen-label="34 四階段循環">
+  <div class="slide-tag">知識庫的自我演化</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="font-size:56px; margin-bottom:44px;">四階段循環</div>
+  <table class="data-table" style="font-size:30px;">
+    <thead>
+      <tr>
+        <th>階段</th>
+        <th>名稱</th>
+        <th>你做什麼</th>
+        <th>AI 做什麼</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge-green" style="font-size:24px;">Phase 1</span></td>
+        <td class="fw-700">Ingest 蒐集</td>
+        <td>把文章、PDF 丟進資料夾</td>
+        <td style="color:var(--text-muted);">待命</td>
+      </tr>
+      <tr>
+        <td><span class="badge-green" style="font-size:24px;">Phase 2</span></td>
+        <td class="fw-700">Compile 編譯</td>
+        <td>給方向</td>
+        <td>建立 wiki、索引、概念連結</td>
+      </tr>
+      <tr>
+        <td><span class="badge-green" style="font-size:24px;">Phase 3</span></td>
+        <td class="fw-700">Query 提問</td>
+        <td>在知識庫裡提問</td>
+        <td>生成答案，並存回知識庫</td>
+      </tr>
+      <tr>
+        <td><span class="badge-green" style="font-size:24px;">Phase 4</span></td>
+        <td class="fw-700">Maintain 維護</td>
+        <td>審核建議</td>
+        <td>掃描矛盾、補缺漏、再循環</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:32px; font-size:28px; color:var(--text-muted); font-style:italic;">
+    你的探索過程本身，也會成為知識庫的一部分。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 35 · Chapter 11 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="35 Ch11 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 11</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Skill：封裝<br>你的工作流程</div>
+
+    <div class="chapter-number">11</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 36 · Skill 是什麼
+════════════════════════════════════════════ -->
+<section data-screen-label="36 Skill 是什麼">
+  <div class="slide-tag">2026 最重要的一個詞</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div>
+      <div style="font-size:120px; font-weight:900; color:var(--teal); line-height:1; margin-bottom:20px;">Skill</div>
+      <div class="body-text" style="color:var(--text-mid); line-height:1.7; margin-bottom:32px;">
+        由 Anthropic 提出的標準，<br>
+        用來定義 AI 可以按需載入的能力模組。<br>
+        規格文件的入口：一個 <span class="fw-700">SKILL.md</span> 檔案。
+      </div>
+      <div class="quote-block" style="font-size:32px;">
+        需要什麼，才載入什麼。<br>
+        平常不需要，就不佔用大腦空間。
+      </div>
+    </div>
+    <div>
+      <div style="font-size:30px; font-weight:700; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:24px;">一個 Skill = 一套固定 SOP</div>
+      <div class="code-block" style="font-size:26px;">
+<span class="comment comment-soft"># SKILL.md 裡面寫的是：</span><br>
+<br>
+<span class="cmd">- 這個 Skill 叫什麼名字</span><br>
+<span class="cmd">- 觸發條件是什麼</span><br>
+<span class="cmd">- 執行步驟是什麼</span><br>
+<span class="cmd">- 輸出格式是什麼</span>
+      </div>
+      <div style="margin-top:28px; font-size:30px; color:var(--text-mid); line-height:1.6;">
+        你把自己的工作流程寫進去，<br>
+        之後只要說一句話，AI 就知道完整的 SOP 是什麼。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 37 · 教師可以做的 Skill
+════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="37 教師Skill範例">
+  <div class="slide-tag">教師可以做什麼 Skill？</div>
+  <div class="accent-line"></div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; flex:1;">
+    <div class="card-dark" style="border-left:4px solid var(--teal);">
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <line x1="10" y1="9" x2="8" y2="9"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--teal); margin-top:10px;">學術文獻摘要</div>
+      </div>
+      <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">貼入論文 PDF，自動輸出重點摘要 + 研究方法存入 Obsidian</div>
+    </div>
+    <div class="card-dark" style="border-left:4px solid var(--teal);">
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+          <line x1="9" y1="12" x2="15" y2="12"/>
+          <line x1="9" y1="16" x2="15" y2="16"/>
+          <line x1="9" y1="8" x2="11" y2="8"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--teal); margin-top:10px;">備課筆記整理</div>
+      </div>
+      <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">雜亂的 Markdown 筆記 → 結構化教案草稿</div>
+    </div>
+    <div class="card-dark" style="border-left:4px solid var(--teal);">
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--teal); margin-top:10px;">學生回饋草稿</div>
+      </div>
+      <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">輸入作業要點 → 生成建設性回饋範本</div>
+    </div>
+    <div class="card-dark" style="border-left:4px solid var(--gold);">
+      <div style="margin-bottom:16px;">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/>
+          <path d="M8.5 2h7"/>
+          <path d="M7 16h10"/>
+        </svg>
+        <div style="font-size:28px; font-weight:700; color:var(--gold); margin-top:10px;">研究計畫審查</div>
+      </div>
+      <div style="font-size:30px; color:var(--text-mid); line-height:1.5;">貼入研究問題 → AI 提出邏輯漏洞與改善建議</div>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:32px; font-size:32px; text-align:center;">
+    你重複做超過三次的事，就值得做成一個 Skill。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 38 · 自我進化機制
+════════════════════════════════════════════ -->
+<section data-screen-label="38 自我進化機制" style="position:relative;">
+  <div class="slide-tag">進階：讓 Skill 自我進化</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:start;">
+    <div>
+      <div class="body-text" style="line-height:1.7; margin-bottom:32px; color:var(--text-mid);">
+        在封裝 Skill 時，加入學習機制——<br>
+        讓 Skill 把每次執行的心得存入 <span class="fw-700">knowledge/</span> 資料夾。
+      </div>
+      <div class="card" style="background:oklch(97% 0.01 200);">
+        <div class="card-title" style="font-size:30px; color:var(--teal);">這意味著什麼？</div>
+        <ul class="bullet-list" style="font-size:28px;">
+          <li><span class="dot"></span><span>你糾正過的錯誤，它不會再犯</span></li>
+          <li><span class="dot"></span><span>你偏好的格式，它會記住</span></li>
+          <li><span class="dot"></span><span>遇到新情境，它主動問你、然後學起來</span></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="highlight-box" style="font-size:34px; margin-bottom:32px; line-height:1.6;">
+        你花時間訓練的不是軟體，<br>
+        是一個<span class="fw-700">會成長的工作夥伴</span>。
+      </div>
+      <div class="quote-block" style="font-size:32px;">
+        每執行一次，就比上一次更了解你的工作習慣。
+      </div>
+    </div>
+  </div>
+  <button onclick="event.stopPropagation();document.getElementById('modal-evolve').style.display='flex'" style="position:absolute;right:var(--SP-x);bottom:var(--SP-bot);background:var(--teal);color:var(--navy);border:none;border-radius:12px;padding:16px 32px;font-size:26px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s;" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">顯示完整提示詞</button>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 39 · Chapter 12 Header
+════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="39 Ch12 Header">
+  <div class="chapter-header">
+    <div class="chapter-label">Chapter 12</div>
+    <div class="accent-line"></div>
+    <div class="chapter-title">Claude Code<br>的替代工具</div>
+    <div class="chapter-desc">CLI、IDE、桌面 Agent 都在快速演化；選工具時看模型、工作流與資料邊界</div>
+    <div class="chapter-number">12</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 40 · Claude Code 替代工具
+════════════════════════════════════════════ -->
+<section data-screen-label="40 Claude Code 替代工具">
+  <div class="slide-tag">替代工具與下載入口</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="font-size:54px; margin-bottom:30px;">除了 Claude Code，還有哪些選擇？</div>
+  <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px 24px; flex:1; align-content:start;">
+    <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Claude Desktop</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">Anthropic</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">桌面版整合 Chat、Cowork、Code 三種模式</div>
+      </div>
+    </a>
+    <a href="https://developers.openai.com/codex/cli" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Codex</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">OpenAI</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">ChatGPT CLI / 終端機 coding agent</div>
+      </div>
+    </a>
+    <a href="https://google-gemini.github.io/gemini-cli/docs/get-started/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Gemini CLI</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">Google</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">Google 官方 CLI，適合 Gemini 生態系</div>
+      </div>
+    </a>
+    <a href="https://github.com/ComposioHQ/grok-cli" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--gold);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Grok CLI</div>
+          <div style="font-size:18px; font-weight:800; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase;">Community</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">xAI Grok API 的社群 CLI；先確認維護狀態</div>
+      </div>
+    </a>
+    <a href="https://opencode.ai/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">OpenCode</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">Open Source</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">可接多種供應商，也適合搭配中國語言模型</div>
+      </div>
+    </a>
+    <a href="https://antigravity.google/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--purple);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Antigravity</div>
+          <div style="font-size:18px; font-weight:800; color:var(--purple); letter-spacing:0.08em; text-transform:uppercase;">Google</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">Agent-first IDE，支援 macOS / Windows / Linux</div>
+      </div>
+    </a>
+    <a href="https://manus.im/docs/zh-tw/introduction/welcome" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--purple);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Manus</div>
+          <div style="font-size:18px; font-weight:800; color:var(--purple); letter-spacing:0.08em; text-transform:uppercase;">AI Agent</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">通用 AI Agent，可自主規劃並執行多步驟任務</div>
+      </div>
+    </a>
+    <a href="https://cursor.com/download" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
+      <div class="card" style="height:100%; padding:22px 26px; border-left:5px solid var(--teal);">
+        <div style="display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:10px;">
+          <div style="font-size:30px; font-weight:800;">Cursor</div>
+          <div style="font-size:18px; font-weight:800; color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;">IDE</div>
+        </div>
+        <div style="font-size:23px; color:var(--text-mid); line-height:1.45;">AI-first code editor，適合偏 GUI / VS Code 工作流</div>
+      </div>
+    </a>
+  </div>
+  <div style="font-size:22px; color:var(--text-muted); margin-top:20px; line-height:1.45;">
+    提醒：非官方 CLI 或第三方封裝工具，安裝前先檢查維護狀態、權限要求與 API key 儲存方式。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 41 · 四大警語（1/2）
+════════════════════════════════════════════ -->
+<section data-screen-label="41 警語 1-2">
+  <div class="slide-tag" style="color:var(--red-warn);">使用 AI 前，請記住這些</div>
+  <div class="accent-line" style="background:var(--red-warn);"></div>
+  <div class="content-title" style="font-size:60px; margin-bottom:44px;">四大警語</div>
+  <div class="two-col" style="gap:40px; flex:1;">
+    <div class="warn-box">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">⚠ 警語一</div>
+      <div style="font-size:32px; font-weight:700; margin-bottom:16px;">論文量爆增不代表品質提升</div>
+      <div style="font-size:27px; color:var(--text-mid); line-height:1.6;">
+        arXiv 創辦人 Paul Ginsparg 示警：<br>
+        使用 AI 的研究者，產出論文數量比未使用 AI 的同行<span class="fw-700" style="color:var(--red-warn);">高出 33%</span>。<br>
+        大量低品質機器生成內容正在充斥學術文獻。
+      </div>
+    </div>
+    <div class="warn-box">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">⚠ 警語二</div>
+      <div style="font-size:32px; font-weight:700; margin-bottom:16px;">AI 會捏造不存在的參考文獻</div>
+      <div style="font-size:27px; color:var(--text-mid); line-height:1.6;">
+        中山大學教授發現：多篇碩士論文引用了他<span class="fw-700" style="color:var(--red-warn);">從未撰寫過的文章</span>。<br>
+        調查確認：這些虛構文獻是用 ChatGPT 生成的。<br>
+        兩校裁定論文口試不及格，須重新撰寫。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 42 · 四大警語（2/2）
+ ════════════════════════════════════════════ -->
+<section data-screen-label="42 警語 3-4">
+  <div class="slide-tag" style="color:var(--red-warn);">使用 AI 前，請記住這些</div>
+  <div class="accent-line" style="background:var(--red-warn);"></div>
+  <div class="two-col" style="gap:40px; flex:1;">
+    <div class="warn-box">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">⚠ 警語三</div>
+      <div style="font-size:32px; font-weight:700; margin-bottom:16px;">未揭露 AI 使用，可能導致撤稿</div>
+      <div style="font-size:27px; color:var(--text-mid); line-height:1.6;">
+        IEEE、Elsevier、ACS 等期刊：AI 不能成為作者，未揭露可能被視為<span class="fw-700" style="color:var(--red-warn);">學術不當行為</span>。<br><br>
+        <span class="fw-700">✅ 可接受：</span>英文潤稿、結構整理<br>
+        <span class="fw-700" style="color:var(--red-warn);">⚠ 必須：</span>作者親自查核每個事實與引用
+      </div>
+    </div>
+    <div class="warn-box">
+      <div style="font-size:28px; font-weight:700; color:var(--red-warn); margin-bottom:16px;">⚠ 警語四</div>
+      <div style="font-size:32px; font-weight:700; margin-bottom:16px;">AI 17 天寫了 166 篇論文</div>
+      <div style="font-size:27px; color:var(--text-mid); line-height:1.6;">
+        中國 AI 系統 FARS 連續運行 17 天，平均每篇 <span class="fw-700">2 小時 17 分鐘</span>。<br>
+        已有 AI 論文被學術會議正式接收。<br><br>
+        <span style="color:var(--text-muted); font-style:italic;">人類角色從「寫論文的人」，變成「幫 AI 改作業的人」。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 43 · 總結
+ ════════════════════════════════════════════ -->
+<section data-screen-label="43 總結">
+  <div class="slide-tag">課程總結</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="margin-bottom:44px;">AI 是加速器，不是替代品</div>
+  <div class="two-col" style="gap:40px; flex:1;">
+    <div class="sum-col">
+      <div class="sum-col-title" style="color: var(--green-ok);">✅ 適合交給 AI</div>
+      <div class="sum-item"><span class="icon">📝</span>格式整理、摘要、草稿生成</div>
+      <div class="sum-item"><span class="icon">🔍</span>文獻搜尋輔助</div>
+      <div class="sum-item"><span class="icon">🔄</span>重複性文書工作</div>
+      <div class="sum-item"><span class="icon">💡</span>腦力激盪</div>
+    </div>
+    <div class="sum-col">
+      <div class="sum-col-title" style="color: var(--red-warn);">✕ 不能交給 AI</div>
+      <div class="sum-item"><span class="icon">🧠</span>判斷研究設計是否正確</div>
+      <div class="sum-item"><span class="icon">📚</span>確認引用是否真實存在</div>
+      <div class="sum-item"><span class="icon">👩‍🏫</span>對教學與學習成效負責</div>
+      <div class="sum-item"><span class="icon">✍️</span>簽名掛名的學術誠信責任</div>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:36px; font-size:34px; text-align:center;">
+    你的<span class="fw-700">教學判斷與學術誠信</span>，是 AI 最終無法取代的部分。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 44 · Q&A
+ ════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="44 QA">
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+    <div style="font-size:36px; font-weight:500; color:var(--teal); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:32px;">Q &amp; A</div>
+    <div class="accent-line" style="width:120px;"></div>
+    <div style="font-size:80px; font-weight:900; color:var(--text); line-height:1.1; margin-bottom:48px;">
+      你最想把<br>Claude Code<br>用在哪個教學場景？
+    </div>
+    <div style="font-size:34px; color:oklch(55% 0.04 245); max-width:900px; line-height:1.6;">
+      歡迎提問，也歡迎分享你目前的備課或研究流程——<br>說不定我們現場就可以幫你設計一個 Skill。
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 45 · 謝謝
+ ════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="45 Thank You">
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+    <div class="cover-chapter">中華資訊與科技教育學會 ICEET · 2026-05-20</div>
+    <div style="font-size:110px; font-weight:900; color:var(--text); line-height:1.05; margin-bottom:48px;">謝謝大家</div>
+    <div style="font-size:40px; font-weight:300; color: var(--text-mid); margin-bottom:52px;">
+      課後練習教材請連往「<a href="https://classroom-wheat-rho.vercel.app/" target="_blank" style="color:var(--teal);text-decoration:none;font-weight:600;">作業管理系統</a>」，登入後，<br>
+      輸入 課程碼：<strong style="color:var(--text);font-weight:900;letter-spacing:0.08em;">WZLF7X</strong>
+      <div style="font-size:22px; color: var(--text-mid); margin-top:16px; font-weight:300;">作業管理系統使用免費服務架設，人多擁擠時可能需要等候一下或重新整理。</div>
+    </div>
+    <div style="border-left:5px solid var(--teal); padding-left:32px;">
+      <div style="font-size:36px; font-weight:700; color:var(--text);">詹嘉隆</div>
+      <div style="font-size:28px; color:var(--text-mid); margin-top:8px;">AI 工具導入與培訓</div>
+    </div>
+  </div>
+</section>
+
+</deck-stage>
+
+<div id="modal-evolve" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;z-index:9999;background:oklch(0% 0 0 / 0.5);align-items:center;justify-content:center;font-family:'Noto Sans TC',sans-serif;">
+  <div style="background:var(--bg-card);border-radius:20px;max-width:880px;width:90%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 80px oklch(0% 0 0 / 0.25);">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:28px 36px 0;">
+      <div style="font-size:28px;font-weight:700;color:var(--text);">自我進化提示詞</div>
+      <div style="display:flex;gap:12px;">
+        <button id="btn-copy-evolve" onclick="event.stopPropagation();navigator.clipboard.writeText(document.getElementById('prompt-evolve').textContent).then(function(){var b=document.getElementById('btn-copy-evolve');b.textContent='已複製';setTimeout(function(){b.textContent='複製'},1500)})" style="background:var(--teal);color:var(--navy);border:none;border-radius:10px;padding:10px 24px;font-size:22px;font-weight:700;cursor:pointer;font-family:inherit;">複製</button>
+        <button onclick="document.getElementById('modal-evolve').style.display='none'" style="background:oklch(90% 0.008 245);color:var(--text-mid);border:none;border-radius:10px;padding:10px 20px;font-size:22px;font-weight:700;cursor:pointer;font-family:inherit;">✕</button>
+      </div>
+    </div>
+    <div id="prompt-evolve" style="padding:24px 36px 32px;overflow-y:auto;font-size:22px;line-height:1.8;color:var(--text-mid);white-space:pre-wrap;">自即日起，在執行任務的過程中，該 Skill 應具備持續學習與自我完善的意識。當出現以下情況時，請將相關內容記錄至該 Skill 目錄下的 knowledge/ 資料夾中：
+
+- 遇到現有知識無法解決的問題
+- 使用者提供了修正或更佳的建議
+- 發現值得記錄與複用的成功經驗
+- 遭遇原有指令未涵蓋的特殊情境
+
+每次開始新任務時，請先讀取該資料夾中既有的知識；每次完成任務後，將新學到的內容追加進去。若你判斷該 Skill 的核心指令有優化空間，請主動向使用者提出你的建議。
+
+透過此機制，該 Skill 將隨著使用次數的累積，持續變得更強大且更精準。
+
+請將以上內容作為一個新章節，新增至該 Skill 的 SKILL.md 檔案末尾，並建立 knowledge/ 資料夾。</div>
+  </div>
+</div>
+</body>
+</html>
