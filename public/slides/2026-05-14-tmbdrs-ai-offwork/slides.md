@@ -39,7 +39,7 @@ Claude 的視覺創作模式。
 主題是「AI 不下班：遠端自動化與創作流程」，
 對象是醫師，
 包含 QR Code 遠端操控、Telegram 遠端操控、
-投影片製作、Netlify 部署、瀏覽器操作五個章節。
+投影片製作、Netlify 部署、瀏覽器操作 7 個章節。
 ```
 
 ---
@@ -220,6 +220,24 @@ Telegram Channel 模式打破了這個限制——
 5. 配對你的 Telegram 帳號
 
 詳細步驟請參見講義。
+
+---
+
+## 安裝並配對 Telegram 插件
+
+在 Claude Code 內輸入：
+
+```text
+/plugin install telegram@claude-plugins-official
+```
+
+接著設定 Bot Token：
+
+```text
+/telegram:configure <token>
+```
+
+完成後，再用 Telegram Channel 模式重新啟動。
 
 ---
 
@@ -462,5 +480,3 @@ AI 也很難做對。
 ## 謝謝大家
 
 詹嘉隆｜AI 工具導入與培訓顧問
-
-課後練習教材將陸續提供給各位。

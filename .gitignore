@@ -27,5 +27,8 @@ dist-ssr
 # Local Netlify folder
 .netlify
 
+# Claude Code local settings
+.claude/
+
 # Local speaker materials
 講師資料/
