@@ -276,6 +276,9 @@
       this._notes = [];
       this._hideTimer = null;
       this._mouseIdleTimer = null;
+      // Save initial hash before _applyIndex overwrites it via replaceState.
+      this._initialHash = location.hash;
+      this._pendingHashIndex = null;
 
       this._onKey = this._onKey.bind(this);
       this._onResize = this._onResize.bind(this);
@@ -448,6 +451,11 @@
 
       if (this._totalEl) this._totalEl.textContent = String(this._slides.length || 1);
       if (this._index >= this._slides.length) this._index = Math.max(0, this._slides.length - 1);
+      // Apply deferred hash index once enough slides are loaded.
+      if (this._pendingHashIndex !== null && this._pendingHashIndex < this._slides.length) {
+        this._index = this._pendingHashIndex;
+        this._pendingHashIndex = null;
+      }
     }
 
     _loadNotes() {
@@ -463,13 +471,18 @@
     }
 
     _restoreIndex() {
-      // The host's ?slide= param is delivered as a #<int> hash (1-indexed) on
-      // the iframe src. No hash → slide 1; the deck itself keeps no position
-      // state across loads.
-      const h = (location.hash || '').match(/^#(\d+)$/);
-      if (h) {
-        const n = parseInt(h[1], 10) - 1;
-        if (n >= 0 && n < this._slides.length) this._index = n;
+      // Use _initialHash (saved before any replaceState) so early slotchange
+      // firings don't corrupt the target via #1 overwrites.
+      const h = (this._initialHash || '').match(/^#(\d+)$/);
+      if (!h) return;
+      const n = parseInt(h[1], 10) - 1;
+      if (n < 0) return;
+      if (n < this._slides.length) {
+        this._index = n;
+        this._pendingHashIndex = null;
+      } else {
+        // Slides not yet fully loaded — remember and retry in _collectSlides.
+        this._pendingHashIndex = n;
       }
     }
 

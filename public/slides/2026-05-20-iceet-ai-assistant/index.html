@@ -1582,10 +1582,13 @@
   <div class="accent-line"></div>
   <div style="flex:1; display:flex; flex-direction:column; gap:40px;">
     <div style="font-size:38px; color:var(--text-mid); line-height:1.6;">輸入這段話，然後按 Enter：</div>
-    <div class="code-block" style="font-size:34px; flex:1; display:flex; align-items:center;">
-      請幫我在桌面寫入 10 個純文字檔案，<br>
-      內容是唐詩三百首，每個檔案放一首詩，<br>
-      <span class="cmd">檔名用詩名命名。</span>
+    <div class="code-block" style="font-size:34px; flex:1; display:flex; align-items:center; position:relative;">
+      <div id="prompt-slide21" style="flex:1;">
+        請幫我在桌面寫入 10 個純文字檔案，<br>
+        內容是唐詩三百首，每個檔案放一首詩，<br>
+        <span class="cmd">檔名用詩名命名。</span>
+      </div>
+      <button onclick="event.stopPropagation();navigator.clipboard.writeText('請幫我在桌面寫入 10 個純文字檔案，內容是唐詩三百首，每個檔案放一首詩，檔名用詩名命名。').then(function(){var b=this;b.textContent='已複製';setTimeout(function(){b.textContent='複製'},1500)}.bind(this))" style="position:absolute;top:16px;right:16px;background:var(--teal);color:var(--navy);border:none;border-radius:10px;padding:14px 32px;font-size:22px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;">複製</button>
     </div>
     <div class="highlight-box" style="font-size:36px; text-align:center;">
       看著它自己建立 10 個 .txt 檔案。<br>
@@ -1814,9 +1817,50 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
+  SLIDE 27.5 · Markdown vs HTML 拐點
+════════════════════════════════════════════ -->
+<section data-screen-label="28 格式之爭的新拐點">
+  <div class="slide-tag">格式比較</div>
+  <div class="accent-line"></div>
+  <div class="content-title" style="margin-bottom:44px;">但當人類不再手改 AI 的輸出⋯</div>
+  <table class="data-table" style="font-size:30px;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>過去的假設</th>
+        <th>現在的現實</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-700">人類角色</td>
+        <td style="color:var(--text-mid);">親自編輯 AI 產出</td>
+        <td class="fw-700 text-teal">讓 AI 幫 AI 改</td>
+      </tr>
+      <tr>
+        <td class="fw-700">優化目標</td>
+        <td style="color:var(--text-mid);">易編輯 → Markdown</td>
+        <td class="fw-700 text-teal">易閱讀 → HTML</td>
+      </tr>
+      <tr>
+        <td class="fw-700">Token 成本</td>
+        <td style="color:var(--text-mid);">斤斤計較</td>
+        <td class="fw-700 text-teal">百萬 context，已非瓶頸</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:32px; font-size:28px; color:var(--text-mid); line-height:1.7; padding:20px 32px; background:oklch(97% 0.008 200); border-radius:12px; border-left:4px solid var(--amber);">
+    <span class="fw-700" style="color:var(--amber);">代價</span>：生成慢 2–4 倍・版本控制變複雜
+  </div>
+  <div style="margin-top:28px; font-size:34px; font-weight:700; color:var(--text); line-height:1.5; text-align:center;">
+    格式服務的對象變了——從讓人好改，到讓人好讀。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
   SLIDE 28 · Chapter 9 Header
 ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="28 Ch9 Header">
+<section class="dark" data-screen-label="29 Ch9 Header">
   <div class="chapter-header">
     <div class="chapter-label">Chapter 09</div>
     <div class="accent-line"></div>
@@ -1829,7 +1873,7 @@
 <!-- ═══════════════════════════════════════════
   SLIDE 29 · PDF 三大限制
 ════════════════════════════════════════════ -->
-<section data-screen-label="29 PDF 三大限制">
+<section data-screen-label="30 PDF 三大限制">
   <div class="slide-tag">為什麼「直接丟 PDF 給 AI」是錯的</div>
   <div class="accent-line"></div>
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:36px; flex:1;">
@@ -1852,9 +1896,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 30 · PDF 正確做法
+  SLIDE 26 · PDF 正確做法
 ════════════════════════════════════════════ -->
-<section class="dark-mid" data-screen-label="30 PDF 正確做法">
+<section class="dark-mid" data-screen-label="31 PDF 正確做法">
   <div class="slide-tag">三種正確做法</div>
   <div class="accent-line"></div>
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:36px; flex:1;">
@@ -1877,9 +1921,104 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 31 · Chapter 10 Header
+  SLIDE 27 · PDF 轉 Markdown 標題
+═════════════════════════════════════════════ -->
+<section data-screen-label="32 PDF轉Markdown">
+  <div class="slide-tag">PDF 處理進階</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:52px; font-weight:900; line-height:1.2;">
+        PDF 轉 Markdown<br>
+        <span style="color:var(--teal);">不要硬交給 AI</span>
+      </div>
+      <div class="highlight-box" style="font-size:30px;">
+        目標：把 PDF 內容轉成<br>可整理、可搜尋、可再加工的 Markdown
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div style="font-size:30px; font-weight:700; color:var(--text-mid);">直接丟給 Claude Code 的問題：</div>
+      <ul class="bullet-list" style="font-size:30px; gap:12px;">
+        <li><span class="dot"></span><span>極高機率出現<span class="fw-700">亂碼</span></span></li>
+        <li><span class="dot"></span><span>圖片資訊容易消失</span></li>
+        <li><span class="dot"></span><span>表格結構容易散掉</span></li>
+        <li><span class="dot"></span><span>版面順序可能被誤判</span></li>
+      </ul>
+      <div style="font-size:28px; color:var(--text-mid);">
+        PDF 不是純文字檔，不能期待模型直接「讀懂格式」。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 28 · 改用 marker-pdf
+═════════════════════════════════════════════ -->
+<section data-screen-label="33 marker-pdf">
+  <div class="slide-tag">我的實作</div>
+  <div class="accent-line"></div>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:32px;">
+    <div style="font-size:42px; font-weight:900;">
+      改用專門工具：<span class="text-teal">marker-pdf</span>
+    </div>
+    <div style="font-size:32px; color:var(--text-mid);">先用 marker-pdf 做 PDF 解析與轉換：</div>
+    <div class="code-block" style="font-size:32px; padding:24px 36px;">pip install marker-pdf</div>
+    <div style="font-size:32px; color:var(--text-mid);">
+      再把轉出來的 Markdown 交給 Claude Code 處理。
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 29 · 轉完再請 AI 檢查
+═════════════════════════════════════════════ -->
+<section data-screen-label="34 轉完再請AI檢查">
+  <div class="slide-tag">轉完之後再請 AI 檢查</div>
+  <div class="accent-line"></div>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:28px;">
+    <div style="font-size:34px; color:var(--text-mid);">轉檔只是第一步。接著請 Claude Code 幫你檢查：</div>
+    <ul class="bullet-list" style="font-size:34px; gap:14px;">
+      <li><span class="dot"></span><span>有沒有亂碼</span></li>
+      <li><span class="dot"></span><span>標題層級是否正確</span></li>
+      <li><span class="dot"></span><span>表格是否需要重建</span></li>
+      <li><span class="dot"></span><span>圖片說明是否需要補上</span></li>
+      <li><span class="dot"></span><span>段落順序是否合理</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 26 · 分工總結
+═════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="35 PDF分工總結">
+  <div class="slide-tag">這樣分工比較穩</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:36px; font-weight:700;">專門工具負責</div>
+      <div class="card" style="padding:28px 36px; font-size:32px;">
+        解析 PDF 結構
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:36px; font-weight:700;">AI 負責</div>
+      <ul class="bullet-list" style="font-size:32px; gap:12px;">
+        <li><span class="dot"></span><span>修復亂碼</span></li>
+        <li><span class="dot"></span><span>重整段落</span></li>
+        <li><span class="dot"></span><span>補齊說明</span></li>
+        <li><span class="dot"></span><span>改成適合閱讀與再利用的 Markdown</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="quote-block" style="font-size:32px; margin-top:24px;">
+    先讓工具把資料<span class="fw-700">救出來</span>，再讓 AI 把內容<span class="fw-700">整理好</span>。
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 27 · Chapter 10 Header
 ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="31 Ch10 Header">
+<section class="dark" data-screen-label="36 Ch10 Header">
   <div class="chapter-header">
     <div class="chapter-label">Chapter 10</div>
     <div class="accent-line"></div>
@@ -1890,9 +2029,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 32 · Obsidian 是什麼 + 天作之合
+  SLIDE 28 · Obsidian 是什麼 + 天作之合
 ════════════════════════════════════════════ -->
-<section data-screen-label="32 Obsidian 天作之合">
+<section data-screen-label="37 Obsidian 天作之合">
   <div class="slide-tag">知識管理的新正規</div>
   <div class="accent-line"></div>
   <div class="two-col" style="gap:80px; flex:1; align-items:center;">
@@ -1999,9 +2138,9 @@
 </style>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 33 · Karpathy 哲學
+  SLIDE 29 · Karpathy 哲學
 ════════════════════════════════════════════ -->
-<section class="dark-mid" data-screen-label="33 Karpathy 哲學">
+<section class="dark-mid" data-screen-label="38 Karpathy 哲學">
   <div class="slide-tag">Karpathy 的知識管理哲學</div>
   <div class="accent-line"></div>
   <div class="two-col" style="gap:80px; flex:1; align-items:center;">
@@ -2041,9 +2180,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 34 · 四階段循環
+  SLIDE 26 · 四階段循環
 ════════════════════════════════════════════ -->
-<section data-screen-label="34 四階段循環">
+<section data-screen-label="39 四階段循環">
   <div class="slide-tag">知識庫的自我演化</div>
   <div class="accent-line"></div>
   <div class="content-title" style="font-size:56px; margin-bottom:44px;">四階段循環</div>
@@ -2089,9 +2228,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 35 · Chapter 11 Header
+  SLIDE 27 · Chapter 11 Header
 ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="35 Ch11 Header">
+<section class="dark" data-screen-label="40 Ch11 Header">
   <div class="chapter-header">
     <div class="chapter-label">Chapter 11</div>
     <div class="accent-line"></div>
@@ -2102,9 +2241,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 36 · Skill 是什麼
+  SLIDE 28 · Skill 是什麼
 ════════════════════════════════════════════ -->
-<section data-screen-label="36 Skill 是什麼">
+<section data-screen-label="41 Skill 是什麼">
   <div class="slide-tag">2026 最重要的一個詞</div>
   <div class="accent-line"></div>
   <div class="two-col" style="gap:80px; flex:1; align-items:center;">
@@ -2139,9 +2278,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 37 · 教師可以做的 Skill
+  SLIDE 29 · 教師可以做的 Skill
 ════════════════════════════════════════════ -->
-<section class="dark-mid" data-screen-label="37 教師Skill範例">
+<section class="dark-mid" data-screen-label="42 教師Skill範例">
   <div class="slide-tag">教師可以做什麼 Skill？</div>
   <div class="accent-line"></div>
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; flex:1;">
@@ -2200,9 +2339,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 38 · 自我進化機制
+  SLIDE 26 · 自我進化機制
 ════════════════════════════════════════════ -->
-<section data-screen-label="38 自我進化機制" style="position:relative;">
+<section data-screen-label="43 自我進化機制" style="position:relative;">
   <div class="slide-tag">進階：讓 Skill 自我進化</div>
   <div class="accent-line"></div>
   <div class="two-col" style="gap:80px; flex:1; align-items:start;">
@@ -2234,9 +2373,133 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 39 · Chapter 12 Header
+  SLIDE 43 · 把工具磨成工作流
+═════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="44 把工具磨成工作流">
+  <div class="slide-tag">延伸閱讀</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div style="font-size:64px; font-weight:900; line-height:1.1;">
+        把工具<span class="text-teal">磨</span>成工作流
+      </div>
+      <div style="font-size:28px; color:var(--text-mid);">
+        來源：高見龍（一個台灣軟體工程師）的
+        <a href="https://www.facebook.com/share/p/18ZRH3g661/" target="_blank" style="color:var(--teal); text-decoration:underline;">臉書留言</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:30px; font-weight:700; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:20px;">Skills 的使用流程</div>
+      <ul class="bullet-list" style="font-size:32px; gap:14px;">
+        <li><span class="dot"></span><span>聽說某個大神的 Skills 很猛</span></li>
+        <li><span class="dot"></span><span>下載下來，先丟給 AI <span class="fw-700">解說內容</span></span></li>
+        <li><span class="dot"></span><span>順便請 AI 掃一下有沒有藏奇怪的東西</span></li>
+        <li><span class="dot"></span><span>安裝起來試用看看</span></li>
+        <li><span class="dot"></span><span>不好用就移掉，好用就留下來</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 44 · 真正的重點：使用→抱怨→修改
+═════════════════════════════════════════════ -->
+<section data-screen-label="45 使用抱怨修改">
+  <div class="slide-tag">真正的重點在後面</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:36px; color:var(--text-mid);">
+        用久了，一定會開始感覺哪裡<span class="fw-700" style="color:var(--text);">不太順</span>：
+      </div>
+      <ul class="bullet-list" style="font-size:34px; gap:12px;">
+        <li><span class="dot"></span><span>這個流程不對</span></li>
+        <li><span class="dot"></span><span>這段提示詞太囉嗦</span></li>
+        <li><span class="dot"></span><span>這個步驟其實可以省略</span></li>
+        <li><span class="dot"></span><span>這個輸出格式不符合我的工作方式</span></li>
+      </ul>
+      <div class="highlight-box" style="font-size:34px;">
+        這時候，<span class="fw-700">不是換下一個 Skills。</span>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:30px; color:var(--text-mid);">把你的不順手講出來：</div>
+      <div class="quote-block" style="font-size:30px; line-height:2;">
+        「這個流程不對。」<br>
+        「這段提示詞太囉嗦。」<br>
+        「這個輸出不是我要的格式。」<br>
+        「<span class="fw-700">請幫我調整這個 Skill。</span>」
+      </div>
+      <div style="font-size:34px; font-weight:700;">
+        改著改著，Skills 就會變成<span class="text-teal">你自己的形狀</span>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 45 · Skills 是需要磨的
+═════════════════════════════════════════════ -->
+<section class="dark-mid" data-screen-label="46 Skills是需要磨的">
+  <div class="slide-tag">核心觀念</div>
+  <div class="accent-line"></div>
+  <div class="two-col" style="gap:80px; flex:1; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:44px; font-weight:900; line-height:1.3;">
+        並不是下載到大神的 Skills，就會變大神。
+      </div>
+      <div style="font-size:30px; color:var(--text-mid);">
+        如果從來沒有走過「使用、抱怨、修改」的流程，很容易變成：
+      </div>
+      <ul class="bullet-list" style="font-size:32px; gap:12px;">
+        <li><span class="dot"></span><span>一直追新工具</span></li>
+        <li><span class="dot"></span><span>一直換新 Skills</span></li>
+        <li><span class="dot"></span><span>一直下載大神配置</span></li>
+        <li><span class="dot"></span><span>什麼都沒有真正內化</span></li>
+      </ul>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="font-size:56px; font-weight:900; line-height:1.15;">
+        Skills 是需要<span class="text-teal">磨</span>的
+      </div>
+      <div style="font-size:32px; color:var(--text-mid); line-height:1.7;">
+        每個人的使用情境、工作習慣、輸出標準都不同。
+      </div>
+      <div class="quote-block" style="font-size:32px;">
+        好的 Skills 不只是「別人寫好的工具」，<br>
+        而是<span class="fw-700">你把它磨成自己的工作流</span>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 46 · 工具不是拿來收藏的（結語）
+═════════════════════════════════════════════ -->
+<section class="dark" data-screen-label="47 工具不是拿來收藏的">
+  <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; text-align:center;">
+    <img src="assets/gaolongren.jpeg" alt="高見龍"
+      style="width:220px; height:220px; border-radius:50%; object-fit:cover;
+             border:6px solid var(--teal);
+             box-shadow:0 0 0 4px oklch(88% 0.045 200), 0 12px 40px oklch(0% 0 0 / 0.15);">
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="font-size:68px; font-weight:900; line-height:1.2; color:var(--text);">
+        工具不是拿來收藏的，
+      </div>
+      <div style="font-size:68px; font-weight:900; line-height:1.2; color:var(--teal);">
+        是拿來被你改到順手的。
+      </div>
+    </div>
+    <div style="font-size:34px; color:var(--text-mid);">
+      — 高見龍
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  SLIDE 47 · Chapter 12 Header
 ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="39 Ch12 Header">
+<section class="dark" data-screen-label="48 Ch12 Header">
   <div class="chapter-header">
     <div class="chapter-label">Chapter 12</div>
     <div class="accent-line"></div>
@@ -2247,9 +2510,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 40 · Claude Code 替代工具
+  SLIDE 48 · Claude Code 替代工具
 ════════════════════════════════════════════ -->
-<section data-screen-label="40 Claude Code 替代工具">
+<section data-screen-label="49 Claude Code 替代工具">
   <div class="slide-tag">替代工具與下載入口</div>
   <div class="accent-line"></div>
   <div class="content-title" style="font-size:54px; margin-bottom:30px;">除了 Claude Code，還有哪些選擇？</div>
@@ -2333,9 +2596,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 41 · 四大警語（1/2）
+  SLIDE 49 · 四大警語（1/2）
 ════════════════════════════════════════════ -->
-<section data-screen-label="41 警語 1-2">
+<section data-screen-label="50 警語 1-2">
   <div class="slide-tag" style="color:var(--red-warn);">使用 AI 前，請記住這些</div>
   <div class="accent-line" style="background:var(--red-warn);"></div>
   <div class="content-title" style="font-size:60px; margin-bottom:44px;">四大警語</div>
@@ -2362,9 +2625,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 42 · 四大警語（2/2）
+  SLIDE 50 · 四大警語（2/2）
  ════════════════════════════════════════════ -->
-<section data-screen-label="42 警語 3-4">
+<section data-screen-label="51 警語 3-4">
   <div class="slide-tag" style="color:var(--red-warn);">使用 AI 前，請記住這些</div>
   <div class="accent-line" style="background:var(--red-warn);"></div>
   <div class="two-col" style="gap:40px; flex:1;">
@@ -2390,9 +2653,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 43 · 總結
+  SLIDE 51 · 總結
  ════════════════════════════════════════════ -->
-<section data-screen-label="43 總結">
+<section data-screen-label="52 總結">
   <div class="slide-tag">課程總結</div>
   <div class="accent-line"></div>
   <div class="content-title" style="margin-bottom:44px;">AI 是加速器，不是替代品</div>
@@ -2418,9 +2681,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 44 · Q&A
+  SLIDE 52 · Q&A
  ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="44 QA">
+<section class="dark" data-screen-label="53 QA">
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
     <div style="font-size:36px; font-weight:500; color:var(--teal); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:32px;">Q &amp; A</div>
     <div class="accent-line" style="width:120px;"></div>
@@ -2434,9 +2697,9 @@
 </section>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 45 · 謝謝
+  SLIDE 53 · 謝謝
  ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="45 Thank You">
+<section class="dark" data-screen-label="54 Thank You">
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
     <div class="cover-chapter">中華資訊與科技教育學會 ICEET · 2026-05-20</div>
     <div style="font-size:110px; font-weight:900; color:var(--text); line-height:1.05; margin-bottom:48px;">謝謝大家</div>
