@@ -168,9 +168,9 @@ onUnmounted(() => observer?.disconnect())
           </div>
         </a>
 
-        <!-- 台灣醫學大數據研究學會簡報 -->
+        <!-- 讓 AI 成為你的數位特助 -->
         <a
-          :href="`${slidesBase}2026-04-30-tmbdrs-ai-workflow/index.html`"
+          href="https://taichis.github.io/ai-course/slides/2026-05-20-iceet-ai-assistant/index.html"
           class="home-animate opacity-0 translate-y-4 transition-all duration-700 group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer block"
         >
           <div class="h-1.5 bg-gradient-to-r from-teal-400 to-sky-500"></div>
@@ -179,9 +179,9 @@ onUnmounted(() => observer?.disconnect())
               <Presentation class="h-6 w-6 text-teal-600" />
             </div>
             <div class="flex-1 min-w-0">
-              <h3 class="text-lg font-bold text-slate-900 mb-1.5">醫學大數據研究學會簡報</h3>
+              <h3 class="text-lg font-bold text-slate-900 mb-1.5">讓 AI 成為你的數位特助</h3>
               <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                用 Claude Code 重塑知識流與工作流，聚焦 AI 時代醫師的實戰應用。
+                AI 輔助教學、研究與知識管理
               </p>
               <span class="inline-flex items-center gap-1.5 text-teal-600 font-semibold text-sm group-hover:gap-2.5 transition-all duration-200">
                 觀看簡報

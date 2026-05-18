@@ -220,28 +220,6 @@ onUnmounted(() => {
           </CardContent>
         </Card>
       </div>
-
-      <!-- 課程投影片模組 -->
-      <Card
-        v-if="modules.find(m => m.id === 'lecture-slides')"
-        :id="modules.find(m => m.id === 'lecture-slides')?.id"
-        class="scroll-mt-20 bg-white scroll-animate card-hover group"
-      >
-        <CardHeader>
-          <div class="flex items-center gap-3">
-            <component :is="getIcon(modules.find(m => m.id === 'lecture-slides')?.icon || 'Presentation')" :class="['h-6 w-6', getColorClass(modules.find(m => m.id === 'lecture-slides')?.color || 'pink')]" />
-            <CardTitle class="text-xl text-gray-900">{{ modules.find(m => m.id === 'lecture-slides')?.title }}</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent class="prose prose-sm max-w-none">
-          <template v-for="(section, idx) in modules.find(m => m.id === 'lecture-slides')?.content.sections" :key="idx">
-            <p class="text-gray-700 mb-4">{{ section.text }}</p>
-          </template>
-          <div v-if="modules.find(m => m.id === 'lecture-slides')?.content.links" class="mt-4">
-            <ExternalLinks :links="modules.find(m => m.id === 'lecture-slides')?.content.links" layout="vertical" />
-          </div>
-        </CardContent>
-      </Card>
     </main>
   </div>
 </template>
