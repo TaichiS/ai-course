@@ -86,13 +86,38 @@ fi
 # --- 6. 安裝或更新 Claude Code ---
 if command -v claude &>/dev/null; then
     success "Claude Code 已安裝，正在更新至最新版本..."
+    # 清除 Homebrew 快取，避免損壞的 diff 檔導致 LoadError
+    info "清除 Homebrew 暫存檔案..."
+    brew cleanup --prune=0 2>/dev/null || true
     # 偵測安裝來源：Homebrew 優先
     if brew list --cask claude-code &>/dev/null 2>&1; then
-        brew upgrade --cask claude-code && success "Claude Code 更新完成 (via Homebrew cask)" || warn "Homebrew 更新失敗，改用 claude update..."  && claude update
+        if brew upgrade --cask claude-code 2>/dev/null; then
+            success "Claude Code 更新完成 (via Homebrew cask)"
+        else
+            warn "Homebrew cask 更新失敗，改用 claude update..."
+            if claude update; then
+                success "Claude Code 更新完成 (via claude update)"
+            else
+                warn "claude update 失敗，請手動執行 'claude update'"
+            fi
+        fi
     elif brew list claude-code &>/dev/null 2>&1; then
-        brew upgrade claude-code && success "Claude Code 更新完成 (via Homebrew formula)" || warn "Homebrew 更新失敗，改用 claude update..." && claude update
+        if brew upgrade claude-code 2>/dev/null; then
+            success "Claude Code 更新完成 (via Homebrew formula)"
+        else
+            warn "Homebrew formula 更新失敗，改用 claude update..."
+            if claude update; then
+                success "Claude Code 更新完成 (via claude update)"
+            else
+                warn "claude update 失敗，請手動執行 'claude update'"
+            fi
+        fi
     else
-        claude update && success "Claude Code 更新完成" || warn "claude update 失敗，請手動更新"
+        if claude update; then
+            success "Claude Code 更新完成"
+        else
+            warn "claude update 失敗，請手動更新"
+        fi
     fi
 else
     info "正在安裝 Claude Code..."
