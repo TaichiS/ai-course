@@ -86,9 +86,10 @@ fi
 # --- 6. 安裝或更新 Claude Code ---
 if command -v claude &>/dev/null; then
     success "Claude Code 已安裝，正在更新至最新版本..."
-    # 清除 Homebrew 快取，避免損壞的 diff 檔導致 LoadError
-    info "清除 Homebrew 暫存檔案..."
-    brew cleanup --prune=0 2>/dev/null || true
+    # 清除 Homebrew 下載快取，根治「diff 檔遺失」型 LoadError
+    # brew cleanup 僅刪過期檔，無法修復記錄存在但實體遺失的損壞項目
+    info "清除 Homebrew 下載快取..."
+    rm -rf "$(brew --cache)/downloads" 2>/dev/null || true
     # 偵測安裝來源：Homebrew 優先
     if brew list --cask claude-code &>/dev/null 2>&1; then
         if brew upgrade --cask claude-code 2>/dev/null; then
