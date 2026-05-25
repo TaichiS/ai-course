@@ -43,6 +43,16 @@ function Show-Error {
     Write-Host "[ERROR] $Message" -ForegroundColor Red
 }
 
+# 安全測試 claude 是否真正可執行（避免 ARM64/x64 binary 不相容時拋出 terminating error）
+function Test-ClaudeWorks {
+    try {
+        $null = & claude --version 2>&1
+        return ($LASTEXITCODE -eq 0)
+    } catch {
+        return $false
+    }
+}
+
 # --- 安全執行 Winget 安裝 ---
 function Install-WithWinget {
     param(
@@ -197,38 +207,53 @@ if (Get-Command uv -ErrorAction SilentlyContinue) {
 }
 
 # --- 5. 安裝 Claude Code ---
-# 先檢查是否已安裝
-if (Get-Command claude -ErrorAction SilentlyContinue) {
+# 先檢查是否已安裝且真正可執行
+if ((Get-Command claude -ErrorAction SilentlyContinue) -and (Test-ClaudeWorks)) {
     Show-Success "Claude Code 已安裝，正在更新至最新版本..."
     try {
-        claude update 2>&1 | Out-Null
+        $null = & claude update 2>&1
         Show-Success "Claude Code 更新完成。"
     } catch {
-        Show-Warning "自動更新失敗: $($_.Exception.Message)"
+        Show-Warning "自動更新失敗，將繼續使用現有版本。"
     }
 } else {
-    Show-Info "正在安裝 Claude Code..."
+    if ((Get-Command claude -ErrorAction SilentlyContinue) -and -not (Test-ClaudeWorks)) {
+        Show-Warning "偵測到 Claude Code 安裝但無法執行（可能是 CPU 架構不相容），重新安裝中..."
+    } else {
+        Show-Info "正在安裝 Claude Code..."
+    }
 
     # 刷新 PATH 以確保 npm 可用
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
-    # 方法 1: 使用 npm 全域安裝 (最可靠)
+    $claudeInstalled = $false
+
+    # 方法 1: 使用 npm 全域安裝，並驗證 binary 真正可執行
     if (Get-Command npm -ErrorAction SilentlyContinue) {
         try {
             Show-Info "使用 npm 安裝 Claude Code..."
-            $npmResult = npm install -g @anthropic-ai/claude-code 2>&1
+            $null = npm install -g @anthropic-ai/claude-code 2>&1
             if ($LASTEXITCODE -eq 0) {
-                Show-Success "Claude Code 透過 npm 安裝完成。"
+                # 刷新 PATH 後驗證 binary 實際可執行
+                $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+                if (Test-ClaudeWorks) {
+                    Show-Success "Claude Code 透過 npm 安裝完成並驗證成功。"
+                    $claudeInstalled = $true
+                } else {
+                    Show-Warning "npm 安裝完成，但執行檔與本機 CPU 架構不相容，改用官方安裝腳本..."
+                }
             } else {
                 Show-Warning "npm 安裝失敗，嘗試官方腳本..."
-                $null = Invoke-RemoteScript -Url "https://claude.ai/install.ps1" -ScriptName "Claude Code (官方腳本)"
             }
         } catch {
             Show-Warning "npm 安裝出錯: $($_.Exception.Message)"
-            $null = Invoke-RemoteScript -Url "https://claude.ai/install.ps1" -ScriptName "Claude Code (官方腳本)"
         }
     } else {
         Show-Warning "npm 不可用，使用官方腳本安裝..."
+    }
+
+    # 方法 2: npm 失敗或 binary 不相容時，改用官方安裝腳本
+    if (-not $claudeInstalled) {
         $null = Invoke-RemoteScript -Url "https://claude.ai/install.ps1" -ScriptName "Claude Code (官方腳本)"
     }
 }
@@ -313,11 +338,16 @@ if ($claudeFound -and $claudePath) {
 Show-Info ""
 Show-Info "=== 驗證 Claude Code 安裝 ==="
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-if (Get-Command claude -ErrorAction SilentlyContinue) {
-    $claudeVersion = claude --version 2>$null
-    Show-Success "Claude Code 可用！版本: $claudeVersion"
+if (Test-ClaudeWorks) {
+    try {
+        $claudeVersion = & claude --version 2>&1
+        Show-Success "Claude Code 可用！版本: $claudeVersion"
+    } catch {
+        Show-Success "Claude Code 可用！"
+    }
 } else {
     Show-Warning "Claude Code 指令仍無法使用，請重新開啟 PowerShell 後再試。"
+    Show-Info "若問題持續，請手動執行: powershell -c `"irm https://claude.ai/install.ps1 | iex`""
 }
 
 # --- 7. 安裝 gsudo (Windows 的 sudo 工具) ---
@@ -463,7 +493,7 @@ $uvVer = if (Get-Command uv -ErrorAction SilentlyContinue) { uv --version 2>$nul
 Write-VersionRow "UV" $uvVer
 
 # Claude Code
-$claudeVer = if (Get-Command claude -ErrorAction SilentlyContinue) { claude --version 2>$null } else { $null }
+$claudeVer = if (Test-ClaudeWorks) { try { & claude --version 2>&1 } catch { "已安裝（版本無法取得）" } } else { $null }
 Write-VersionRow "Claude Code" $claudeVer
 
 # Obsidian（透過登錄檔查詢，避免 winget list 卡住）
