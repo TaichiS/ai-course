@@ -1,0 +1,1374 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>AI 不下班 · 遠端自動化與創作流程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<script src="deck-stage.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>
+  :root{
+    /* Palette: Navy & Gold (default) */
+    --ink:#0B1F3A;
+    --ink-rgb:11,31,58;
+    --ink-2:#15325E;
+    --ink-3:#1E4275;
+    --gold:#F2D060;
+    --gold-rgb:242,208,96;
+    --gold-soft:#F8E49B;
+    --paper:#F5EFE0;
+    --paper-rgb:245,239,224;
+    --paper-2:#FBF6E7;
+    --mute:#7C8AA6;
+    --rule:rgba(242,208,96,.28);
+    --code-bg:#06152C;
+    --dim-dark:#C8D3E6;
+    --dim-dark-2:#E2E8F2;
+    --dim-light:#2A3654;
+    --dim-light-2:#3A4866;
+    --dim-light-3:#4A5878;
+
+    --type-display:140px;
+    --type-title:64px;
+    --type-subtitle:44px;
+    --type-body:32px;
+    --type-small:26px;
+    --type-mono:26px;
+    --type-eyebrow:22px;
+
+    --pad-top:100px;
+    --pad-bottom:90px;
+    --pad-x:110px;
+    --gap-title:48px;
+    --gap-item:24px;
+
+    --font-sans:"Noto Sans TC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-serif:"Noto Serif TC", "Times New Roman", serif;
+    --font-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  /* Palette: Red & White */
+  [data-palette="red"]{
+    --ink:#8B1220;
+    --ink-rgb:139,18,32;
+    --ink-2:#A8182A;
+    --ink-3:#C42B3E;
+    --gold:#FFFFFF;
+    --gold-rgb:255,255,255;
+    --gold-soft:#FFE0E0;
+    --paper:#FFFFFF;
+    --paper-rgb:255,255,255;
+    --paper-2:#FFF5F5;
+    --mute:#9A8A8C;
+    --rule:rgba(255,255,255,.30);
+    --code-bg:#4A0810;
+    --dim-dark:#F5D0D5;
+    --dim-dark-2:#FFE8EB;
+    --dim-light:#5A1A28;
+    --dim-light-2:#7A2A38;
+    --dim-light-3:#9A3A48;
+  }
+
+  html,body{margin:0;padding:0;background:#000;color:var(--paper);font-family:var(--font-sans);}
+
+  deck-stage section{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--font-sans);
+    overflow:hidden;
+    position:relative;
+  }
+
+  /* === Shared layout primitives ============================== */
+  .frame{
+    position:absolute; inset:0;
+    padding:var(--pad-top) var(--pad-x) var(--pad-bottom);
+    display:flex; flex-direction:column;
+    box-sizing:border-box;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:26px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex; align-items:center; gap:18px;
+    font-weight:500;
+  }
+  .eyebrow .bar{ width:56px; height:2px; background:var(--gold); display:inline-block; }
+  .title{
+    font-family:var(--font-serif);
+    font-weight:700;
+    font-size:var(--type-title);
+    line-height:1.12;
+    letter-spacing:-.005em;
+    color:var(--paper);
+    margin:0;
+  }
+  .title .accent{ color:var(--gold); font-style:italic; }
+  .subtitle{
+    font-size:var(--type-subtitle);
+    line-height:1.25;
+    color:var(--paper);
+    font-weight:400;
+    margin:0;
+  }
+  .body{
+    font-size:var(--type-body);
+    line-height:1.55;
+    color:var(--paper);
+    font-weight:400;
+  }
+  .body.dim{ color:#C8D3E6; }
+  .small{ font-size:var(--type-small); line-height:1.5; color:#C8D3E6; }
+  .mono{ font-family:var(--font-mono); font-size:var(--type-mono); }
+
+  /* Slide footer chrome */
+  .footer{
+    position:absolute; left:var(--pad-x); right:var(--pad-x); bottom:32px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--font-mono); font-size:24px; letter-spacing:.18em;
+    color:rgba(var(--paper-rgb,245,239,224),.55); text-transform:uppercase;
+  }
+  .footer .dot{ width:6px; height:6px; border-radius:50%; background:var(--gold); display:inline-block; margin:0 12px; vertical-align:middle; }
+
+  /* === Slide type variants =================================== */
+
+  /* Cover */
+  .cover{
+    background:
+      radial-gradient(ellipse 80% 60% at 85% 15%, rgba(var(--gold-rgb),.18), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 10% 90%, rgba(var(--gold-rgb),.10), transparent 60%),
+      var(--ink);
+  }
+  .cover .frame{ justify-content:space-between; padding:90px var(--pad-x); }
+  .cover .meta{ display:flex; align-items:center; gap:24px; }
+  .cover h1{
+    font-family:var(--font-serif);
+    font-weight:900;
+    font-size:var(--type-display);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin:0;
+    color:var(--paper);
+  }
+  .cover h1 .lit{ color:var(--gold); }
+  .cover .lede{
+    font-size:46px; line-height:1.35; color:var(--gold-soft);
+    font-weight:300; margin-top:56px; max-width:1100px;
+    font-family:var(--font-serif);
+  }
+  .cover .credits{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:48px;
+    border-top:1px solid var(--rule); padding-top:32px;
+  }
+  .cover .credits .col{
+    font-family:var(--font-mono); font-size:28px; letter-spacing:.06em;
+    color:var(--paper);
+  }
+  .cover .credits .label{
+    color:var(--gold); text-transform:uppercase; font-size:24px;
+    letter-spacing:.22em; margin-bottom:14px; display:block;
+  }
+  .cover .glyph{
+    position:absolute; right:90px; top:50%; transform:translateY(-50%);
+    width:520px; height:520px; opacity:.95;
+  }
+
+  /* Section opener (chapter divider) */
+  .section-opener{
+    background:var(--gold);
+    color:var(--ink);
+  }
+  .section-opener .frame{ justify-content:center; padding:0 var(--pad-x); }
+  .section-opener .chnum{
+    font-family:var(--font-mono); font-size:30px; letter-spacing:.3em;
+    color:var(--ink); text-transform:uppercase; margin-bottom:36px;
+    display:flex; align-items:center; gap:20px;
+  }
+  .section-opener .chnum .bar{ width:80px; height:3px; background:var(--ink); }
+  .section-opener h2{
+    font-family:var(--font-serif); font-weight:900;
+    font-size:108px; line-height:1.05; letter-spacing:-.01em;
+    color:var(--ink); margin:0; max-width:1500px;
+  }
+  .section-opener .goal{
+    margin-top:48px; font-size:34px; color:var(--ink-2);
+    border-left:4px solid var(--ink); padding-left:24px; max-width:1300px;
+    font-weight:400;
+  }
+  .section-opener .footer{ color:rgba(var(--ink-rgb),.5); }
+  .section-opener .footer .dot{ background:var(--ink); }
+  .section-opener .bigmark{
+    position:absolute; right:60px; bottom:-40px;
+    font-family:var(--font-serif); font-weight:900;
+    font-size:560px; line-height:.8; color:rgba(var(--ink-rgb),.09);
+    pointer-events:none; user-select:none;
+    z-index:0;
+  }
+  .section-opener .footer{ z-index:2; }
+
+  /* Standard content slide header */
+  .head{ display:flex; flex-direction:column; gap:18px; margin-bottom:var(--gap-title); }
+  .head .title{ max-width:1500px; }
+
+  /* Two column */
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:80px; flex:1; align-items:flex-start; }
+  .two-col.center{ align-items:center; }
+
+  /* List */
+  ul.clean, ol.clean{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--gap-item); }
+  ul.clean li{ font-size:var(--type-body); line-height:1.5; padding-left:36px; position:relative; }
+  ul.clean li::before{
+    content:""; position:absolute; left:0; top:.7em;
+    width:18px; height:2px; background:var(--gold);
+  }
+  ol.clean{ counter-reset:n; }
+  ol.clean li{
+    font-size:var(--type-body); line-height:1.5; padding-left:64px; position:relative;
+    counter-increment:n;
+  }
+  ol.clean li::before{
+    content:counter(n,decimal-leading-zero);
+    position:absolute; left:0; top:0;
+    font-family:var(--font-mono); font-size:24px; color:var(--gold);
+    font-weight:500;
+  }
+
+  /* Code block */
+  pre.code{
+    background:var(--code-bg); border:1px solid var(--ink-3); border-left:4px solid var(--gold);
+    color:var(--paper);
+    font-family:var(--font-mono); font-size:var(--type-mono); line-height:1.5;
+    padding:32px 36px; margin:0;
+    border-radius:4px;
+    white-space:pre-wrap; word-break:break-word;
+    overflow:hidden;
+  }
+  pre.code .c-cm{ color:var(--mute); }
+  pre.code .c-kw{ color:var(--gold); }
+  pre.code .c-str{ color:#F8E49B; }
+
+  /* Quote */
+  .pullquote{
+    font-family:var(--font-serif); font-weight:500;
+    font-size:60px; line-height:1.25; color:var(--paper);
+    border-left:6px solid var(--gold); padding-left:48px;
+    max-width:1500px;
+  }
+  .pullquote .gold{ color:var(--gold); }
+  blockquote.callout{
+    margin:0; padding:0;
+    border-left:4px solid var(--gold);
+    padding-left:32px;
+    font-family:var(--font-serif);
+    font-size:38px; line-height:1.35;
+    color:var(--gold-soft);
+  }
+
+  /* Card grid */
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+  .card{
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--rule);
+    padding:36px 36px 40px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .card .kicker{
+    font-family:var(--font-mono); font-size:18px; letter-spacing:.22em;
+    color:var(--gold); text-transform:uppercase;
+  }
+  .card .h{ font-family:var(--font-serif); font-size:38px; line-height:1.2; color:var(--paper); font-weight:700; }
+  .card .p{ font-size:26px; line-height:1.5; color:var(--dim-dark); }
+
+  /* Table */
+  table.cmp{
+    border-collapse:collapse; width:100%;
+    font-size:30px; color:var(--paper);
+  }
+  table.cmp th, table.cmp td{
+    text-align:left; padding:22px 28px; border-bottom:1px solid var(--rule);
+    vertical-align:middle;
+  }
+  table.cmp thead th{
+    color:var(--gold); font-family:var(--font-mono);
+    font-size:22px; letter-spacing:.16em; text-transform:uppercase;
+    font-weight:500; border-bottom:2px solid var(--gold);
+  }
+  table.cmp tbody th{
+    color:var(--gold-soft); font-weight:500; width:280px;
+    font-family:var(--font-sans);
+  }
+  table.cmp td{ color:var(--dim-dark-2); }
+
+  /* Big number */
+  .stat-num{
+    font-family:var(--font-serif); font-weight:900;
+    font-size:300px; line-height:.9; color:var(--gold);
+    letter-spacing:-.02em;
+  }
+
+  /* Light slide variant */
+  .light{ background:var(--paper-2); color:var(--ink); }
+  .light .title{ color:var(--ink); }
+  .light .body, .light .body.dim{ color:var(--dim-light); }
+  .light .small{ color:var(--dim-light-3); }
+  .light .eyebrow{ color:var(--ink-2); }
+  .light .eyebrow .bar{ background:var(--ink-2); }
+  .light ul.clean li::before{ background:var(--ink); }
+  .light ol.clean li::before{ color:var(--ink-2); }
+  .light .footer{ color:rgba(var(--ink-rgb),.4); }
+  .light .footer .dot{ background:var(--ink); }
+  .light pre.code{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .light .card{ background:rgba(var(--ink-rgb),.05); border-color:rgba(var(--ink-rgb),.12); }
+  .light .card .h{ color:var(--ink); }
+  .light .card .p{ color:var(--dim-light-2); }
+  .light .card .kicker{ color:var(--ink-2); }
+  .light blockquote.callout{ color:var(--ink-2); border-color:var(--ink); }
+  .light .pullquote{ color:var(--ink); border-color:var(--ink-2); }
+  .light .pullquote .gold{ color:var(--ink-2); font-style:italic; }
+  .light table.cmp{ color:var(--ink); }
+  .light table.cmp thead th{ color:var(--ink-2); border-color:var(--ink-2); }
+  .light table.cmp tbody th{ color:var(--ink); }
+  .light table.cmp td{ color:var(--dim-light); }
+  .light table.cmp th, .light table.cmp td{ border-bottom-color:rgba(var(--ink-rgb),.15); }
+
+  /* Section-opener footer when on gold */
+  .section-opener .footer{ color:rgba(var(--ink-rgb),.55); font-family:var(--font-mono); font-size:24px; }
+
+  /* QA slide */
+  .qa-mark{
+    font-family:var(--font-serif); font-weight:900;
+    font-size:560px; line-height:.85; color:var(--gold);
+    letter-spacing:-.04em;
+  }
+
+  /* Thanks slide */
+  .thanks h1{
+    font-family:var(--font-serif); font-weight:900;
+    font-size:200px; line-height:.95; color:var(--paper);
+    margin:0; letter-spacing:-.02em;
+  }
+  .thanks h1 .accent{ color:var(--gold); }
+
+  /* Step block */
+  .step-block{ display:flex; flex-direction:column; gap:24px; }
+  .step-block .stepnum{
+    font-family:var(--font-mono); font-size:22px; letter-spacing:.22em;
+    color:var(--gold); text-transform:uppercase;
+  }
+
+  /* Cover decorative SVG bars */
+  .cover .barpattern{
+    position:absolute; right:80px; top:90px; bottom:90px;
+    width:380px; display:flex; flex-direction:column; justify-content:space-between;
+    pointer-events:none;
+  }
+  .cover .barpattern .row{
+    display:flex; gap:6px; height:4px; align-items:center;
+  }
+  .cover .barpattern .row span{ display:block; height:4px; background:var(--gold); opacity:.18; }
+
+  /* Helpers */
+  .stack{ display:flex; flex-direction:column; }
+  .gap-sm{ gap:18px; } .gap-md{ gap:28px; } .gap-lg{ gap:48px; } .gap-xl{ gap:72px; }
+  .flex-1{ flex:1; }
+  .center-v{ display:flex; flex-direction:column; justify-content:center; }
+  .right{ text-align:right; }
+  .gold{ color:var(--gold); }
+  .softgold{ color:var(--gold-soft); }
+  .ink{ color:var(--ink); }
+  .max-12{ max-width:1200px; } .max-14{ max-width:1400px; } .max-16{ max-width:1600px; }
+
+  /* Inline kbd-ish chip */
+  kbd, .chip{
+    font-family:var(--font-mono); font-size:.85em;
+    background:rgba(var(--gold-rgb),.14); color:var(--gold);
+    padding:2px 12px; border-radius:4px;
+    border:1px solid var(--rule);
+  }
+  .light kbd, .light .chip{
+    background:rgba(var(--ink-rgb),.08); color:var(--ink-2);
+    border-color:rgba(var(--ink-rgb),.2);
+  }
+
+  /* Number tile */
+  .numtile{
+    display:flex; flex-direction:column; gap:12px;
+    padding:24px 0; border-top:1px solid var(--rule);
+  }
+  .numtile .n{ font-family:var(--font-serif); font-weight:900; font-size:88px; color:var(--gold); line-height:1; }
+  .numtile .lab{ font-size:26px; color:var(--dim-dark); line-height:1.4; }
+  .light .numtile{ border-color:rgba(var(--ink-rgb),.18); }
+  .light .numtile .n{ color:var(--ink); }
+  .light .numtile .lab{ color:var(--dim-light-2); }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ─── SLIDE 01 · Cover ─────────────────────────────────── -->
+<section data-label="01 封面" class="cover">
+  <div class="barpattern">
+    <div class="row"><span style="width:60%"></span></div>
+    <div class="row"><span style="width:90%"></span></div>
+    <div class="row"><span style="width:30%"></span></div>
+    <div class="row"><span style="width:75%"></span></div>
+    <div class="row"><span style="width:45%"></span></div>
+    <div class="row"><span style="width:85%"></span></div>
+    <div class="row"><span style="width:55%"></span></div>
+    <div class="row"><span style="width:95%"></span></div>
+    <div class="row"><span style="width:40%"></span></div>
+    <div class="row"><span style="width:70%"></span></div>
+  </div>
+  <div class="frame">
+    <div class="eyebrow"><span class="bar"></span>台灣醫學大數據研究學會 · 2026.05.14</div>
+    <div style="margin-top:auto;">
+      <h1>AI<br/><span class="lit">不下班</span>。</h1>
+      <p class="lede">遠端自動化與創作流程<br/>給臨床醫師的七堂實戰課</p>
+    </div>
+    <div class="credits">
+      <div class="col">
+        <span class="label">Speaker</span>
+        詹嘉隆
+      </div>
+      <div class="col" style="text-align:center;">
+        <span class="label">Session</span>
+        Workshop · 90 min
+      </div>
+      <div class="col" style="text-align:right;">
+        <span class="label">Date</span>
+        2026 · 05 · 14
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SLIDE 02 · Section opener · Ch.1 ─────────────────── -->
+<section data-label="02 Ch.1 開場" class="section-opener">
+  <div class="bigmark">01</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 01 ／ 07</div>
+    <h2>用 Claude Design<br/>製作投影片</h2>
+    <p class="goal">從零開始，用 AI 生成一份可以直接上台的簡報。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.1 · Claude Design<span class="dot"></span>02 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 03 · 什麼是 Claude Design ───────────────────── -->
+<section data-label="03 什麼是 Claude Design">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.1 · 認識工具</div>
+      <h2 class="title">什麼是 <span class="accent" style="color:var(--paper);">Claude Design</span>？</h2>
+    </div>
+    <div class="two-col center" style="flex:1;">
+      <div class="stack gap-md">
+        <p class="body">Claude 的<span class="gold">視覺創作模式</span>。</p>
+        <p class="body dim">不是改文字、不是套模板——</p>
+        <blockquote class="callout">描述你要的內容，<br/>它幫你設計整份簡報。</blockquote>
+      </div>
+      <div class="stack gap-md">
+        <div class="numtile">
+          <div class="n">01</div>
+          <div class="lab">用自然語言下達需求</div>
+        </div>
+        <div class="numtile">
+          <div class="n">02</div>
+          <div class="lab">輸出完整可上線的 HTML 投影片</div>
+        </div>
+        <div class="numtile">
+          <div class="n">03</div>
+          <div class="lab">可任意調整版面、配色、文字</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.1<span class="dot"></span>03 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 04 · Step 1 ────────────────────────────────── -->
+<section data-label="04 Step 1 描述">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.1 · 示範　Step 1</div>
+      <h2 class="title">這份投影片<br/>是怎麼做出來的？</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px;">
+      <div class="stack gap-md center-v" style="position:relative;">
+        <div class="step-block">
+          <div class="stepnum">Step 01 · 描述課程內容</div>
+          <p class="body dim">把主題、對象、章節，<br/>用一段話講清楚。</p>
+        </div>
+        <div aria-hidden="true" style="position:absolute; right:40px; bottom:-40px; font-family:var(--font-serif); font-weight:900; font-size:360px; line-height:.8; color:rgba(var(--gold-rgb),.12); pointer-events:none; user-select:none;">?</div>
+      </div>
+      <div class="center-v">
+<pre class="code"><span class="c-cm"># Prompt</span>
+幫我製作一份投影片，
+主題是「<span class="c-str">AI 不下班：遠端自動化與創作流程</span>」，
+對象是<span class="c-kw">醫師</span>，
+包含 QR Code 遠端操控、Telegram 遠端操控、
+投影片製作、Netlify 部署、瀏覽器操作
+等 <span class="c-kw">7 個章節</span>。</pre>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.1<span class="dot"></span>04 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 05 · Step 2 + 3 ────────────────────────────── -->
+<section data-label="05 Step 2-3 調整輸出">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.1 · 示範　Step 2 + 3</div>
+      <h2 class="title">調整細節，然後輸出。</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px;">
+      <div class="step-block">
+        <div class="stepnum">Step 02 · 調整細節</div>
+        <ul class="clean">
+          <li>修改標題、調整文字</li>
+          <li>換配色、改版型</li>
+          <li>刪掉不需要的頁面</li>
+        </ul>
+      </div>
+      <div class="step-block">
+        <div class="stepnum">Step 03 · 輸出</div>
+        <ul class="clean">
+          <li>直接下載 HTML</li>
+          <li>有其他附檔請務必<span class="gold">一起下載、放在同一資料夾</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.1<span class="dot"></span>05 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 06 · 為什麼適合用 AI 做投影片 ───────────────── -->
+<section data-label="06 為什麼適合 AI" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.1 · 為什麼</div>
+      <h2 class="title">投影片<br/>剛好適合 AI。</h2>
+    </div>
+    <div class="two-col center" style="flex:1; gap:80px;">
+      <ul class="clean">
+        <li>結構是固定的：標題、內文、圖表</li>
+        <li>不需要像論文一樣字字斟酌</li>
+        <li>改稿成本低，試了不滿意就重來</li>
+      </ul>
+      <div>
+        <p class="pullquote">最適合讓 AI 出<span class="gold">第一稿</span>，<br/>你再調整方向。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.1<span class="dot"></span>06 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 07 · Section opener · Ch.2 ─────────────────── -->
+<section data-label="07 Ch.2 開場" class="section-opener">
+  <div class="bigmark">02</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 02 ／ 07</div>
+    <h2>投影片<br/>部署到 Netlify</h2>
+    <p class="goal">讓投影片有一個公開網址，可以分享、可以在任何裝置看。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.2 · Netlify<span class="dot"></span>07 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 08 · 為什麼要部署 ──────────────────────────── -->
+<section data-label="08 為什麼要部署">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.2 · 動機</div>
+      <h2 class="title">為什麼要部署？</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:80px; align-items:stretch;">
+      <div class="card">
+        <div class="kicker">Before · 在自己電腦裡</div>
+        <div class="h">受限於裝置</div>
+        <ul class="clean" style="margin-top:6px;">
+          <li>要帶電腦才能播</li>
+          <li>沒辦法直接傳連結給別人</li>
+        </ul>
+      </div>
+      <div class="card" style="background:rgba(var(--gold-rgb),.10); border-color:rgba(var(--gold-rgb),.5);">
+        <div class="kicker">After · 部署到 Netlify</div>
+        <div class="h" style="color:var(--gold);">一個網址，到處看</div>
+        <ul class="clean" style="margin-top:6px;">
+          <li>有固定網址，手機也能開</li>
+          <li>上課直接用網頁簡報，不必準備裝置</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.2<span class="dot"></span>08 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 09 · Netlify 是什麼 ────────────────────────── -->
+<section data-label="09 Netlify 是什麼" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.2 · 認識服務</div>
+      <h2 class="title">Netlify 是什麼？</h2>
+      <p class="subtitle" style="color:#3A4866; margin-top:8px;">靜態網站託管服務。</p>
+    </div>
+    <div class="grid-3" style="flex:1; align-content:center;">
+      <div class="card">
+        <div class="kicker">免費</div>
+        <div class="h">個人使用<br/>已經夠用</div>
+        <div class="p">不需要付費方案就能上線一份完整投影片。</div>
+      </div>
+      <div class="card">
+        <div class="kicker">拖曳</div>
+        <div class="h">幾秒鐘<br/>完成部署</div>
+        <div class="p">把整個資料夾拖進網頁，剩下交給它。</div>
+      </div>
+      <div class="card">
+        <div class="kicker">網址</div>
+        <div class="h">自動產生<br/>專屬網址</div>
+        <div class="p"><span class="mono" style="font-size:22px;">xxxxx.netlify.app</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.2<span class="dot"></span>09 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 10 · 部署方式 ──────────────────────────────── -->
+<section data-label="10 部署方式">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.2 · 兩種做法</div>
+      <h2 class="title">部署方式。</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px;">
+      <div class="stack gap-md center-v">
+        <div class="stepnum" style="font-family:var(--font-mono); font-size:22px; letter-spacing:.22em; color:var(--gold); text-transform:uppercase;">Option A · 拖曳上傳</div>
+        <p class="body">最簡單。<br/>把資料夾直接拖進 Netlify 網頁，<span class="gold">完成。</span></p>
+      </div>
+      <div class="stack gap-md center-v">
+        <div class="stepnum" style="font-family:var(--font-mono); font-size:22px; letter-spacing:.22em; color:var(--gold); text-transform:uppercase;">Option B · 讓 Claude Code 幫你</div>
+<pre class="code"><span class="c-cm"># Prompt</span>
+使用 <span class="c-kw">netlify cli</span> 幫我把這個資料夾
+部署到 Netlify，並把網址告訴我。</pre>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.2<span class="dot"></span>10 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 11 · 示範 ──────────────────────────────────── -->
+<section data-label="11 示範" class="section-opener" style="background:var(--ink); color:var(--paper);">
+  <div class="frame" style="justify-content:center; align-items:flex-start;">
+    <div class="chnum" style="color:var(--gold);"><span class="bar" style="background:var(--gold);"></span>Live Demo</div>
+    <h2 style="color:var(--paper); font-size:120px;">現在看到的這份投影片，<br/>就是部署在 <span style="color:var(--gold);">Netlify</span> 上。</h2>
+  </div>
+  <div class="footer" style="color:rgba(var(--paper-rgb,245,239,224),.45);"><span>AI 不下班</span><span>Ch.2<span class="dot"></span>11 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 12 · Section opener · Ch.3 ─────────────────── -->
+<section data-label="12 Ch.3 開場" class="section-opener">
+  <div class="bigmark">03</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 03 ／ 07</div>
+    <h2>遠端操控<br/>—— QR Code</h2>
+    <p class="goal">讓你用手機，直接接管電腦上的 Claude Code。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.3 · QR Code<span class="dot"></span>12 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 13 · 手機控制電腦 ──────────────────────────── -->
+<section data-label="13 手機控制電腦">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.3 · 核心觀念</div>
+      <h2 class="title">你的電腦，<br/>可以被你的<span class="accent">手機</span>控制。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <ol class="clean" style="font-size:38px;">
+        <li>在電腦上啟動 Claude Code</li>
+        <li>用手機掃描 QR Code</li>
+        <li>從此，手機就是你電腦的<span class="gold">遠端遙控器</span></li>
+      </ol>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.3<span class="dot"></span>13 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 14 · 怎麼啟動 ──────────────────────────────── -->
+<section data-label="14 怎麼啟動">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.3 · 怎麼啟動</div>
+      <h2 class="title">三步驟，連線。</h2>
+    </div>
+    <div class="grid-3" style="flex:1; align-content:center;">
+      <div class="step-block">
+        <div class="stepnum">Step 01</div>
+        <p class="body" style="font-size:30px;">在 Claude Code 輸入：</p>
+<pre class="code" style="padding:24px;"><span class="c-kw">/remote-control</span></pre>
+      </div>
+      <div class="step-block">
+        <div class="stepnum">Step 02</div>
+        <p class="body" style="font-size:30px;">畫面會出現 <span class="gold">QR Code</span>。</p>
+        <p class="small">用 Claude 官方手機 App 掃描。<br/>沒有出現就直接叫它顯示。</p>
+      </div>
+      <div class="step-block">
+        <div class="stepnum">Step 03</div>
+        <p class="body" style="font-size:30px;">掃描後即連線。</p>
+        <p class="small">手機畫面直接顯示你電腦上的 Claude Code 對話。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.3<span class="dot"></span>14 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 15 · 可以做什麼 ────────────────────────────── -->
+<section data-label="15 可以做什麼" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.3 · 用途</div>
+      <h2 class="title">那我可以做什麼？</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <ul class="clean" style="font-size:40px; gap:36px;">
+        <li>離開電腦後，繼續下指令讓 Claude Code 工作</li>
+        <li>查看長時間任務的執行進度</li>
+        <li>臨時想到什麼，馬上叫它處理</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.3<span class="dot"></span>15 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 16 · QR 限制 ───────────────────────────────── -->
+<section data-label="16 QR Code 限制">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.3 · 邊界</div>
+      <h2 class="title">QR Code 模式<br/>有什麼限制？</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <table class="cmp">
+        <thead>
+          <tr><th style="width:280px;">項目</th><th>說明</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>模型</th><td>只能用 <span class="gold">Anthropic 官方模型</span>（Claude）</td></tr>
+          <tr><th>操作感</th><td>像遙控器，接管現有 session</td></tr>
+          <tr><th>上手難度</th><td>最簡單，<span class="gold">掃碼即用</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.3<span class="dot"></span>16 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 17 · Section opener · Ch.4 ─────────────────── -->
+<section data-label="17 Ch.4 開場" class="section-opener">
+  <div class="bigmark">04</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 04 ／ 07</div>
+    <h2>遠端操控<br/>—— Telegram</h2>
+    <p class="goal">用自己的 Telegram Bot，把指令送進 Claude Code。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4 · Telegram<span class="dot"></span>17 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 18 · 為什麼還要 Telegram ───────────────────── -->
+<section data-label="18 為什麼 Telegram">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 動機</div>
+      <h2 class="title">為什麼要多學一個<br/><span class="accent">Telegram</span> 模式？</h2>
+    </div>
+    <div class="two-col center" style="flex:1; gap:80px;">
+      <p class="body" style="font-size:38px; line-height:1.45;">
+        QR Code 好用，<br/>但有一個根本限制——<br/><br/>
+        <span class="gold" style="font-size:48px; font-family:var(--font-serif);">只能用 Claude 官方模型。</span>
+      </p>
+      <blockquote class="callout" style="font-size:36px;">
+        Telegram Channel 模式打破了這個限制——<br/>
+        你可以把底層模型換成<span class="gold">任何相容的服務</span>。
+      </blockquote>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>18 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 19 · 兩種模式比較 ──────────────────────────── -->
+<section data-label="19 兩種模式比較" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 對照</div>
+      <h2 class="title">兩種模式比較。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <table class="cmp">
+        <thead>
+          <tr><th style="width:280px;"></th><th>QR Code</th><th>Telegram Channel</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>連線方式</th><td>掃碼，用官方 App</td><td>自建 Telegram Bot</td></tr>
+          <tr><th>可用模型</th><td>僅限 Claude</td><td>可替換任意相容模型</td></tr>
+          <tr><th>上手難度</th><td>極簡</td><td>約 10 分鐘設定</td></tr>
+          <tr><th>彈性</th><td>低</td><td>高</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>19 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 20 · 設定流程概覽 ──────────────────────────── -->
+<section data-label="20 設定流程概覽">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 流程概覽</div>
+      <h2 class="title">五個步驟，<br/>建立你自己的 Bot。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <ol class="clean" style="font-size:32px;">
+        <li>在 Telegram 向 <span class="chip">@BotFather</span> 建立 Bot，取得 Token</li>
+        <li>在 Claude Code 安裝 Telegram 插件</li>
+        <li>設定 Token</li>
+        <li>用 <span class="chip">--channels</span> 模式重新啟動</li>
+        <li>配對你的 Telegram 帳號</li>
+      </ol>
+    </div>
+    <p class="small right">詳細步驟請參見講義。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>20 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 21 · 安裝並配對 ────────────────────────────── -->
+<section data-label="21 安裝插件">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 安裝</div>
+      <h2 class="title">安裝並配對<br/>Telegram 插件。</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px; align-items:center;">
+      <div class="stack gap-md">
+        <div class="stepnum" style="font-family:var(--font-mono); font-size:22px; letter-spacing:.22em; color:var(--gold); text-transform:uppercase;">在 Claude Code 內輸入</div>
+<pre class="code">/plugin install telegram@claude-plugins-official</pre>
+      </div>
+      <div class="stack gap-md">
+        <div class="stepnum" style="font-family:var(--font-mono); font-size:22px; letter-spacing:.22em; color:var(--gold); text-transform:uppercase;">接著設定 Bot Token</div>
+<pre class="code">/telegram:configure &lt;token&gt;</pre>
+        <p class="small">完成後，再用 Telegram Channel 模式<br/>重新啟動 Claude Code。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>21 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 22 · 啟動指令 ──────────────────────────────── -->
+<section data-label="22 啟動指令">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 啟動</div>
+      <h2 class="title">啟動指令。</h2>
+    </div>
+    <div class="stack gap-lg" style="flex:1; justify-content:center;">
+<pre class="code" style="font-size:28px;">claude --channels plugin:telegram@claude-plugins-official \
+       <span class="c-kw">--permission-mode bypassPermissions</span></pre>
+      <div class="two-col" style="gap:60px; align-items:flex-start;">
+        <p class="body" style="font-size:30px;">
+          <span class="gold">--permission-mode bypassPermissions</span><br/>是必要的。
+        </p>
+        <p class="small">省略的話，Claude Code 每次操作都會停下來等你確認，<br/>但你在手機上無法回應——對話就<span class="gold">卡住了</span>。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>22 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 23 · 替換成其他模型 ────────────────────────── -->
+<section data-label="23 替換模型">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 換模型</div>
+      <h2 class="title">替換成其他模型。</h2>
+      <p class="small" style="margin-top:6px;">用環境變數覆蓋 API 端點與金鑰。</p>
+    </div>
+    <div class="stack gap-md" style="flex:1; justify-content:center;">
+<pre class="code" style="font-size:24px; line-height:1.55;">export <span class="c-kw">ANTHROPIC_AUTH_TOKEN</span>=<span class="c-str">"你的API金鑰"</span> &amp;&amp; \
+export <span class="c-kw">ANTHROPIC_BASE_URL</span>=<span class="c-str">"https://該服務的API網址"</span> &amp;&amp; \
+CLAUDE_CODE_NO_FLICKER=1 claude \
+  --channels plugin:telegram@claude-plugins-official \
+  --permission-mode bypassPermissions</pre>
+      <div class="two-col" style="gap:60px; margin-top:8px;">
+        <p class="body" style="font-size:26px;">
+          <span class="gold">可替換的模型：</span>Kimi、DeepSeek、GLM、MiniMax……
+        </p>
+        <p class="small">前提是該服務提供與 Anthropic API 相容的介面。</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>23 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 24 · 注意事項 ──────────────────────────────── -->
+<section data-label="24 Telegram 注意事項" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.4 · 注意事項</div>
+      <h2 class="title">三個容易踩到的坑。</h2>
+    </div>
+    <div class="grid-3" style="flex:1; align-content:center;">
+      <div class="card">
+        <div class="kicker">01 · 離線</div>
+        <div class="h">訊息會<br/>直接消失</div>
+        <div class="p">離線時送出的訊息<span style="color:var(--ink); font-weight:700;">不會排隊</span>，會直接遺失。</div>
+      </div>
+      <div class="card">
+        <div class="kicker">02 · 記憶</div>
+        <div class="h">重啟即<br/>清空對話</div>
+        <div class="p">每次重新啟動，它<span style="color:var(--ink); font-weight:700;">不記得</span>上次說了什麼。</div>
+      </div>
+      <div class="card">
+        <div class="kicker">03 · 圖片</div>
+        <div class="h">建議用「以<br/>檔案傳送」</div>
+        <div class="p">避免 Telegram 預設的<span style="color:var(--ink); font-weight:700;">壓縮失真</span>。</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.4<span class="dot"></span>24 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 25 · Section opener · Ch.5 ─────────────────── -->
+<section data-label="25 Ch.5 開場" class="section-opener">
+  <div class="bigmark">05</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 05 ／ 07</div>
+    <h2>Skills<br/>把工具磨成工作流</h2>
+    <p class="goal">來源：高見龍（一位台灣軟體工程師）的臉書留言。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.5 · Skills<span class="dot"></span>25 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 26 · Skills 流程 ───────────────────────────── -->
+<section data-label="26 Skills 使用流程">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.5 · 起手式</div>
+      <h2 class="title">大部分人是這樣<br/>用 <span class="accent">Skills</span> 的。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <ol class="clean" style="font-size:32px;">
+        <li>聽說某個大神的 Skills 很猛</li>
+        <li>下載下來，先丟給 AI 解說內容</li>
+        <li>順便請 AI 掃一下有沒有藏奇怪的東西</li>
+        <li>安裝起來試用看看</li>
+        <li>不好用就移掉，好用就留下來</li>
+      </ol>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.5<span class="dot"></span>26 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 27 · 真正的重點在後面 ──────────────────────── -->
+<section data-label="27 真正的重點">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.5 · 轉折</div>
+      <h2 class="title">真正的重點，<br/><span class="accent">在後面。</span></h2>
+    </div>
+    <div class="two-col center" style="flex:1; gap:80px;">
+      <p class="body" style="font-size:34px;">用久了一定會開始感覺<br/>哪裡不太順——</p>
+      <ul class="clean" style="font-size:30px;">
+        <li>這個流程不對</li>
+        <li>這段提示詞太囉嗦</li>
+        <li>這個步驟其實可以省略</li>
+        <li>這個輸出格式不符合我的工作方式</li>
+      </ul>
+    </div>
+    <p class="body softgold" style="margin-top:36px; font-size:34px;">這時候，<span class="gold">不是換下一個 Skills。</span></p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.5<span class="dot"></span>27 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 28 · 請 AI 幫你改 ──────────────────────────── -->
+<section data-label="28 請 AI 幫你改">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.5 · 做法</div>
+      <h2 class="title">請 AI 幫你<br/><span class="accent">改 Skills</span>。</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px; align-items:center;">
+      <p class="body" style="font-size:32px;">把你的不順手講出來——<br/><br/><span class="softgold">改著改著，<br/>Skills 就會變成你自己的形狀。</span></p>
+<pre class="code"><span class="c-cm"># Prompt</span>
+這個流程不對。
+這段提示詞太囉嗦。
+這個輸出不是我要的格式。
+請幫我<span class="c-kw">調整這個 Skill</span>。</pre>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.5<span class="dot"></span>28 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 29 · 不要只下載大神配置 ────────────────────── -->
+<section data-label="29 不要只下載大神" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.5 · 提醒</div>
+      <h2 class="title">下載大神的 Skills，<br/>不會變成大神。</h2>
+    </div>
+    <div class="two-col center" style="flex:1; gap:80px;">
+      <p class="body" style="font-size:32px;">如果從來沒有走過「使用、抱怨、修改」的流程，<br/>很容易變成——</p>
+      <ul class="clean" style="font-size:30px;">
+        <li>一直追新工具</li>
+        <li>一直換新 Skills</li>
+        <li>一直下載大神配置</li>
+        <li>什麼都沒有真正內化</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.5<span class="dot"></span>29 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 30 · Skills 是需要磨的 (pullquote) ─────────── -->
+<section data-label="30 Skills 是要磨的">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.5 · 結論</div>
+      <h2 class="title">每個人的情境都不同，<br/>所以 Skills 是要<span class="accent">磨</span>的。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <p class="pullquote" style="font-size:64px;">
+        工具不是拿來收藏的，<br/>是拿來被你<span class="gold">改到順手</span>的。
+      </p>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.5<span class="dot"></span>30 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 31 · Section opener · Ch.6 ─────────────────── -->
+<section data-label="31 Ch.6 開場" class="section-opener">
+  <div class="bigmark">06</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 06 ／ 07</div>
+    <h2>PDF 轉 Markdown<br/>不要硬交給 AI</h2>
+    <p class="goal">把 PDF 轉成可整理、可搜尋、可再加工的 Markdown。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.6 · PDF<span class="dot"></span>31 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 32 · 直接丟給 AI 的問題 ────────────────────── -->
+<section data-label="32 直接丟 AI 的問題">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.6 · 失敗案例</div>
+      <h2 class="title">把 PDF 直接丟給 Claude Code，<br/>會發生什麼？</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px; align-items:stretch;">
+      <ul class="clean" style="font-size:30px; align-self:center;">
+        <li>極高機率出現亂碼</li>
+        <li>圖片資訊容易消失</li>
+        <li>表格結構容易散掉</li>
+        <li>版面順序可能被誤判</li>
+      </ul>
+      <div class="card" style="justify-content:center;">
+        <div class="kicker">根本原因</div>
+        <div class="h" style="font-size:42px;">PDF 不是純文字檔。</div>
+        <div class="p" style="font-size:28px;">不能期待模型直接「讀懂格式」。</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.6<span class="dot"></span>32 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 33 · 我的實作 ──────────────────────────────── -->
+<section data-label="33 marker-pdf">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.6 · 我的做法</div>
+      <h2 class="title">改用<span class="accent">專門工具</span>。</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px; align-items:center;">
+      <div class="stack gap-md">
+        <p class="body" style="font-size:32px;">先用 <span class="gold mono" style="font-size:30px;">marker-pdf</span><br/>做 PDF 解析與轉換。</p>
+<pre class="code">pip install <span class="c-kw">marker-pdf</span></pre>
+      </div>
+      <div class="stack gap-md">
+        <p class="body" style="font-size:30px;">再把轉出來的 Markdown<br/>交給 Claude Code 處理。</p>
+        <blockquote class="callout" style="font-size:30px;">
+          先讓工具把資料救出來，<br/>再讓 AI 把內容整理好。
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.6<span class="dot"></span>33 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 34 · 轉完後請 AI 檢查 ──────────────────────── -->
+<section data-label="34 AI 檢查">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.6 · 二次檢查</div>
+      <h2 class="title">轉檔只是第一步，<br/>接著請 AI 檢查。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <ul class="clean" style="font-size:34px; gap:30px;">
+        <li>有沒有亂碼</li>
+        <li>標題層級是否正確</li>
+        <li>表格是否需要重建</li>
+        <li>圖片說明是否需要補上</li>
+        <li>段落順序是否合理</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.6<span class="dot"></span>34 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 35 · 分工 ──────────────────────────────────── -->
+<section data-label="35 分工" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.6 · 分工原則</div>
+      <h2 class="title">這樣分工，<br/>比較穩。</h2>
+    </div>
+    <div class="two-col" style="flex:1; gap:60px; align-items:stretch;">
+      <div class="card" style="justify-content:center;">
+        <div class="kicker">專門工具</div>
+        <div class="h">負責<br/>解析 PDF</div>
+      </div>
+      <div class="card" style="justify-content:center; background:rgba(var(--ink-rgb),.08);">
+        <div class="kicker">AI</div>
+        <div class="h">負責內容整理</div>
+        <ul class="clean" style="font-size:24px; gap:10px;">
+          <li>修復亂碼</li>
+          <li>重整段落</li>
+          <li>補齊說明</li>
+          <li>改成適合閱讀與再利用的 Markdown</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.6<span class="dot"></span>35 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 36 · Section opener · Ch.7 ─────────────────── -->
+<section data-label="36 Ch.7 開場" class="section-opener">
+  <div class="bigmark">07</div>
+  <div class="frame" style="position:relative; z-index:1;">
+    <div class="chnum"><span class="bar"></span>Chapter 07 ／ 07</div>
+    <h2>瀏覽器操作<br/>與注意事項</h2>
+    <p class="goal">Claude Code 能控制瀏覽器，安全邊界要先看清楚。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.7 · Browser<span class="dot"></span>36 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 37 · 控制你的瀏覽器 ────────────────────────── -->
+<section data-label="37 控制瀏覽器">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.7 · 能做什麼</div>
+      <h2 class="title">Claude Code 能控制<br/>你的<span class="accent">瀏覽器</span>。</h2>
+      <p class="small">透過 Playwright 或瀏覽器 MCP。</p>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <ul class="clean" style="font-size:34px; gap:28px;">
+        <li>自動開啟網頁</li>
+        <li>點按鈕、填表單</li>
+        <li>截圖、擷取資料</li>
+        <li>模擬完整的人類操作流程</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.7<span class="dot"></span>37 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 38 · 醫師可以用在哪 ────────────────────────── -->
+<section data-label="38 醫師應用" class="light">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.7 · 臨床情境</div>
+      <h2 class="title">醫師可以<br/>用在哪？</h2>
+    </div>
+    <div class="grid-3" style="flex:1; align-content:center;">
+      <div class="card">
+        <div class="kicker">01</div>
+        <div class="h">自動登入網站<br/>擷取報表</div>
+      </div>
+      <div class="card">
+        <div class="kicker">02</div>
+        <div class="h">定時抓取<br/>網頁更新內容</div>
+      </div>
+      <div class="card">
+        <div class="kicker">03</div>
+        <div class="h">填寫<br/>重複性表單</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.7<span class="dot"></span>38 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 39 · 重要注意事項 ──────────────────────────── -->
+<section data-label="39 重要注意事項">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.7 · 三個提醒</div>
+      <h2 class="title">重要注意事項。</h2>
+    </div>
+    <div class="grid-3" style="flex:1; align-content:center;">
+      <div class="card">
+        <div class="kicker">速度</div>
+        <div class="h">比文字處理<br/>慢很多</div>
+        <div class="p">複雜任務可能需要<span class="gold">幾分鐘</span>。</div>
+      </div>
+      <div class="card">
+        <div class="kicker">穩定性</div>
+        <div class="h">中途<br/>可能失敗</div>
+        <div class="p">網頁改版、登入驗證碼、動態載入，<br/>都會造成中斷。</div>
+      </div>
+      <div class="card" style="background:rgba(var(--gold-rgb),.10); border-color:rgba(var(--gold-rgb),.5);">
+        <div class="kicker" style="color:var(--gold);">倫理與合規</div>
+        <div class="h" style="color:var(--gold);">不要繞過<br/>存取控制</div>
+        <div class="p">自動化操作是否符合使用條款，<span class="gold">需自行確認</span>。</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.7<span class="dot"></span>39 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 40 · 一個原則 ──────────────────────────────── -->
+<section data-label="40 一個原則">
+  <div class="frame">
+    <div class="head">
+      <div class="eyebrow"><span class="bar"></span>Ch.7 · 一句話</div>
+      <h2 class="title">一個原則。</h2>
+    </div>
+    <div style="flex:1; display:flex; align-items:center;">
+      <p class="pullquote" style="font-size:60px;">
+        能<span class="gold">手動做一次</span>、<br/>
+        說清楚步驟的事，<br/>
+        才適合讓 AI 自動化。
+      </p>
+    </div>
+    <p class="small" style="margin-top:20px;">如果你自己都不確定怎麼操作，AI 也很難做對。</p>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Ch.7<span class="dot"></span>40 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 41 · Q & A ─────────────────────────────────── -->
+<section data-label="41 Q&amp;A" class="section-opener">
+  <div class="frame" style="justify-content:center;">
+    <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:80px; align-items:center;">
+      <div>
+        <div class="chnum"><span class="bar"></span>Q &amp; A</div>
+        <h2 style="font-size:80px; line-height:1.15;">你最想<br/>遠端控制 Claude Code<br/>做哪件事？</h2>
+      </div>
+      <div class="qa-mark" style="text-align:right; color:var(--ink); opacity:.92;">?</div>
+    </div>
+  </div>
+  <div class="footer"><span>AI 不下班</span><span>Q&amp;A<span class="dot"></span>41 / 42</span></div>
+</section>
+
+<!-- ─── SLIDE 42 · Thanks ────────────────────────────────── -->
+<section data-label="42 謝謝大家" class="thanks">
+  <div class="frame" style="justify-content:space-between;">
+    <div class="eyebrow"><span class="bar"></span>END · Thank you</div>
+    <div style="margin-top:auto;">
+      <h1>謝謝<br/><span class="accent">大家</span>。</h1>
+    </div>
+    <div class="credits" style="display:flex; justify-content:space-between; align-items:flex-end; gap:48px; border-top:1px solid var(--rule); padding-top:32px;">
+      <div style="font-family:var(--font-mono); font-size:28px; letter-spacing:.06em;">
+        <span style="color:var(--gold); text-transform:uppercase; font-size:24px; letter-spacing:.22em; margin-bottom:14px; display:block;">Speaker</span>
+        詹嘉隆
+      </div>
+      <div style="font-family:var(--font-mono); font-size:28px; letter-spacing:.06em; text-align:right;">
+        <span style="color:var(--gold); text-transform:uppercase; font-size:24px; letter-spacing:.22em; margin-bottom:14px; display:block;">Role</span>
+        AI 工具導入與培訓顧問
+      </div>
+    </div>
+  </div>
+</section>
+
+</deck-stage>
+
+<div id="tweaks-root"></div>
+<script type="text/babel" data-presets="react">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": "navy",
+  "titleFont": "serif",
+  "showFooter": true
+}/*EDITMODE-END*/;
+
+function applyPalette(p){
+  if (p === 'red') document.documentElement.dataset.palette = 'red';
+  else delete document.documentElement.dataset.palette;
+}
+function applyTitleFont(f){
+  // swap --font-serif so .title / cover h1 / section-opener h2 switch
+  if (f === 'sans') {
+    document.documentElement.style.setProperty('--font-serif', '"Noto Sans TC", "Helvetica Neue", Helvetica, Arial, sans-serif');
+  } else {
+    document.documentElement.style.removeProperty('--font-serif');
+  }
+}
+function applyFooter(v){
+  document.documentElement.style.setProperty('--footer-display', v ? 'flex' : 'none');
+}
+// inject footer-display rule once
+(function(){
+  const s = document.createElement('style');
+  s.textContent = '.footer{ display:var(--footer-display, flex) !important; }';
+  document.head.appendChild(s);
+})();
+
+// Apply initial defaults before mount so the first paint already shows them
+applyPalette(TWEAK_DEFAULTS.palette);
+applyTitleFont(TWEAK_DEFAULTS.titleFont);
+applyFooter(TWEAK_DEFAULTS.showFooter);
+
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => { applyPalette(t.palette); }, [t.palette]);
+  React.useEffect(() => { applyTitleFont(t.titleFont); }, [t.titleFont]);
+  React.useEffect(() => { applyFooter(t.showFooter); }, [t.showFooter]);
+  return (
+    <TweaksPanel>
+      <TweakSection label="配色 Palette" />
+      <TweakRadio label="Palette"
+        value={t.palette}
+        options={[
+          {value:'red', label:'紅 / 白'},
+          {value:'navy', label:'藍 / 金'}
+        ]}
+        onChange={(v) => setTweak('palette', v)} />
+      <TweakSection label="字體 Typography" />
+      <TweakRadio label="Title font"
+        value={t.titleFont}
+        options={[
+          {value:'serif', label:'襯線'},
+          {value:'sans', label:'無襯線'}
+        ]}
+        onChange={(v) => setTweak('titleFont', v)} />
+      <TweakSection label="顯示 Display" />
+      <TweakToggle label="顯示頁碼" value={t.showFooter}
+        onChange={(v) => setTweak('showFooter', v)} />
+    </TweaksPanel>
+  );
+}
+
+// Wait until tweaks-panel.jsx finishes loading (it's babel-transpiled async).
+function mountWhenReady(){
+  if (typeof useTweaks === 'undefined' || typeof TweaksPanel === 'undefined') {
+    return setTimeout(mountWhenReady, 50);
+  }
+  ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
+}
+mountWhenReady();
+</script>
+
+</body>
+</html>
