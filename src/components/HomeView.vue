@@ -170,7 +170,7 @@ onUnmounted(() => observer?.disconnect())
 
         <!-- 讓 AI 成為你的數位特助 -->
         <a
-          href="https://taichis.github.io/ai-course/slides/2026-05-20-iceet-ai-assistant/index.html"
+          :href="`${slidesBase}2026-05-20-iceet-ai-assistant/index.html`"
           class="home-animate opacity-0 translate-y-4 transition-all duration-700 group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer block"
         >
           <div class="h-1.5 bg-gradient-to-r from-teal-400 to-sky-500"></div>
