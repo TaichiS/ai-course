@@ -154,12 +154,12 @@ else
     success "已新增 cc 快捷指令至 $SHELL_RC"
 fi
 
-# --- 可選安裝：VS Code 與 Obsidian ---
+# --- 可選安裝：VS Code、Obsidian、Codex CLI、OpenCode ---
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
-echo "║       ⏳ 可選安裝（安裝時間較長，可跳過）         ║"
-echo "║  VS Code 與 Obsidian 安裝時間較長。               ║"
-echo "║  課程核心功能不依賴這兩項，有空再安裝即可。        ║"
+echo "║            ⏳ 可選安裝（可直接跳過）              ║"
+echo "║  VS Code、Obsidian、Codex CLI、OpenCode           ║"
+echo "║  課程核心功能不依賴這些工具，有空再安裝即可。      ║"
 echo "╚══════════════════════════════════════════════════╝"
 echo ""
 
@@ -193,6 +193,30 @@ else
     fi
 fi
 
+# AI CLI 工具（Codex CLI / OpenCode，透過 npm 安裝）
+install_optional_npm_cli() {
+    local name="$1" cmd="$2" pkg="$3" url="$4"
+    if command -v "$cmd" &>/dev/null; then
+        success "$name 已安裝，跳過。"
+        return
+    fi
+    printf "${YELLOW}是否現在安裝 $name？[Y = 安裝 / 直接按 Enter 跳過]：${NC} "
+    read cli_choice </dev/tty
+    if [[ "$cli_choice" =~ ^[Yy]$ ]]; then
+        info "正在安裝 $name..."
+        if npm install -g "$pkg"; then
+            success "$name 安裝完成"
+        else
+            warn "$name 安裝失敗，請手動執行：npm install -g $pkg"
+        fi
+    else
+        info "已跳過 $name。日後可執行 'npm install -g $pkg' 安裝（$url）。"
+    fi
+}
+
+install_optional_npm_cli "Codex CLI" "codex" "@openai/codex" "https://github.com/openai/codex"
+install_optional_npm_cli "OpenCode" "opencode" "opencode-ai" "https://opencode.ai/"
+
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║            📦 已安裝軟體版本清單                  ║"
@@ -211,6 +235,8 @@ print_version "Python"      "$(python3 --version 2>/dev/null)"
 print_version "VS Code"     "$(code --version 2>/dev/null | head -1)"
 print_version "UV"          "$(uv --version 2>/dev/null)"
 print_version "Claude Code" "$(claude --version 2>/dev/null)"
+print_version "Codex CLI"   "$(codex --version 2>/dev/null)"
+print_version "OpenCode"    "$(opencode --version 2>/dev/null)"
 print_version "Obsidian"    "$(brew info --cask obsidian 2>/dev/null | grep -m1 'obsidian:' | awk '{print $2}' || echo '已安裝')"
 
 echo "╚══════════════════════════════════════════════════╝"

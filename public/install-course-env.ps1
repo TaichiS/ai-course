@@ -9,9 +9,11 @@
     4. UV (Python 工具管理器)
     5. Claude Code (含自動 PATH 修復)
     6. gsudo / CLAUDE.md / cc 快捷指令
-    ── 可選（安裝時間較長）──
+    ── 可選（可直接跳過）──
     7. VS Code
     8. Obsidian
+    9. Codex CLI
+    10. OpenCode
 .NOTES
     需搭配 install.ps1 一起使用
     Author: 詹嘉隆 / AI Agent 實作工作坊
@@ -413,12 +415,12 @@ if ($profileContent -and $profileContent -like "*CLAUDE_CODE_NO_FLICKER*") {
     Show-Info "下次開啟 PowerShell 後即可使用 'cc' 啟動 Claude Code。"
 }
 
-# --- 可選安裝：VS Code 與 Obsidian ---
+# --- 可選安裝：VS Code、Obsidian、Codex CLI、OpenCode ---
 Write-Host ""
 Write-Host "╔══════════════════════════════════════════════════╗" -ForegroundColor Yellow
-Write-Host "║       ⏳ 可選安裝（安裝時間較長，可跳過）         ║" -ForegroundColor Yellow
-Write-Host "║  VS Code 與 Obsidian 安裝時間較長。               ║" -ForegroundColor Yellow
-Write-Host "║  課程核心功能不依賴這兩項，有空再安裝即可。        ║" -ForegroundColor Yellow
+Write-Host "║            ⏳ 可選安裝（可直接跳過）              ║" -ForegroundColor Yellow
+Write-Host "║  VS Code、Obsidian、Codex CLI、OpenCode           ║" -ForegroundColor Yellow
+Write-Host "║  課程核心功能不依賴這些工具，有空再安裝即可。      ║" -ForegroundColor Yellow
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Yellow
 Write-Host ""
 
@@ -450,6 +452,34 @@ if ($obsidianAlready) {
         Show-Info "已跳過 Obsidian。日後可至 https://obsidian.md/ 下載安裝。"
     }
 }
+
+# AI CLI 工具（Codex CLI / OpenCode，透過 npm 安裝）
+function Install-OptionalNpmCli {
+    param([string]$Name, [string]$Command, [string]$Package, [string]$Url)
+    if (Get-Command $Command -ErrorAction SilentlyContinue) {
+        Show-Success "$Name 已安裝，跳過。"
+        return
+    }
+    $choice = Read-Host "是否現在安裝 $Name？[Y = 安裝 / 直接按 Enter 跳過]"
+    if ($choice -notmatch '^[Yy]') {
+        Show-Info "已跳過 $Name。日後可執行 'npm install -g $Package' 安裝（$Url）。"
+        return
+    }
+    if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+        Show-Warning "找不到 npm，無法安裝 $Name。請重新開啟 PowerShell 後執行：npm install -g $Package"
+        return
+    }
+    Show-Info "正在安裝 $Name..."
+    $null = npm install -g $Package 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Show-Success "$Name 安裝完成。"
+    } else {
+        Show-Warning "$Name 安裝失敗，請手動執行：npm install -g $Package"
+    }
+}
+
+Install-OptionalNpmCli -Name "Codex CLI" -Command "codex" -Package "@openai/codex" -Url "https://github.com/openai/codex"
+Install-OptionalNpmCli -Name "OpenCode" -Command "opencode" -Package "opencode-ai" -Url "https://opencode.ai/"
 
 # --- 已安裝軟體版本清單 ---
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
@@ -495,6 +525,14 @@ Write-VersionRow "UV" $uvVer
 # Claude Code
 $claudeVer = if (Test-ClaudeWorks) { try { & claude --version 2>&1 } catch { "已安裝（版本無法取得）" } } else { $null }
 Write-VersionRow "Claude Code" $claudeVer
+
+# Codex CLI
+$codexVer = if (Get-Command codex -ErrorAction SilentlyContinue) { codex --version 2>$null } else { $null }
+Write-VersionRow "Codex CLI" $codexVer
+
+# OpenCode
+$opencodeVer = if (Get-Command opencode -ErrorAction SilentlyContinue) { opencode --version 2>$null } else { $null }
+Write-VersionRow "OpenCode" $opencodeVer
 
 # Obsidian（透過登錄檔查詢，避免 winget list 卡住）
 $obsidianVer = $null
