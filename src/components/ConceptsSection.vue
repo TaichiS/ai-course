@@ -30,7 +30,7 @@ const isConceptExpanded = (id: string) => {
     <!-- 區塊標題 -->
     <div class="text-center py-6">
       <h2 class="text-3xl font-bold text-gray-900 mb-2">核心概念與進階功能</h2>
-      <p class="text-gray-600">了解 Claude Code / Gemini CLI 的擴展功能與術語</p>
+      <p class="text-gray-600">了解 Claude Code 的擴展功能與術語</p>
 
       <!-- 一鍵隱藏/顯示按鈕 -->
       <button
@@ -250,37 +250,6 @@ const isConceptExpanded = (id: string) => {
             </div>
           </div>
 
-          <!-- 檔案格式對比 -->
-          <div class="space-y-3">
-            <h4 class="font-semibold text-gray-900">檔案格式對比：</h4>
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead class="bg-gray-100">
-                  <tr>
-                    <th class="text-left p-3 font-semibold">CLI 工具</th>
-                    <th class="text-left p-3 font-semibold">檔案格式</th>
-                    <th class="text-left p-3 font-semibold">副檔名</th>
-                    <th class="text-left p-3 font-semibold">內容插入</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b">
-                    <td class="p-3 font-mono text-blue-600">Claude Code</td>
-                    <td class="p-3">Markdown + YAML</td>
-                    <td class="p-3 font-mono">.md</td>
-                    <td class="p-3 font-mono text-xs">$ARGUMENTS, !cmd</td>
-                  </tr>
-                  <tr>
-                    <td class="p-3 font-mono text-green-600">Gemini CLI</td>
-                    <td class="p-3">TOML (key-value)</td>
-                    <td class="p-3 font-mono">.toml</td>
-                    <td class="p-3 font-mono text-xs" v-text="'{{args}}, !{cmd}'"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
           <!-- Claude Code 範例 -->
           <div class="space-y-2">
             <h4 class="font-semibold text-gray-900">Claude Code 範例 (.claude/commands/say.md)：</h4>
@@ -291,13 +260,6 @@ allowed-tools: Bash(say:*)
 
 使用 shell script 執行
 say &quot;語音測試成功&quot;`" />
-          </div>
-
-          <!-- Gemini CLI 範例 -->
-          <div class="space-y-2">
-            <h4 class="font-semibold text-gray-900">Gemini CLI 範例 (.gemini/commands/say.toml)：</h4>
-            <CodeBlock :code="`description = &quot;語音測試&quot;
-prompt = &quot;請使用 shell 指令，執行 say '語音測試成功&quot;`" />
           </div>
         </CardContent>
       </Card>

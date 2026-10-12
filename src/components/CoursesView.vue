@@ -149,7 +149,6 @@ onUnmounted(() => {
                 <Badge variant="outline" class="font-mono text-xs">Case {{ index + 1 }}</Badge>
                 <div class="flex gap-1">
                   <Badge v-if="caseItem.tools.claudeCode" variant="secondary" class="bg-blue-50 text-blue-700 text-[10px] px-1.5 py-0">Claude</Badge>
-                  <Badge v-if="caseItem.tools.geminiCLI" variant="secondary" class="bg-green-50 text-green-700 text-[10px] px-1.5 py-0">Gemini</Badge>
                 </div>
               </div>
               <div class="flex items-center gap-3">

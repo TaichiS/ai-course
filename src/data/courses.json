@@ -2,7 +2,7 @@
   "modules": [
     {
       "id": "intro",
-      "title": "Claude Code / Gemini CLI 簡介",
+      "title": "Claude Code 簡介",
       "description": "了解 AI 輔助程式開發工具的基本概念",
       "icon": "Terminal",
       "color": "blue",
@@ -11,10 +11,6 @@
           {
             "title": "什麼是 Claude Code？",
             "text": "Claude Code 是 Anthropic 推出的命令列介面工具，讓開發者可以直接在終端機中與 Claude AI 互動，協助完成程式開發、除錯、程式碼審查等任務。"
-          },
-          {
-            "title": "什麼是 Gemini CLI？",
-            "text": "Gemini CLI 是 Google 推出的命令列工具，讓使用者可以透過終端機使用 Gemini AI 模型，進行程式開發輔助、文件生成等工作。"
           }
         ],
         "tags": [
@@ -98,8 +94,7 @@
         "學會使用 Skill Creator 創建自定義技能"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "Claude Official Skills",
@@ -198,8 +193,7 @@
         "識別需要關注的學生"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -238,8 +232,7 @@
         "儲存教案為 Word 或 PDF 格式"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -278,8 +271,7 @@
         "自動潤飾與格式化"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -318,8 +310,7 @@
         "生成結構化會議記錄"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -358,8 +349,7 @@
         "自動儲存為 Word 或 PDF"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -398,8 +388,7 @@
         "儲存為可列印的 Word 格式"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -438,8 +427,7 @@
         "自動排版與格式化"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -478,8 +466,7 @@
         "建立資料索引與搜尋功能"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -518,8 +505,7 @@
         "體驗 AI 助理的實用性"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "RSS Reader MCP",
@@ -531,11 +517,6 @@
           "install": "claude mcp add rss-reader npx rss-reader-mcp",
           "verify": "claude mcp list",
           "expectedOutput": "Installed MCP servers:\n- rss-reader: npx rss-reader-mcp"
-        },
-        "geminiCLI": {
-          "install": "gemini mcp add rss-reader npx rss-reader-mcp",
-          "verify": "gemini mcp list",
-          "expectedOutput": "rss-reader: npx rss-reader-mcp"
         }
       },
       "steps": [
@@ -545,8 +526,7 @@
         },
         {
           "title": "啟動 AI 助理",
-          "claudeCode": "claude",
-          "geminiCLI": "gemini"
+          "claudeCode": "claude"
         },
         {
           "title": "開始使用",
@@ -581,7 +561,7 @@
         "使用 --scope user 參數可以安裝全域適用的 MCP，例如：claude mcp add rss-reader npx rss-reader-mcp --scope user",
         "如果沒有用 --scope user，預設會安裝在本地項目內",
         "經過安裝之後，會改變「個人資料夾」下的 .claude.json 設定檔",
-        "移除 MCP 指令：claude mcp remove rss-reader 或 gemini mcp remove rss-reader"
+        "移除 MCP 指令：claude mcp remove rss-reader"
       ],
       "referenceLinks": [
         {
@@ -623,8 +603,7 @@
         "體驗 AI 工具帶來的便利性"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "Chrome DevTools MCP",
@@ -636,11 +615,6 @@
           "install": "claude mcp add chrome-devtools npx chrome-devtools-mcp@latest",
           "verify": "claude mcp list",
           "expectedOutput": "Installed MCP servers:\n- chrome-devtools: npx chrome-devtools-mcp@latest"
-        },
-        "geminiCLI": {
-          "install": "gemini mcp add chrome-devtools npx chrome-devtools-mcp@latest",
-          "verify": "gemini mcp list",
-          "expectedOutput": "chrome-devtools: npx chrome-devtools-mcp@latest"
         }
       },
       "steps": [
@@ -658,8 +632,7 @@
         },
         {
           "title": "啟動 AI 助理",
-          "claudeCode": "claude",
-          "geminiCLI": "gemini"
+          "claudeCode": "claude"
         }
       ],
       "examplePrompts": [
@@ -732,8 +705,7 @@
         "體驗重複性工作的自動化"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "Chrome DevTools MCP",
@@ -745,11 +717,6 @@
           "install": "claude mcp add chrome-devtools npx chrome-devtools-mcp@latest",
           "verify": "claude mcp list",
           "expectedOutput": "Installed MCP servers:\n- chrome-devtools: npx chrome-devtools-mcp@latest"
-        },
-        "geminiCLI": {
-          "install": "gemini mcp add chrome-devtools npx chrome-devtools-mcp@latest",
-          "verify": "gemini mcp list",
-          "expectedOutput": "chrome-devtools: npx chrome-devtools-mcp@latest"
         }
       },
       "steps": [
@@ -763,8 +730,7 @@
         },
         {
           "title": "啟動 AI 助理",
-          "claudeCode": "claude",
-          "geminiCLI": "gemini"
+          "claudeCode": "claude"
         },
         {
           "title": "執行自動填表",
@@ -832,8 +798,7 @@
         "學習複雜數據的解讀方法"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "Yahoo Finance MCP",
@@ -845,11 +810,6 @@
           "install": "claude mcp add-json \"yahoo-finance\" '{\"command\":\"uvx\",\"args\":[\"mcp-yahoo-finance\"]}'",
           "verify": "claude mcp list",
           "expectedOutput": "Installed MCP servers:\n- yahoo-finance: uvx mcp-yahoo-finance"
-        },
-        "geminiCLI": {
-          "install": "gemini mcp add \"yahoo-finance\" \"uvx\" \"mcp-yahoo-finance\"",
-          "verify": "gemini mcp list",
-          "expectedOutput": "yahoo-finance: uvx mcp-yahoo-finance"
         }
       },
       "steps": [
@@ -863,8 +823,7 @@
         },
         {
           "title": "啟動 AI 助理",
-          "claudeCode": "claude",
-          "geminiCLI": "gemini"
+          "claudeCode": "claude"
         },
         {
           "title": "開始分析",
@@ -955,8 +914,7 @@
         "利用 Skill 封裝複雜的業務邏輯"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "Exam Generator Skill",
@@ -968,11 +926,6 @@
           "install": "（需手動創建 skill 定義檔）",
           "verify": "claude skill list",
           "expectedOutput": "Installed Skills:\n- exam-generator"
-        },
-        "geminiCLI": {
-          "install": "（需手動創建 skill 定義檔）",
-          "verify": "gemini skill list",
-          "expectedOutput": "exam-generator"
         }
       },
       "steps": [
@@ -1047,8 +1000,7 @@
         "體驗 AI 在教學資料管理上的應用"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "Notion MCP",
@@ -1060,11 +1012,6 @@
           "install": "claude mcp add-json \"notionMCP\" '{\"command\":\"npx\",\"args\":[\"-y\",\"mcp-remote\",\"https://mcp.notion.com/mcp\"]}'",
           "verify": "claude mcp list",
           "expectedOutput": "Installed MCP servers:\n- notionMCP: npx -y mcp-remote https://mcp.notion.com/mcp"
-        },
-        "geminiCLI": {
-          "install": "gemini mcp add notion npx -y mcp-remote https://mcp.notion.com/mcp",
-          "verify": "gemini mcp list",
-          "expectedOutput": "notion: npx -y mcp-remote https://mcp.notion.com/mcp"
         }
       },
       "steps": [
@@ -1082,8 +1029,7 @@
         },
         {
           "title": "啟動 AI 助理",
-          "claudeCode": "claude",
-          "geminiCLI": "gemini"
+          "claudeCode": "claude"
         }
       ],
       "examplePrompts": [
@@ -1159,8 +1105,7 @@
         "實作出符合個人需求的影音工具"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "requiredMCP": {
         "name": "YT Downloader Skill",
@@ -1209,8 +1154,7 @@
         "設計庫存警示與自動通知的觸發邏輯"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1247,8 +1191,7 @@
         "討論月底自動對帳的資料比對方式"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1285,8 +1228,7 @@
         "探討銷售數據的自動彙整與視覺化呈現"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1323,8 +1265,7 @@
         "探討自動化對帳報告的呈現格式"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1361,8 +1302,7 @@
         "探討申報前自動查缺補漏的檢查清單設計"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1399,8 +1339,7 @@
         "討論如何呈現比較結果並提供採購建議"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1437,8 +1376,7 @@
         "探討人工審核與自動發送之間的控制機制"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": false
+        "claudeCode": true
       },
       "examplePrompts": [
         {
@@ -1475,8 +1413,7 @@
         "探討 AI 初篩結果如何輔助人資做最終決策"
       ],
       "tools": {
-        "claudeCode": true,
-        "geminiCLI": true
+        "claudeCode": true
       },
       "examplePrompts": [
         {

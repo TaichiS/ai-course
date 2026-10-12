@@ -185,7 +185,6 @@ onMounted(async () => {
 
           <div class="flex gap-2">
             <Badge v-if="caseItem.tools.claudeCode" class="bg-blue-100 text-blue-800">Claude Code ✓</Badge>
-            <Badge v-if="caseItem.tools.geminiCLI" class="bg-green-100 text-green-800">Gemini CLI ✓</Badge>
           </div>
         </CardContent>
       </Card>
@@ -236,26 +235,6 @@ onMounted(async () => {
             <div class="bg-gray-100 p-3 rounded font-mono text-xs text-gray-800">
               {{ caseItem.installation.claudeCode.verify }}
             </div>
-          </div>
-
-          <!-- Gemini CLI 安裝 -->
-          <div v-if="caseItem.tools.geminiCLI && caseItem.installation.geminiCLI" class="border-l-4 border-green-500 pl-4">
-            <h5 class="font-semibold text-green-700 mb-3">Gemini CLI 安裝方式</h5>
-            <div v-if="caseItem.installation.geminiCLI.envSetup" class="mb-3">
-              <p class="text-xs text-gray-600 mb-1">1. 設定環境變數：</p>
-              <CodeBlock :code="caseItem.installation.geminiCLI.envSetup" color="yellow" />
-            </div>
-            <template v-if="caseItem.installation.geminiCLI.install && !caseItem.installation.geminiCLI.install.startsWith('（')">
-              <p class="text-xs text-gray-600 mb-1">{{ caseItem.installation.geminiCLI.envSetup ? '2.' : '1.' }} 安裝指令：</p>
-              <CodeBlock :code="caseItem.installation.geminiCLI.install" />
-              <p class="text-xs text-gray-600 mt-2 mb-1">{{ caseItem.installation.geminiCLI.envSetup ? '3.' : '2.' }} 確認安裝：</p>
-              <div class="bg-gray-100 p-3 rounded font-mono text-xs text-gray-800">
-                {{ caseItem.installation.geminiCLI.verify }}
-              </div>
-            </template>
-            <template v-else>
-              <p class="text-sm text-gray-600 italic">{{ caseItem.installation.geminiCLI.install }}</p>
-            </template>
           </div>
         </CardContent>
       </Card>

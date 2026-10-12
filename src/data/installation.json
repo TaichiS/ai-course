@@ -290,6 +290,11 @@
             "tool": "Codex CLI",
             "command": "codex --dangerously-bypass-approvals-and-sandbox",
             "description": "跳過所有確認與沙盒限制"
+          },
+          {
+            "tool": "Antigravity CLI",
+            "command": "agy --dangerously-skip-permissions",
+            "description": "跳過所有工具授權與指令確認（取代 gemini -y）"
           }
         ]
       }
