@@ -1059,7 +1059,7 @@
   <div id="bm-chart" style="flex:1; display:flex; flex-direction:column; gap:3px; overflow:hidden;">
   </div>
 
-  <div class="img-caption" style="margin-top:12px;">來源：github.com/petergpt/bullshit-benchmark　｜　更新：2026-04-27　｜　共 134 個模型，此處顯示前 18 名</div>
+  <div class="img-caption" style="margin-top:12px;">來源：github.com/petergpt/bullshit-benchmark（V1 題庫 55 題）　｜　更新：2026-09-27　｜　204 組中前 18 名＋最新 Opus 5.5</div>
 </section>
 
 <style>
@@ -1078,30 +1078,32 @@
   .bm-seg-g { background: oklch(55% 0.18 145); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:#fff; }
   .bm-seg-a { background: oklch(72% 0.16 65); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:#fff; }
   .bm-seg-r { background: oklch(55% 0.18 25); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:#fff; }
+  .bm-row-gap { margin-top:14px; }
   .bm-rank { font-size:24px; width:44px; flex-shrink:0; color:var(--text-muted); text-align:right; }
 </style>
 
 <script>
 (function(){
   const DATA = [
+    { label:'Claude Opus 4.8',            g:96.4, a:3.6,  r:0,    claude:true  },
     { label:'Claude Sonnet 4.6',          g:94.5, a:3.6,  r:1.8,  claude:true  },
     { label:'Claude Sonnet 4.6 (High)',   g:92.7, a:7.3,  r:0,    claude:true  },
+    { label:'Claude Opus 4.8 (xHigh)',    g:92.7, a:5.5,  r:1.8,  claude:true  },
     { label:'Claude Opus 4.5 (High)',     g:90.9, a:9.1,  r:0,    claude:true  },
     { label:'Claude Opus 4.6',            g:92.7, a:5.5,  r:1.8,  claude:true  },
     { label:'Claude Opus 4.6 (High)',     g:89.1, a:7.3,  r:3.6,  claude:true  },
+    { label:'Qwen3.8 Max (Minimal)',      g:87.3, a:10.9, r:1.8,  claude:false },
     { label:'Claude Haiku 4.5 (High)',    g:87.3, a:9.1,  r:3.6,  claude:true  },
     { label:'Claude Opus 4.5',            g:80.0, a:18.2, r:1.8,  claude:true  },
     { label:'Claude Haiku 4.5',           g:81.8, a:12.7, r:5.5,  claude:true  },
     { label:'Claude Opus 4.7',            g:80.0, a:10.9, r:9.1,  claude:true  },
+    { label:'Qwen3.8 27B',                g:76.4, a:7.3,  r:16.4, claude:false },
+    { label:'Claude Fable 5.1 (Low)',     g:69.1, a:14.5, r:12.7, claude:true  },
+    { label:'Claude Sonnet 5 (Low)',      g:65.5, a:21.8, r:12.7, claude:true  },
     { label:'Qwen3.5 397b A17b',          g:65.5, a:21.8, r:12.7, claude:false },
-    { label:'Grok 4.20 M-A (xhigh)',      g:67.3, a:10.9, r:21.8, claude:false },
+    { label:'Grok 4.20 M-A (xHigh)',      g:67.3, a:10.9, r:21.8, claude:false },
     { label:'Claude Sonnet 4.5 (High)',   g:65.5, a:18.2, r:16.4, claude:true  },
-    { label:'Grok 4.20 Multi-Agent',      g:67.3, a:9.1,  r:23.6, claude:false },
-    { label:'Nemotron-3 Super 120b',      g:65.5, a:16.4, r:18.2, claude:false },
-    { label:'Claude Opus 4.7 (Max)',      g:60.0, a:20.0, r:20.0, claude:true  },
-    { label:'Qwen3.5 397b (High)',        g:52.7, a:30.9, r:16.4, claude:false },
-    { label:'Claude 3.7 Sonnet (Think)',  g:54.7, a:28.3, r:17.0, claude:true  },
-    { label:'Claude Sonnet 4.5',          g:52.7, a:29.1, r:18.2, claude:true  },
+    { label:'Claude Opus 5.5 (Low)',      g:52.7, a:29.1, r:16.4, claude:true, rank:'31', gap:true },
   ];
 
   const chart = document.getElementById('bm-chart');
@@ -1109,9 +1111,9 @@
   DATA.forEach((d, i) => {
     const total = d.g + d.a + d.r;
     const row = document.createElement('div');
-    row.className = 'bm-row';
+    row.className = 'bm-row' + (d.gap ? ' bm-row-gap' : '');
     const rankLabels = ['🥇','🥈','🥉'];
-    const rank = i < 3 ? rankLabels[i] : (i+1)+'';
+    const rank = d.rank || (i < 3 ? rankLabels[i] : (i+1)+'');
     row.innerHTML = `
       <div class="bm-rank">${rank}</div>
       <div class="bm-label${d.claude?' claude':''}">${d.label}</div>
@@ -1153,23 +1155,26 @@
 </script>
 
 <!-- ═══════════════════════════════════════════
-  SLIDE 08 · 前 9 名全部是 Claude
+  SLIDE 08 · 前 12 名有 11 個是 Claude
 ════════════════════════════════════════════ -->
-<section class="dark" data-screen-label="08 前9名全是Claude" id="slide-ch1-result">
+<section class="dark" data-screen-label="08 前12名11個是Claude" id="slide-ch1-result">
   <div class="slide-tag">排行榜結果</div>
   <div class="accent-line"></div>
   <div class="two-col" style="gap:80px;">
     <div>
-      <div style="font-size:60px; font-weight:900; line-height:1.15; color:var(--text); margin-bottom:32px;">
-        前 9 名，<br><span class="text-teal claude-burst">全部是 Claude</span>
+      <div style="font-size:56px; font-weight:900; line-height:1.15; color:var(--text); margin-bottom:20px;">
+        前 12 名，<br><span class="text-teal claude-burst">11 個是 Claude</span>
       </div>
-      <div class="body-text" style="color:oklch(56% 0.03 245); line-height:1.7;">
-        Claude 系列在這個 benchmark 上完全制霸，<br>
-        前 9 名全部是 Anthropic 的模型。
+      <div class="body-text" style="color:oklch(56% 0.03 245); line-height:1.5;">
+        Claude 依然領先，但 Qwen 已擠進第 8 名。
       </div>
-      <div class="warn-box" style="margin-top:36px; background: oklch(96% 0.04 72); border-color: var(--gold);">
-        <span style="color: oklch(48% 0.12 72); font-weight:700; font-size:30px;">⚠ 深度思考反效果</span><br>
-        <span style="font-size:28px; color:oklch(40% 0.06 72);">Claude Opus 4.7 開啟「Max」後：80% → 60%。<br>思考越多，越容易自圓其說。</span>
+      <div class="warn-box" style="margin-top:24px; padding:18px 28px; line-height:1.5; background: oklch(96% 0.04 72); border-color: var(--gold);">
+        <span style="color: oklch(48% 0.12 72); font-weight:700; font-size:28px;">⚠ 深度思考反效果：越想越會自圓其說</span><br>
+        <span style="font-size:26px; color:oklch(40% 0.06 72);">Opus 4.7 開 Max：80% → 60%<br>Qwen 3.8 Max 開最高推理：87% → 22%</span>
+      </div>
+      <div class="warn-box" style="margin-top:18px; padding:18px 28px; line-height:1.5;">
+        <span style="color:var(--red-warn); font-weight:700; font-size:28px;">⚠ 最新版不一定最好</span><br>
+        <span style="font-size:26px; color:var(--text-mid);">Opus 5.5 只排第 31 名（52.7%），<br>開最高推理掉到第 50 名（43.6%）。<br><span class="fw-700">連頂尖模型都會中招，一定要自己核對。</span></span>
       </div>
     </div>
     <div>
@@ -1184,38 +1189,38 @@
         <tbody>
           <tr class="ch1-row" style="--ri-d:120ms;">
             <td class="rank-gold">1 🥇</td>
-            <td class="fw-700">Claude Sonnet 4.6</td>
-            <td><span class="badge-green">94.5%</span></td>
+            <td class="fw-700">Claude Opus 4.8</td>
+            <td><span class="badge-green">96.4%</span></td>
           </tr>
           <tr class="ch1-row" style="--ri-d:200ms;">
             <td class="rank-silver">2 🥈</td>
-            <td>Claude Sonnet 4.6 (High)</td>
-            <td><span class="badge-green">92.7%</span></td>
+            <td>Claude Sonnet 4.6</td>
+            <td><span class="badge-green">94.5%</span></td>
           </tr>
           <tr class="ch1-row" style="--ri-d:280ms;">
             <td class="rank-bronze">3 🥉</td>
-            <td>Claude Opus 4.5 (High)</td>
-            <td><span class="badge-green">90.9%</span></td>
+            <td>Claude Sonnet 4.6 (High)</td>
+            <td><span class="badge-green">92.7%</span></td>
           </tr>
           <tr class="ch1-row" style="--ri-d:360ms;">
             <td style="color:oklch(70% 0.03 245);">4</td>
-            <td>Claude Opus 4.6</td>
+            <td>Claude Opus 4.8 (xHigh)</td>
             <td><span class="badge-green">92.7%</span></td>
           </tr>
           <tr class="ch1-row" style="--ri-d:440ms;">
             <td style="color:oklch(70% 0.03 245);">5</td>
-            <td>Claude Opus 4.6 (High)</td>
-            <td><span class="badge-green">89.1%</span></td>
+            <td>Claude Opus 4.5 (High)</td>
+            <td><span class="badge-green">90.9%</span></td>
           </tr>
           <tr class="ch1-row" style="--ri-d:560ms;">
-            <td style="color:oklch(55% 0.03 245); font-size:26px;">10（非 Claude）</td>
-            <td style="color:oklch(55% 0.03 245);">Qwen3.5 397b A17b</td>
-            <td style="color:oklch(60% 0.10 155);">65.5%</td>
+            <td style="color:oklch(55% 0.03 245); font-size:26px;">8（非 Claude）</td>
+            <td style="color:oklch(55% 0.03 245);">Qwen3.8 Max (Minimal)</td>
+            <td style="color:oklch(60% 0.10 155);">87.3%</td>
           </tr>
         </tbody>
       </table>
       <div style="font-size:26px; color:oklch(52% 0.03 245); margin-top:20px;">
-        第 10 名才出現第一個非 Claude 模型——差距 14.5 個百分點
+        第 8 名出現第一個非 Claude 模型——與第 1 名差距 9.1 個百分點
       </div>
     </div>
   </div>
