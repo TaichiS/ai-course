@@ -89,7 +89,7 @@ onUnmounted(() => observer?.disconnect())
             <div class="flex-1 min-w-0">
               <h3 class="text-lg font-bold text-slate-900 mb-1.5">環境安裝</h3>
               <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                安裝 Claude Code、Gemini CLI 及相關開發環境，完成所有必要設定與驗證步驟。
+                安裝 Claude Code、Codex CLI、OpenCode 及相關開發環境，完成所有必要設定與驗證步驟。
               </p>
               <span class="inline-flex items-center gap-1.5 text-emerald-600 font-semibold text-sm group-hover:gap-2.5 transition-all duration-200">
                 開始設定
@@ -168,9 +168,9 @@ onUnmounted(() => observer?.disconnect())
           </div>
         </a>
 
-        <!-- 讓 AI 成為你的數位特助 -->
+        <!-- 法律人動手做的 AI Agent 實作班（取代舊講義「讓 AI 成為你的數位特助」，舊路徑 2026-05-20-iceet-ai-assistant 保留） -->
         <a
-          :href="`${slidesBase}2026-05-20-iceet-ai-assistant/index.html`"
+          :href="`${slidesBase}2026-10-18-legal-ai-agent/index.html`"
           class="home-animate opacity-0 translate-y-4 transition-all duration-700 group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer block"
         >
           <div class="h-1.5 bg-gradient-to-r from-teal-400 to-sky-500"></div>
@@ -179,9 +179,9 @@ onUnmounted(() => observer?.disconnect())
               <Presentation class="h-6 w-6 text-teal-600" />
             </div>
             <div class="flex-1 min-w-0">
-              <h3 class="text-lg font-bold text-slate-900 mb-1.5">讓 AI 成為你的數位特助</h3>
+              <h3 class="text-lg font-bold text-slate-900 mb-1.5">法律人動手做的 AI Agent 實作班</h3>
               <p class="text-slate-500 text-sm leading-relaxed mb-4">
-                AI 輔助教學、研究與知識管理
+                臺中律師公會 · AI 輔助法律研究、書狀撰寫與知識管理
               </p>
               <span class="inline-flex items-center gap-1.5 text-teal-600 font-semibold text-sm group-hover:gap-2.5 transition-all duration-200">
                 觀看簡報
