@@ -160,19 +160,38 @@
       }
     },
     {
-      "id": "gemini-cli",
-      "title": "Gemini CLI 安裝",
+      "id": "codex-cli",
+      "title": "Codex CLI 安裝",
+      "icon": "Terminal",
+      "color": "green",
+      "description": "安裝 OpenAI 的 AI 程式助理工具（可用 ChatGPT 帳號登入）",
+      "commands": ["npm install -g @openai/codex", "codex --version"],
+      "login": {
+        "description": "安裝完成後輸入 `codex` 啟動，第一次使用時選擇「Sign in with ChatGPT」登入：",
+        "commands": ["codex"]
+      },
+      "management": {
+        "update": "npm install -g @openai/codex@latest",
+        "uninstall": "npm uninstall -g @openai/codex",
+        "config_path": "~/.codex/"
+      }
+    },
+    {
+      "id": "opencode",
+      "title": "OpenCode 安裝",
       "icon": "Terminal",
       "color": "cyan",
-      "description": "安裝 Google 的 AI 助理工具",
-      "commands": ["npm install -g @google/gemini-cli", "npm list -g"],
-      "limits": {
-        "free": {
-          "per_minute": 60,
-          "per_day": 1000
-        }
+      "description": "安裝開源的 AI 程式助理工具，支援多家模型供應商",
+      "commands": ["npm install -g opencode-ai", "opencode --version"],
+      "login": {
+        "description": "先執行 `opencode auth login` 選擇模型供應商並登入，再輸入 `opencode` 啟動：",
+        "commands": ["opencode auth login", "opencode"]
       },
-      "note": "免費版本一分鐘最多 60 次呼叫，一天最多 1000 次呼叫"
+      "management": {
+        "update": "opencode upgrade",
+        "uninstall": "npm uninstall -g opencode-ai",
+        "config_path": "~/.config/opencode/"
+      }
     },
     {
       "id": "commands",
@@ -268,9 +287,9 @@
             "description": "所有權限問題都自動回答 yes"
           },
           {
-            "tool": "Gemini CLI",
-            "command": "gemini -y",
-            "description": "自動同意所有操作"
+            "tool": "Codex CLI",
+            "command": "codex --dangerously-bypass-approvals-and-sandbox",
+            "description": "跳過所有確認與沙盒限制"
           }
         ]
       }

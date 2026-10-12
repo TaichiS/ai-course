@@ -331,42 +331,53 @@ const copyToClipboard = async (text: string) => {
       </CardContent>
     </Card>
 
-    <!-- Gemini CLI 安裝 -->
+    <!-- Codex CLI / OpenCode 安裝 -->
     <Card
-      v-if="sections.find(s => s.id === 'gemini-cli')"
-      id="install-gemini-cli"
+      v-for="cli in sections.filter(s => s.id === 'codex-cli' || s.id === 'opencode')"
+      :key="cli.id"
+      :id="`install-${cli.id}`"
       class="scroll-mt-20 bg-white scroll-animate card-hover group"
     >
-      <CardHeader class="cursor-pointer" @click="toggleSection('gemini-cli')">
+      <CardHeader class="cursor-pointer" @click="toggleSection(cli.id)">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <component :is="getIcon('Terminal')" class="h-6 w-6 text-cyan-600 group-hover:animate-pulse" />
-            <CardTitle class="text-2xl text-gray-900">{{ sections.find(s => s.id === 'gemini-cli')?.title }}</CardTitle>
+            <component :is="getIcon(cli.icon)" :class="['h-6 w-6 group-hover:animate-pulse', getColorClass(cli.color)]" />
+            <CardTitle class="text-2xl text-gray-900">{{ cli.title }}</CardTitle>
           </div>
-          <span class="text-gray-400">{{ isExpanded('gemini-cli') ? '▼' : '▶' }}</span>
+          <span class="text-gray-400">{{ isExpanded(cli.id) ? '▼' : '▶' }}</span>
         </div>
-        <CardDescription class="text-gray-600">{{ sections.find(s => s.id === 'gemini-cli')?.description }}</CardDescription>
+        <CardDescription class="text-gray-600">{{ cli.description }}</CardDescription>
       </CardHeader>
-      <CardContent v-show="isExpanded('gemini-cli')" class="space-y-6">
-        <div class="border-l-4 border-cyan-500 pl-4">
+      <CardContent v-show="isExpanded(cli.id)" class="space-y-6">
+        <div :class="['border-l-4 pl-4', getColorClass(cli.color, 'border')]">
           <h4 class="font-semibold text-gray-900 mb-2">安裝指令</h4>
-          <CodeBlock :code="sections.find(s => s.id === 'gemini-cli')?.commands" prefix="$" />
+          <CodeBlock :code="cli.commands" prefix="$" />
         </div>
 
-        <!-- 使用限制 -->
-        <div v-if="sections.find(s => s.id === 'gemini-cli')?.limits" class="bg-cyan-50 p-4 rounded-lg border border-cyan-200">
-          <h4 class="font-semibold text-cyan-800 mb-2">免費版使用限制</h4>
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <div class="text-center">
-              <p class="text-2xl font-bold text-cyan-600">{{ sections.find(s => s.id === 'gemini-cli')?.limits?.free?.per_minute }}</p>
-              <p class="text-gray-600">次/分鐘</p>
+        <!-- 啟動與登入 -->
+        <div v-if="cli.login" :class="['p-4 rounded-lg', getColorClass(cli.color, 'bg')]">
+          <h4 class="font-semibold text-gray-900 mb-2">啟動與登入</h4>
+          <p class="text-sm text-gray-700 mb-3">{{ cli.login.description }}</p>
+          <CodeBlock :code="cli.login.commands" prefix="$" />
+        </div>
+
+        <!-- 管理指令 -->
+        <div v-if="cli.management" class="bg-gray-100 p-4 rounded-lg">
+          <h4 class="font-semibold text-gray-800 mb-3">管理指令</h4>
+          <div class="space-y-2 text-sm">
+            <div class="flex items-center gap-2">
+              <Badge variant="outline">更新</Badge>
+              <code class="bg-gray-200 px-2 py-1 rounded text-xs">{{ cli.management.update }}</code>
             </div>
-            <div class="text-center">
-              <p class="text-2xl font-bold text-cyan-600">{{ sections.find(s => s.id === 'gemini-cli')?.limits?.free?.per_day }}</p>
-              <p class="text-gray-600">次/天</p>
+            <div class="flex items-center gap-2">
+              <Badge variant="outline">移除</Badge>
+              <code class="bg-gray-200 px-2 py-1 rounded text-xs">{{ cli.management.uninstall }}</code>
+            </div>
+            <div class="flex items-center gap-2">
+              <Badge variant="outline">設定檔</Badge>
+              <code class="bg-gray-200 px-2 py-1 rounded text-xs">{{ cli.management.config_path }}</code>
             </div>
           </div>
-          <p class="text-xs text-gray-500 mt-2 text-center">{{ sections.find(s => s.id === 'gemini-cli')?.note }}</p>
         </div>
       </CardContent>
     </Card>
