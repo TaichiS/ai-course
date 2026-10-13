@@ -25,6 +25,7 @@ rg 'data-screen-label="42' public/slides/2026-10-18-legal-ai-agent/index.html
 | 主標題 | 讓 AI 成為你的數位特助 | 法律人動手做的 AI Agent 實作班 |
 | 主辦 | 中華資訊與科技教育學會 | 臺中律師公會 |
 | 對象 | 教師、學者、研究者 | 律師、法律工作者 |
+| Slide 08.5 | （無） | 新增：Bullshit Benchmark V2 法律題分析（領域分數依原始評分自行計算） |
 | Slide 09 | 對教育工作者的意義 | 對法律人的意義 |
 | Slide 13 / 16 | 學生資料安全 | 當事人資料、卷證資料安全 |
 | Slide 21 示範 | 唐詩三百首 10 個 txt | 建立書狀範本資料夾 |
